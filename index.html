@@ -658,7 +658,7 @@
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.25s, box-shadow 0.25s;
-    background: var(--surface2);
+    background: transparent;
     position: relative;
     box-shadow: 0 4px 16px rgba(0,0,0,0.4);
   }
@@ -670,6 +670,7 @@
   .card-speaker-img {
     width: 100%;
     height: 169px; /* 16:9 */
+    background: var(--surface2); /* fallback kalau image belum ada */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -706,9 +707,10 @@
     /* Solid hanya di area teks (di bawah foto); bagian yang menimpa foto
        murni fade transparan 60px — foto tidak ketutup blok gelap */
     background: linear-gradient(to top,
-      rgba(10,10,10,0.97) 0%,
-      rgba(10,10,10,0.97) calc(100% - 60px),
+      #0d0d0d 0%,
+      #0d0d0d calc(100% - 60px),
       transparent 100%);
+    border-radius: 0 0 4px 4px;
   }
   .card-speaker-title {
     font-size: 13px;
@@ -1515,13 +1517,13 @@
   <div class="cards-scroll">
 
     <div class="card-speaker" onclick="openModal('speaker-modal')">
-      <div class="card-speaker-img" style="background-image:url('speaker-moments-1.jpeg');background-size:cover;background-position:center;">
+      <div class="card-speaker-img" style="background-image:url('speaker-moments-1.jpg');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">Kalbe Group Summit</div>
-        <div class="card-speaker-meta"><span class="audience-badge">4,000+ audience</span> 2025</div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Viral Content & Attention Economy</div>
-          <div class="company">Kalbe Group</div></div></div>
+        <div class="card-speaker-title">Bisnis Hack</div>
+        <div class="card-speaker-meta"><span class="audience-badge">Owner Bisnis & UMKM</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Owner Bisnis, UMKM & Tim Marketing Brand</div>
+          <div class="company">Bisnis Hack</div></div></div>
       </div>
     </div>
 
@@ -1529,21 +1531,21 @@
       <div class="card-speaker-img" style="background-image:url('speaker-moments-2.jpg');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">Startup Indonesia Summit</div>
-        <div class="card-speaker-meta"><span class="audience-badge">1,200 audience</span> 2025</div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Building a Creative Holding Company</div>
-          <div class="company">Startup Indonesia</div></div></div>
+        <div class="card-speaker-title">Asian Tiger School</div>
+        <div class="card-speaker-meta"><span class="audience-badge">Owner Bisnis & UMKM</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Owner Bisnis, UMKM & Tim Marketing Brand</div>
+          <div class="company">Asian Tiger School</div></div></div>
       </div>
     </div>
 
     <div class="card-speaker" onclick="openModal('speaker-modal')">
-      <div class="card-speaker-img" style="background-image:url('speaker-moments-3.jpg');background-size:cover;background-position:center;">
+      <div class="card-speaker-img" style="background-image:url('speaker-moments-3.jpeg');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">Marketing Conference ID</div>
-        <div class="card-speaker-meta"><span class="audience-badge">800 audience</span> 2025</div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">AI + Creativity: The New Frontier</div>
-          <div class="company">Marketing Conference ID</div></div></div>
+        <div class="card-speaker-title">Kalbe Nutrition</div>
+        <div class="card-speaker-meta"><span class="audience-badge">Tim Marketing Kalbe</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Seluruh Tim Kalbe — Marketing Brand Kalbe Nutrition</div>
+          <div class="company">Kalbe Nutrition</div></div></div>
       </div>
     </div>
 
@@ -1551,10 +1553,10 @@
       <div class="card-speaker-img" style="background-image:url('speaker-moments-4.jpg');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">Brand Summit 2025</div>
-        <div class="card-speaker-meta"><span class="audience-badge">600 audience</span> 2025</div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Guarantee Model: Risk-Sharing in Campaigns</div>
-          <div class="company">Brand Summit 2025</div></div></div>
+        <div class="card-speaker-title">Prudential Indonesia</div>
+        <div class="card-speaker-meta"><span class="audience-badge">Skala Nasional</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Seluruh Leader Prudential 1 Indonesia</div>
+          <div class="company">Prudential Indonesia</div></div></div>
       </div>
     </div>
 
@@ -1562,10 +1564,21 @@
       <div class="card-speaker-img" style="background-image:url('speaker-moments-5.jpg');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">Creator Economy Forum</div>
-        <div class="card-speaker-meta"><span class="audience-badge">500 audience</span> 2025</div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">From Freelancer to Founder</div>
-          <div class="company">Creator Economy Forum</div></div></div>
+        <div class="card-speaker-title">Binus</div>
+        <div class="card-speaker-meta"><span class="audience-badge">Petinggi & Karyawan</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Petinggi Binus & Tim Back Office</div>
+          <div class="company">Binus University</div></div></div>
+      </div>
+    </div>
+
+    <div class="card-speaker" onclick="openModal('speaker-modal')">
+      <div class="card-speaker-img" style="background-image:url('speaker-moments-6.jpg');background-size:cover;background-position:center;">
+          </div>
+      <div class="card-speaker-info">
+        <div class="card-speaker-title">Holywings Group</div>
+        <div class="card-speaker-meta"><span class="audience-badge">Tim Creative & Karyawan</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Tim Creative & Seluruh Karyawan Holywings</div>
+          <div class="company">Holywings Group (HWG)</div></div></div>
       </div>
     </div>
 
