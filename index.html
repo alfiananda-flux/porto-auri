@@ -765,28 +765,36 @@
   /* ── STATS BAR ── */
   .stats-bar {
     margin: 0 48px 48px;
-    padding: 28px 36px;
-    background: var(--surface2);
-    border-radius: 8px;
+    padding: 8px 0 32px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
   }
+  /* Pendaran merah dari sisi kiri & kanan section, di edge browser */
   .stat-item {
     text-align: center;
+    padding: 8px 16px;
+  }
+  /* Divider vertical antar pencapaian */
+  .stat-item + .stat-item {
+    border-left: 1px solid rgba(255,255,255,0.25);
   }
   .stat-num {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px;
+    font-size: 56px;
+    font-weight: 700;
     letter-spacing: 2px;
-    color: var(--gold);
     line-height: 1;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    /* subtle gradient: putih → menggelap di bawah */
+    background: linear-gradient(to bottom, #fff 35%, rgba(255,255,255,0.45) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   .stat-label {
-    font-size: 11px;
-    color: var(--muted);
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
     letter-spacing: 1px;
     text-transform: uppercase;
   }
@@ -906,7 +914,11 @@
     .cards-scroll { padding: 24px 20px; margin: -24px -20px -12px; }
     .row-ctas { width: 100%; margin-left: 0; flex-wrap: wrap; }
     .see-all { padding: 6px 10px; font-size: 12px; }
-    .stats-bar { margin: 0 20px 40px; grid-template-columns: repeat(2,1fr); padding: 20px; }
+    .stats-bar { margin: 0 20px 32px; grid-template-columns: repeat(2,1fr); row-gap: 20px; padding: 8px 0; }
+    .stat-num { font-size: 40px; }
+    /* di 2 kolom: divider hanya untuk kolom kanan */
+    .stat-item + .stat-item { border-left: none; }
+    .stat-item:nth-child(even) { border-left: 1px solid rgba(255,255,255,0.12); }
     .slide-ceo .hero-visual,
     .slide-cc .hero-visual,
     .slide-speaker .hero-visual { display: none; }
@@ -1277,6 +1289,26 @@
 </div>
 
 <div id="main-content">
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">2.3B</div>
+    <div class="stat-label">Organic Views (MURI)</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">200+</div>
+    <div class="stat-label">Tim di FCU</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">230K+</div>
+    <div class="stat-label">Followers Personal</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">30+</div>
+    <div class="stat-label">Partners / Founders</div>
+  </div>
+</div>
 
 <!-- ROW 1: THE STORY OF A CEO -->
 <div class="row">
