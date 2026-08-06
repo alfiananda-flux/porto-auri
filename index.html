@@ -649,18 +649,18 @@
   .speaker-topic-badge {
     margin-top: 8px;
   }
-  /* Garis emas rounded, tingginya mengikuti konten */
+  /* Divider tipis horizontal gradient kuning di atas topic */
   .speaker-topic-badge .badge-text {
     position: relative;
-    padding-left: 12px;
+    padding-top: 10px;
   }
   .speaker-topic-badge .badge-text::before {
     content: '';
     position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    border-radius: 999px;
-    background: var(--gold);
+    left: 0; top: 0;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(to right, var(--gold), rgba(245,166,35,0.35), transparent);
   }
   .speaker-topic-badge .topic { font-size: 11px; font-weight: 600; line-height: 1.3; }
   .speaker-topic-badge .company { font-size: 10px; color: var(--muted); margin-top: 2px; }
