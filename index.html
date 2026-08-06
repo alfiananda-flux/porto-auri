@@ -619,14 +619,14 @@
   }
   .platform-badge {
     position: absolute;
-    top: 8px; right: 8px;
+    top: 0; right: 8px; /* nempel ke edge atas card ala badge TOP 10 Netflix */
     z-index: 3;
-    padding: 3px 8px;
-    border-radius: 3px;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    padding: 6px 7px 5px;
+    border-radius: 0 0 4px 4px;
+    font-family: 'Bebas Neue', sans-serif; /* condensed & bold */
+    font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 1;
   }
   .platform-ig { background: #FF0000; }
   .platform-yt { background: #FF0000; }
@@ -1418,8 +1418,7 @@
   <div class="cards-scroll">
 
     <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img grad-ig">
-        <div class="ph"><span class="ph-icon">📸</span><span>THUMBNAIL</span></div>
+      <div class="card-content-img" style="background-image:url('ig-thumbnail-1.jpg');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
@@ -1429,8 +1428,7 @@
     </div>
 
     <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img grad-ig">
-        <div class="ph"><span class="ph-icon">📸</span><span>THUMBNAIL</span></div>
+      <div class="card-content-img" style="background-image:url('ig-thumbnail-2.jpg');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
@@ -1440,8 +1438,7 @@
     </div>
 
     <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img grad-ig">
-        <div class="ph"><span class="ph-icon">📸</span><span>THUMBNAIL</span></div>
+      <div class="card-content-img" style="background-image:url('ig-thumbnail-3.jpg');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
@@ -1451,8 +1448,7 @@
     </div>
 
     <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img grad-ig">
-        <div class="ph"><span class="ph-icon">📸</span><span>THUMBNAIL</span></div>
+      <div class="card-content-img" style="background-image:url('ig-thumbnail-4.jpg');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
@@ -1464,8 +1460,7 @@
   
 
     <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img grad-yt">
-        <div class="ph"><span class="ph-icon">🎥</span><span>THUMBNAIL</span></div>
+      <div class="card-content-img" style="background-image:url('yt-thumbnail-1.jpg');background-size:cover;background-position:center;">
         <div class="platform-badge platform-yt">YT</div>
       </div>
       <div class="card-content-info">
@@ -1475,8 +1470,7 @@
     </div>
 
     <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img grad-yt">
-        <div class="ph"><span class="ph-icon">🎥</span><span>THUMBNAIL</span></div>
+      <div class="card-content-img" style="background-image:url('yt-thumbnail-2.jpg');background-size:cover;background-position:center;">
         <div class="platform-badge platform-yt">YT</div>
       </div>
       <div class="card-content-info">
@@ -1486,8 +1480,7 @@
     </div>
 
     <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img grad-yt">
-        <div class="ph"><span class="ph-icon">🎥</span><span>THUMBNAIL</span></div>
+      <div class="card-content-img" style="background-image:url('yt-thumbnail-3.jpg');background-size:cover;background-position:center;">
         <div class="platform-badge platform-yt">YT</div>
       </div>
       <div class="card-content-info">
@@ -1497,8 +1490,7 @@
     </div>
 
     <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img grad-yt">
-        <div class="ph"><span class="ph-icon">🎥</span><span>THUMBNAIL</span></div>
+      <div class="card-content-img" style="background-image:url('yt-thumbnail-4.jpg');background-size:cover;background-position:center;">
         <div class="platform-badge platform-yt">YT</div>
       </div>
       <div class="card-content-info">
