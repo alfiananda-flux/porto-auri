@@ -1584,7 +1584,16 @@
   }
 
   function togglePause() {
-    show.paused = !show.paused;
+    // Toggle berdasarkan kondisi efektif (sesuai icon yang terlihat),
+    // bukan cuma flag paused — biar tidak bentrok dengan hover-pause.
+    if (shouldRun()) {
+      show.paused = true;
+    } else {
+      // Klik play: lepas pause DAN override hover-pause,
+      // karena mouse pasti masih di atas hero saat klik tombolnya
+      show.paused = false;
+      show.hovering = false;
+    }
     syncState();
   }
 
