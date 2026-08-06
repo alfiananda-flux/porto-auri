@@ -636,6 +636,15 @@
     overflow: hidden;
     position: relative;
   }
+  /* Masking gradient tipis di bawah foto biar transisi makin smooth */
+  .card-speaker-img::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 44px;
+    background: linear-gradient(to bottom, transparent, rgba(10,10,10,0.5));
+    pointer-events: none;
+  }
   /* Badge topic di dalam card, di bawah title & meta */
   .speaker-topic-badge {
     margin-top: 8px;
@@ -660,9 +669,14 @@
   .card-speaker-info {
     position: relative;
     z-index: 3;
-    margin-top: -36px; /* gradient transparan menimpa sedikit tepi bawah foto */
-    padding: 40px 12px 14px;
-    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 55%, transparent 100%);
+    margin-top: -60px;
+    padding: 64px 12px 14px;
+    /* Solid hanya di area teks (di bawah foto); bagian yang menimpa foto
+       murni fade transparan 60px — foto tidak ketutup blok gelap */
+    background: linear-gradient(to top,
+      rgba(10,10,10,0.97) 0%,
+      rgba(10,10,10,0.97) calc(100% - 60px),
+      transparent 100%);
   }
   .card-speaker-title {
     font-size: 13px;
@@ -1415,9 +1429,8 @@
   <div class="cards-scroll">
 
     <div class="card-speaker" onclick="openModal('speaker-modal')">
-      <div class="card-speaker-img grad-spk">
-          <div class="ph"><span class="ph-icon">🎤</span><span>FOTO STAGE</span></div>
-        </div>
+      <div class="card-speaker-img" style="background-image:url('speaker-moments-1.jpeg');background-size:cover;background-position:center;">
+          </div>
       <div class="card-speaker-info">
         <div class="card-speaker-title">Kalbe Group Summit</div>
         <div class="card-speaker-meta">4,000+ audience · 2025
@@ -1428,9 +1441,8 @@
     </div>
 
     <div class="card-speaker" onclick="openModal('speaker-modal')">
-      <div class="card-speaker-img grad-spk2">
-          <div class="ph"><span class="ph-icon">🎤</span><span>FOTO STAGE</span></div>
-        </div>
+      <div class="card-speaker-img" style="background-image:url('speaker-moments-2.jpg');background-size:cover;background-position:center;">
+          </div>
       <div class="card-speaker-info">
         <div class="card-speaker-title">Startup Indonesia Summit</div>
         <div class="card-speaker-meta">1,200 audience · 2025
@@ -1441,9 +1453,8 @@
     </div>
 
     <div class="card-speaker" onclick="openModal('speaker-modal')">
-      <div class="card-speaker-img grad-spk3">
-          <div class="ph"><span class="ph-icon">🎤</span><span>FOTO STAGE</span></div>
-        </div>
+      <div class="card-speaker-img" style="background-image:url('speaker-moments-3.jpg');background-size:cover;background-position:center;">
+          </div>
       <div class="card-speaker-info">
         <div class="card-speaker-title">Marketing Conference ID</div>
         <div class="card-speaker-meta">800 audience · 2025
@@ -1454,9 +1465,8 @@
     </div>
 
     <div class="card-speaker" onclick="openModal('speaker-modal')">
-      <div class="card-speaker-img grad-spk4">
-          <div class="ph"><span class="ph-icon">🎤</span><span>FOTO STAGE</span></div>
-        </div>
+      <div class="card-speaker-img" style="background-image:url('speaker-moments-4.jpg');background-size:cover;background-position:center;">
+          </div>
       <div class="card-speaker-info">
         <div class="card-speaker-title">Brand Summit 2025</div>
         <div class="card-speaker-meta">600 audience · 2025
@@ -1467,9 +1477,8 @@
     </div>
 
     <div class="card-speaker" onclick="openModal('speaker-modal')">
-      <div class="card-speaker-img grad-spk">
-          <div class="ph"><span class="ph-icon">🎤</span><span>FOTO STAGE</span></div>
-        </div>
+      <div class="card-speaker-img" style="background-image:url('speaker-moments-5.jpg');background-size:cover;background-position:center;">
+          </div>
       <div class="card-speaker-info">
         <div class="card-speaker-title">Creator Economy Forum</div>
         <div class="card-speaker-meta">500 audience · 2025
