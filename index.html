@@ -931,72 +931,139 @@
     footer { padding: 32px 20px; }
   }
 
-  /* ── CEO DETAIL MODAL (Netflix style) ── */
+  /* ── DETAIL MODAL (Netflix style, centered card) ── */
   .detail-modal {
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: #141414;
     overflow-y: auto;
-    transform: translateY(100%);
-    transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
     -webkit-overflow-scrolling: touch;
+    display: none;
+    padding: 40px 20px;
   }
-  .detail-modal.open {
-    transform: translateY(0);
+  .detail-modal.open { display: block; }
+  .detail-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    opacity: 0;
+    transition: opacity 0.3s;
   }
+  .detail-modal.open .detail-backdrop { opacity: 1; }
+  .detail-card {
+    position: relative;
+    max-width: 880px;
+    margin: 0 auto;
+    background: #141414;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.8);
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+    transition: opacity 0.35s, transform 0.35s;
+  }
+  .detail-modal.open .detail-card { opacity: 1; transform: none; }
+
   .detail-hero {
     position: relative;
     width: 100%;
-    height: 55vw;
-    max-height: 420px;
-    min-height: 240px;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 */
     overflow: hidden;
     background: #000;
   }
-  .detail-hero img {
-    width: 100%;
-    height: 100%;
+  .detail-hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center 20%;
+    object-position: center 25%;
   }
   .detail-hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(20,20,20,1) 100%);
+    background: linear-gradient(to bottom, rgba(20,20,20,0) 45%, rgba(20,20,20,1) 100%),
+                linear-gradient(to right, rgba(20,20,20,0.5) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  .detail-hero-title {
+    position: absolute;
+    left: 32px; bottom: 26px;
+    right: 32px;
+    z-index: 3;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 46px;
+    letter-spacing: 2px;
+    line-height: 0.95;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.8);
   }
   .detail-close {
     position: absolute;
     top: 14px; right: 14px;
     width: 36px; height: 36px;
     border-radius: 50%;
-    background: rgba(30,30,30,0.9);
+    background: #181818;
     border: none;
     color: #fff;
     font-size: 18px;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    z-index: 10;
+    z-index: 20;
     transition: background 0.2s;
   }
   .detail-close:hover { background: #333; }
-  .detail-body {
-    padding: 0 20px 60px;
+
+  /* Gallery slideshow (speaker) */
+  .dm-gallery-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
   }
-  .detail-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
-    letter-spacing: 2px;
-    line-height: 1;
-    margin-bottom: 4px;
+  .dm-gallery-slide.active { opacity: 1; }
+  .dm-gallery-slide img { width: 100%; height: 100%; object-fit: cover; }
+  .dm-gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.2s;
   }
+  .dm-gallery-arrow:hover { background: rgba(0,0,0,0.8); }
+  .dm-gallery-arrow.prev { left: 14px; }
+  .dm-gallery-arrow.next { right: 14px; }
+  .dm-gallery-arrow svg { width: 22px; height: 22px; }
+  .dm-gallery-dots {
+    position: absolute;
+    bottom: 14px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    gap: 6px;
+  }
+  .dm-gallery-dots span {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transition: background 0.2s, width 0.2s;
+  }
+  .dm-gallery-dots span.active { background: #fff; width: 20px; border-radius: 4px; }
+
+  .detail-body { padding: 6px 32px 40px; }
   .detail-meta {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 12px;
+    font-size: 13px;
     color: #aaa;
-    margin-bottom: 16px;
+    margin: 12px 0 18px;
     flex-wrap: wrap;
   }
   .detail-meta .meta-green { color: #46d369; font-weight: 700; }
@@ -1006,31 +1073,16 @@
     border-radius: 2px;
     font-size: 10px;
   }
-  .detail-top10 {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-    font-size: 13px;
-    font-weight: 700;
-  }
-  .top10-icon {
-    background: var(--red);
-    padding: 2px 8px;
-    border-radius: 2px;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1px;
-  }
+  .detail-layout { display: grid; grid-template-columns: 1fr 300px; gap: 28px; }
   .detail-btn-row {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
   }
   .detail-btn-primary {
-    width: 100%;
-    padding: 14px;
+    padding: 11px 26px;
     background: #fff;
     color: #000;
     border: none;
@@ -1038,112 +1090,87 @@
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    gap: 8px;
+    transition: background 0.2s;
   }
+  .detail-btn-primary:hover { background: rgba(255,255,255,0.8); }
   .detail-btn-secondary {
-    width: 100%;
-    padding: 14px;
+    padding: 11px 22px;
     background: rgba(109,109,110,0.7);
     color: #fff;
     border: none;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+  .detail-btn-secondary:hover { background: rgba(109,109,110,0.5); }
+  .detail-circle {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.5);
+    background: rgba(42,42,42,0.6);
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    transition: border-color 0.2s, background 0.2s;
   }
+  .detail-circle:hover { border-color: #fff; background: rgba(60,60,60,0.8); }
+  .detail-circle.liked { color: var(--red); border-color: var(--red); }
+  .detail-circle svg { width: 20px; height: 20px; }
   .detail-desc {
     font-size: 14px;
     line-height: 1.6;
     color: #ddd;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
-  .detail-cast {
-    font-size: 12px;
-    color: #777;
-    margin-bottom: 6px;
-  }
-  .detail-cast span { color: #ccc; }
-  .detail-actions {
-    display: flex;
-    gap: 28px;
-    padding: 20px 0;
-    border-top: 1px solid #2a2a2a;
-    border-bottom: 1px solid #2a2a2a;
-    margin: 16px 0;
-    justify-content: space-around;
-  }
-  .detail-action-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: #aaa;
-    cursor: pointer;
-    background: none;
-    border: none;
-    color: #aaa;
-  }
-  .detail-action-btn svg { color: #fff; }
+  .detail-side { font-size: 13px; line-height: 1.7; }
+  .detail-side .lbl { color: #777; }
+  .detail-side .val { color: #ddd; }
+  .detail-side p { margin-bottom: 10px; }
 
-  /* Episodes tab */
-  .detail-tabs {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 16px;
-    border-bottom: 1px solid #333;
+  .detail-eps-heading {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 28px 0 16px;
+    padding-top: 24px;
+    border-top: 1px solid #2a2a2a;
   }
-  .detail-tab {
-    font-size: 15px;
-    font-weight: 600;
-    padding-bottom: 12px;
-    cursor: pointer;
-    color: #777;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s;
-  }
-  .detail-tab.active {
-    color: #fff;
-    border-bottom-color: var(--red);
-  }
-  .detail-season {
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 16px;
-  }
+
+  /* Landscape episodes (story) */
   .episode-item {
     display: flex;
-    gap: 14px;
-    padding: 14px 0;
-    border-bottom: 1px solid #1f1f1f;
+    gap: 16px;
+    padding: 14px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background 0.2s;
-    border-radius: 4px;
+    align-items: center;
   }
-  .episode-item:hover { background: rgba(255,255,255,0.05); }
+  .episode-item:hover { background: rgba(255,255,255,0.06); }
+  .episode-num { font-size: 22px; color: #888; width: 22px; text-align: center; flex-shrink: 0; }
   .episode-thumb {
     flex-shrink: 0;
-    width: 120px;
-    height: 68px;
+    width: 140px;
+    height: 80px;
     border-radius: 4px;
     overflow: hidden;
     background: #1f1f1f;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
+    background-size: cover;
+    background-position: center;
   }
-  .episode-thumb img {
-    width: 100%; height: 100%;
-    object-fit: cover;
+  .episode-thumb.portrait {
+    width: 84px;  /* 9:16 */
+    height: 149px;
   }
   .episode-play {
     position: absolute;
@@ -1151,19 +1178,93 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.25);
+    opacity: 0;
+    transition: opacity 0.2s;
   }
-  .episode-play svg { opacity: 0.9; }
+  .episode-item:hover .episode-play { opacity: 1; }
   .episode-info { flex: 1; }
   .episode-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 4px;
+    gap: 12px;
   }
-  .episode-title { font-size: 14px; font-weight: 600; }
-  .episode-duration { font-size: 12px; color: #777; flex-shrink: 0; }
-  .episode-desc { font-size: 12px; color: #777; line-height: 1.5; }
+  .episode-title { font-size: 15px; font-weight: 600; }
+  .episode-duration { font-size: 13px; color: #777; flex-shrink: 0; }
+  .episode-desc { font-size: 13px; color: #999; line-height: 1.5; }
+
+  /* Portrait 9:16 episodes (content creator) */
+  .reel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+  }
+  .reel-item {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .reel-item:hover { transform: scale(1.04); }
+  .reel-poster {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #1f1f1f center/cover no-repeat;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  .reel-poster::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 45%);
+  }
+  .reel-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%) scale(0.85);
+    z-index: 2;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.85);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .reel-item:hover .reel-play { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  .reel-badge {
+    position: absolute;
+    top: 8px; left: 8px;
+    z-index: 2;
+    background: var(--red);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 3px 6px 2px;
+    border-radius: 3px;
+  }
+  .reel-views {
+    position: absolute;
+    left: 10px; bottom: 8px;
+    z-index: 2;
+    font-size: 12px;
+    font-weight: 600;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  }
+  .reel-title { font-size: 13px; color: #ddd; margin-top: 8px; line-height: 1.3; }
+
+  @media (max-width: 768px) {
+    .detail-modal { padding: 0; }
+    .detail-card { max-width: none; min-height: 100vh; border-radius: 0; margin: 0; }
+    .detail-hero-title { font-size: 34px; left: 20px; right: 20px; bottom: 18px; }
+    .detail-body { padding: 6px 20px 48px; }
+    .detail-layout { grid-template-columns: 1fr; gap: 8px; }
+    .detail-side { margin-top: 8px; }
+    .episode-thumb { width: 120px; height: 68px; }
+  }
 
   .footer-cta { max-width: 760px; margin: 0 auto 48px; text-align: center; }
   .footer-cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 5vw, 52px); letter-spacing: 2px; color: #fff; margin-bottom: 12px; }
@@ -1214,7 +1315,7 @@
     <li><a href="#" onclick="scrollToRow(0); return false;">CEO Story</a></li>
     <li><a href="#" onclick="scrollToRow(1); return false;">Content</a></li>
     <li><a href="#" onclick="scrollToRow(2); return false;">Speaker</a></li>
-    <li><a href="#" onclick="openModal('ceo-modal'); return false;">FCU</a></li>
+    <li><a href="#" onclick="openDetail('ceo'); return false;">FCU</a></li>
   </ul>
   <button class="nav-burger" id="nav-burger" onclick="toggleMobileMenu()" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -1226,7 +1327,7 @@
   <a href="#" onclick="mobileNav(() => scrollToRow(0)); return false;">CEO Story</a>
   <a href="#" onclick="mobileNav(() => scrollToRow(1)); return false;">Content</a>
   <a href="#" onclick="mobileNav(() => scrollToRow(2)); return false;">Speaker</a>
-  <a href="#" onclick="mobileNav(() => openModal('ceo-modal')); return false;">FCU</a>
+  <a href="#" onclick="mobileNav(() => openDetail('ceo')); return false;">FCU</a>
 </div>
 
 <!-- HERO -->
@@ -1274,7 +1375,7 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
         Explore
       </button>
-      <button class="btn-secondary">
+      <button class="btn-secondary" onclick="openHeroInfo()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-linecap="round"/></svg>
         More Info
       </button>
@@ -1328,63 +1429,51 @@
   </div>
   <div class="cards-scroll">
 
-    <div class="card-story" onclick="openModal('ceo-modal')">
+    <div class="card-story" onclick="openDetail('ceo')">
       <div class="card-story-num"><svg viewBox="0 0 85 148" fill="none" opacity="0.5" preserveAspectRatio="xMaxYMid meet"><path fill-rule="evenodd" clip-rule="evenodd" d="M29.75 47.0104V13.6887L86.59 0.138672V148.139H47.1763V42.4542L29.75 47.0104ZM49.4806 39.5094V145.875H84.2857V3.01729L32.0543 15.4686V44.0655L49.4806 39.5094Z" fill="url(#num-grad-1)"/><defs><linearGradient id="num-grad-1" x1="50.0996" y1="57" x2="85.0824" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient></defs></svg></div>
       <div class="card-story-img grad-ceo">
         <div class="ph"><span class="ph-icon">🛏️</span><span>FOTO</span></div>
       </div>
       <div class="card-story-info">
-        <div class="card-story-label">2006 · Origin</div>
-        <div class="card-story-title">Dari Kamar Tidur</div>
-        <div class="card-story-sub">Laptop. Satu ide. Nol modal.</div>
+        <div class="card-story-label">Origin · Flux Design</div>
+        <div class="card-story-title">Mulai dari Kamar Tidur</div>
+        <div class="card-story-sub">Story Idenyaflux berawal dari Flux Design — satu kamar, satu ide.</div>
       </div>
     </div>
 
-    <div class="card-story">
+    <div class="card-story" onclick="openDetail('ceo')">
       <div class="card-story-num"><svg viewBox="0 0 85 148" fill="none" opacity="0.45" preserveAspectRatio="xMaxYMid meet"><path fill-rule="evenodd" clip-rule="evenodd" d="M110.771 23.6005C106.244 16.6041 99.9332 11.1854 91.8394 7.34424C83.7456 3.50309 74.5543 1.58252 64.2655 1.58252C53.9767 1.58252 44.854 3.57168 36.8973 7.55001C28.9407 11.5283 22.493 17.0157 17.5544 24.0121C13.1833 30.3814 10.3471 37.5466 9.04575 45.5077C8.91765 46.2914 8.80441 47.0829 8.70605 47.882H44.9226C45.8829 44.3153 47.872 41.3658 50.8901 39.0337C53.9081 36.5644 58.0236 35.3297 63.2366 35.3297C68.4496 35.3297 72.3593 36.633 74.9658 39.2395C77.7095 41.8459 79.0813 45.0698 79.0813 48.9109C79.0813 52.4777 78.0524 55.7015 75.9947 58.5824C74.0741 61.4632 70.5759 65.0986 65.5001 69.4885L10.3523 117.228V148.095H118.796V115.582H62.4135L90.6048 92.7411C95.5434 88.7628 100.07 84.5787 104.186 80.1888C108.301 75.7989 111.594 70.9975 114.063 65.7845C116.532 60.5715 117.767 54.6726 117.767 48.0878C117.767 38.7593 115.435 30.5969 110.771 23.6005ZM116.422 117.957H55.7114L89.1153 90.8921C93.9724 86.9794 98.4177 82.87 102.454 78.5649C106.408 74.347 109.558 69.7489 111.917 64.7681C114.216 59.915 115.393 54.3709 115.393 48.0878C115.393 39.1748 113.171 31.4818 108.795 24.9176L108.786 24.904L108.777 24.8904C104.508 18.292 98.5481 13.1562 90.8214 9.48927C83.0898 5.82 74.2544 3.95685 64.2655 3.95685C54.2875 3.95685 45.5381 5.88422 37.9591 9.67368C30.3437 13.4814 24.2058 18.7109 19.5032 25.3685C15.415 31.3296 12.7273 38.0322 11.4529 45.5077H43.1925C44.4252 42.2094 46.5138 39.4217 49.4124 37.1749C52.9756 34.2718 57.6742 32.9554 63.2366 32.9554C68.803 32.9554 73.4151 34.3454 76.623 37.5389C79.832 40.5978 81.4557 44.4401 81.4557 48.9109C81.4557 52.9557 80.2819 56.6521 77.9491 59.9311C75.8419 63.0803 72.1524 66.8743 67.0533 71.2843L12.7266 118.313V145.72H116.422V117.957Z" fill="url(#num-grad-2)"/><defs><linearGradient id="num-grad-2" x1="48.4733" y1="57" x2="83.0862" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient></defs></svg></div>
       <div class="card-story-img grad-ceo2">
-        <div class="ph"><span class="ph-icon">🏢</span><span>FOTO</span></div>
+        <div class="ph"><span class="ph-icon">💡</span><span>FOTO</span></div>
       </div>
       <div class="card-story-info">
-        <div class="card-story-label">Founding · FCU</div>
-        <div class="card-story-title">Flux Creative Universe</div>
-        <div class="card-story-sub">Holding kreatif pertama di Indonesia</div>
+        <div class="card-story-label">The Idea</div>
+        <div class="card-story-title">Buat Idenyaflux</div>
+        <div class="card-story-sub">Ide kecil yang tumbuh jadi identitas kreatif.</div>
       </div>
     </div>
 
-    <div class="card-story">
+    <div class="card-story" onclick="openDetail('ceo')">
       <div class="card-story-num"><svg viewBox="0 0 85 148" fill="none" opacity="0.4" preserveAspectRatio="xMaxYMid meet"><path fill-rule="evenodd" clip-rule="evenodd" d="M50.3739 112.913C46.9032 111.178 44.6338 108.709 43.5659 105.505H7.12305C7.23052 106.307 7.35336 107.098 7.49156 107.879C9.58478 119.708 15.202 129.128 24.3433 136.141C34.0881 143.616 47.1701 147.354 63.5895 147.354C74.0017 147.354 83.2125 145.619 91.222 142.148C99.3649 138.677 105.706 133.805 110.244 127.531C114.917 121.123 117.253 113.514 117.253 104.704C117.253 97.7623 115.317 91.2213 111.446 85.0807C108.128 79.8177 103.29 75.8785 96.9317 73.2632C95.8717 72.8271 94.7693 72.4279 93.6248 72.0654C94.7469 71.639 95.8237 71.1768 96.8553 70.6787C101.96 68.2141 105.955 64.8718 108.843 60.652C112.313 55.4459 114.049 49.639 114.049 43.2315C114.049 34.8216 111.779 27.5464 107.241 21.4058C102.702 15.1318 96.6283 10.2594 89.0194 6.78863C81.4104 3.31789 73.0005 1.58252 63.7897 1.58252C48.5718 1.58252 36.2239 5.32025 26.7461 12.7957C17.8739 19.7935 11.9261 29.0138 8.90271 40.4567C8.69634 41.2378 8.50359 42.0292 8.32446 42.831H43.5659C44.5003 40.1612 46.5027 37.9586 49.573 36.2233C52.6433 34.4879 56.381 33.6202 60.7862 33.6202C65.7253 33.6202 69.73 34.6214 72.8003 36.6237C75.8706 38.4926 77.4057 41.4961 77.4057 45.6343C77.4057 49.3721 75.8706 52.5091 72.8003 55.0454C69.8635 57.4482 65.9255 58.6496 60.9864 58.6496H44.5671V89.2857H62.388C67.3272 89.2857 71.3986 90.3536 74.6024 92.4894C77.9397 94.6253 79.6083 97.7623 79.6083 101.901C79.6083 106.706 78.0064 110.177 74.8026 112.313C71.7324 114.315 67.7277 115.316 62.7885 115.316C58.1164 115.316 53.9782 114.515 50.3739 112.913ZM46.9414 86.9113H62.388C67.6555 86.9113 72.2137 88.0497 75.9011 90.5016C79.9435 93.0968 81.9826 97.0036 81.9826 101.901C81.9826 107.277 80.1504 111.601 76.1197 114.288L76.1097 114.295L76.0997 114.302C72.531 116.629 68.0323 117.691 62.7885 117.691C57.8446 117.691 53.3682 116.843 49.4096 115.083L49.3603 115.061L49.3121 115.037C45.938 113.35 43.4311 110.969 41.9652 107.879H9.90441C11.9566 118.965 17.2547 127.71 25.7885 134.257C34.9984 141.322 47.5176 144.98 63.5895 144.98C73.7385 144.98 82.6182 143.288 90.2779 139.969L90.2844 139.966L90.291 139.964C98.095 136.637 104.069 132.016 108.321 126.139L108.326 126.132C112.669 120.175 114.878 113.07 114.878 104.704C114.878 98.2315 113.081 92.1266 109.437 86.347C105.911 80.7543 100.471 76.7241 92.908 74.329L86.4039 72.2693L92.7814 69.8459C99.0729 67.4552 103.72 63.9282 106.875 59.3232C110.074 54.52 111.674 49.1774 111.674 43.2315C111.674 35.2754 109.537 28.5075 105.331 22.8171L105.324 22.8073L105.317 22.7975C101.038 16.883 95.2998 12.263 88.034 8.94885C80.7645 5.63296 72.6953 3.95685 63.7897 3.95685C48.9637 3.95685 37.1763 7.59306 28.2165 14.66C19.9305 21.1954 14.3092 29.7625 11.3619 40.4567H42.0064C43.3326 37.8682 45.5285 35.7819 48.4047 34.1562C51.9098 32.1751 56.0722 31.2459 60.7862 31.2459C66.015 31.2459 70.5029 32.3015 74.0667 34.615C77.9412 36.9883 79.78 40.8291 79.78 45.6343C79.78 50.1317 77.8878 53.9223 74.3125 56.8759L74.3081 56.8795L74.3038 56.883C70.8292 59.7259 66.3063 61.024 60.9864 61.024H46.9414V86.9113Z" fill="url(#num-grad-3)"/><defs><linearGradient id="num-grad-3" x1="53.4701" y1="57" x2="88.7906" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient></defs></svg></div>
       <div class="card-story-img grad-ceo3">
         <div class="ph"><span class="ph-icon">🤝</span><span>FOTO</span></div>
       </div>
       <div class="card-story-info">
-        <div class="card-story-label">Investor · Deddy</div>
-        <div class="card-story-title">Deddy Corbuzier Masuk</div>
-        <div class="card-story-sub">Validasi terbesar di 2025</div>
+        <div class="card-story-label">Founding · FCU</div>
+        <div class="card-story-title">Flux Creative Universe</div>
+        <div class="card-story-sub">Bertemu para partner, lahir holding kreatif.</div>
       </div>
     </div>
 
-    <div class="card-story">
+    <div class="card-story" onclick="openDetail('ceo')">
       <div class="card-story-num"><svg viewBox="0 0 85 148" fill="none" opacity="0.35" preserveAspectRatio="xMaxYMid meet"><path fill-rule="evenodd" clip-rule="evenodd" d="M108.314 117.932H128.04V86.7518H108.314V0H69.7103L3.95703 88.2366V117.932H70.7708V147.627H108.314V117.932ZM105.939 145.252V115.557H125.665V89.1262H105.939V2.37433H70.902L6.33137 89.024V115.557H73.1451V145.252H105.939ZM37.186 89.1262L73.1451 41.0044V89.1262H37.186ZM70.7708 86.7518H41.9242L70.7708 48.1483V86.7518Z" fill="url(#num-grad-4)"/><defs><linearGradient id="num-grad-4" x1="43.542" y1="57" x2="88.6544" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient></defs></svg></div>
       <div class="card-story-img grad-ceo4">
-        <div class="ph"><span class="ph-icon">📊</span><span>FOTO</span></div>
+        <div class="ph"><span class="ph-icon">📈</span><span>FOTO</span></div>
       </div>
       <div class="card-story-info">
-        <div class="card-story-label">Innovation</div>
-        <div class="card-story-title">Guarantee Model</div>
-        <div class="card-story-sub">25M views minimum — atau klien tidak bayar</div>
-      </div>
-    </div>
-
-    <div class="card-story">
-      <div class="card-story-num"><svg viewBox="0 0 85 148" fill="none" opacity="0.3" preserveAspectRatio="xMaxYMid meet"><path fill-rule="evenodd" clip-rule="evenodd" d="M49.1693 32.8877H110.365V0H18.3631L10.0371 88.88H44.1737C46.1165 86.521 48.6837 84.6477 51.8753 83.26C55.0669 81.8723 58.6055 81.1785 62.4909 81.1785C68.0416 81.1785 72.5515 82.7049 76.0207 85.7578C79.4899 88.8106 81.2244 92.9043 81.2244 98.0386C81.2244 103.312 79.4899 107.475 76.0207 110.528C72.5515 113.442 68.0416 114.899 62.4909 114.899C58.6055 114.899 55.1363 114.274 52.0834 113.025C49.0306 111.777 46.7409 110.111 45.2145 108.03H7.12305C7.31499 108.833 7.5212 109.624 7.74168 110.404C11.0278 122.033 17.4824 131.163 27.1054 137.795C37.5129 144.734 50.557 148.203 66.2376 148.203C76.2288 148.203 85.3181 146.26 93.5053 142.375C101.693 138.35 108.215 132.522 113.071 124.89C117.928 117.258 120.357 107.891 120.357 96.7897C120.357 87.6311 118.345 79.5133 114.32 72.4362C110.296 65.2203 104.745 59.6003 97.6683 55.576C90.7299 51.413 82.8896 49.3315 74.1473 49.3315C64.3385 49.3315 56.0463 52.0941 49.2709 57.6192C48.3781 58.3473 47.5116 59.1232 46.6715 59.9472L49.1693 32.8877ZM92.4728 140.236C100.265 136.403 106.45 130.872 111.068 123.615C115.633 116.442 117.982 107.542 117.982 96.7897C117.982 87.9902 116.053 80.2863 112.256 73.6098L112.251 73.6013L112.247 73.5927C108.43 66.7499 103.189 61.4464 96.4946 57.64L96.4705 57.6263L96.4467 57.612C89.907 53.6882 82.4952 51.7059 74.1473 51.7059C63.6007 51.7059 55.0604 55.0453 48.3341 61.6423L43.7122 66.1753L47.0041 30.5134H107.991V2.37433H20.5255L12.6443 86.5057H43.0956C45.196 84.2322 47.8248 82.432 50.9286 81.0826C54.4519 79.5507 58.3177 78.8042 62.4909 78.8042C68.4971 78.8042 73.603 80.4675 77.5892 83.9753C81.631 87.5321 83.5988 92.3067 83.5988 98.0386C83.5988 103.887 81.6457 108.74 77.5892 112.31L77.5687 112.328L77.5478 112.346C73.5607 115.695 68.4699 117.273 62.4909 117.273C58.3511 117.273 54.5687 116.607 51.1844 115.223C48.2813 114.035 45.8729 112.449 44.0792 110.404H10.2131C13.4078 121.212 19.4806 129.652 28.4379 135.83C38.3645 142.443 50.9147 145.828 66.2376 145.828C75.9072 145.828 84.6388 143.951 92.4728 140.236Z" fill="url(#num-grad-5)"/><defs><linearGradient id="num-grad-5" x1="46.5993" y1="57" x2="87.9395" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient></defs></svg></div>
-      <div class="card-story-img grad-ceo5">
-        <div class="ph"><span class="ph-icon">🏆</span><span>FOTO</span></div>
-      </div>
-      <div class="card-story-info">
-        <div class="card-story-label">2025 · MURI</div>
-        <div class="card-story-title">2.3 Miliar Views</div>
-        <div class="card-story-sub">Rekor MURI konten viral organik</div>
+        <div class="card-story-label">Investor</div>
+        <div class="card-story-title">Di-invest Deddy Corbuzier</div>
+        <div class="card-story-sub">Validasi terbesar untuk FCU.</div>
       </div>
     </div>
 
@@ -1421,113 +1510,39 @@
   </div>
   <div class="cards-scroll">
 
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('leadership-1.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
+    <div class="card-content" onclick="openDetail('born-to-lead')">
+      <div class="card-content-img" style="background-image:url('born-to-lead-1.webp?timestamp=1786085713914');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
-        <div class="card-content-title">Leadership #1</div>
-        <div class="card-content-meta">Reel · 2.1M views</div>
+        <div class="card-content-title">Born To Lead</div>
       </div>
     </div>
 
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('leadership-2.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
+    <div class="card-content" onclick="openDetail('creative-talk')">
+      <div class="card-content-img" style="background-image:url('creative-talk-1.webp?timestamp=1786085713914');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
-        <div class="card-content-title">Leadership #2</div>
-        <div class="card-content-meta">Reel · 1.8M views</div>
+        <div class="card-content-title">Creative Talk</div>
       </div>
     </div>
 
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('leadership-3.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
+    <div class="card-content" onclick="openDetail('leadership')">
+      <div class="card-content-img" style="background-image:url('leadership-1.webp?timestamp=1786085713914');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
-        <div class="card-content-title">Leadership #3</div>
-        <div class="card-content-meta">Reel · 1.4M views</div>
+        <div class="card-content-title">Leadership</div>
       </div>
     </div>
 
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('leadership-4.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
+    <div class="card-content" onclick="openDetail('suhu-kreatif')">
+      <div class="card-content-img" style="background-image:url('suhu-kreatif-1.webp?timestamp=1786085713914');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
-        <div class="card-content-title">Leadership #4</div>
-        <div class="card-content-meta">Reel · 990K views</div>
-      </div>
-    </div>
-
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('suhu-kreatif-1.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
-        <div class="platform-badge platform-ig">IG</div>
-      </div>
-      <div class="card-content-info">
-        <div class="card-content-title">Suhu Kreatif #1</div>
-        <div class="card-content-meta">Reel · 1.6M views</div>
-      </div>
-    </div>
-
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('suhu-kreatif-2.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
-        <div class="platform-badge platform-ig">IG</div>
-      </div>
-      <div class="card-content-info">
-        <div class="card-content-title">Suhu Kreatif #2</div>
-        <div class="card-content-meta">Reel · 1.2M views</div>
-      </div>
-    </div>
-
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('suhu-kreatif-3.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
-        <div class="platform-badge platform-ig">IG</div>
-      </div>
-      <div class="card-content-info">
-        <div class="card-content-title">Suhu Kreatif #3</div>
-        <div class="card-content-meta">Reel · 870K views</div>
-      </div>
-    </div>
-
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('suhu-kreatif-4.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
-        <div class="platform-badge platform-ig">IG</div>
-      </div>
-      <div class="card-content-info">
-        <div class="card-content-title">Suhu Kreatif #4</div>
-        <div class="card-content-meta">Reel · 740K views</div>
-      </div>
-    </div>
-
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('creative-talk-1.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
-        <div class="platform-badge platform-ig">IG</div>
-      </div>
-      <div class="card-content-info">
-        <div class="card-content-title">Creative Talk Auri #1</div>
-        <div class="card-content-meta">Reel · 1.3M views</div>
-      </div>
-    </div>
-
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('creative-talk-2.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
-        <div class="platform-badge platform-ig">IG</div>
-      </div>
-      <div class="card-content-info">
-        <div class="card-content-title">Creative Talk Auri #2</div>
-        <div class="card-content-meta">Reel · 950K views</div>
-      </div>
-    </div>
-
-    <div class="card-content" onclick="openModal('creator-modal')">
-      <div class="card-content-img" style="background-image:url('creative-talk-3.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
-        <div class="platform-badge platform-ig">IG</div>
-      </div>
-      <div class="card-content-info">
-        <div class="card-content-title">Creative Talk Auri #3</div>
-        <div class="card-content-meta">Reel · 680K views</div>
+        <div class="card-content-title">Suhu Kreatif</div>
       </div>
     </div>
 
@@ -1546,7 +1561,7 @@
   </div>
   <div class="cards-scroll">
 
-    <div class="card-speaker" onclick="openModal('speaker-modal')">
+    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Bisnis Hack'})">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-1.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1557,7 +1572,7 @@
       </div>
     </div>
 
-    <div class="card-speaker" onclick="openModal('speaker-modal')">
+    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Asian Tiger School'})">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-2.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1568,7 +1583,7 @@
       </div>
     </div>
 
-    <div class="card-speaker" onclick="openModal('speaker-modal')">
+    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Kalbe Nutrition'})">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-3.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1579,7 +1594,7 @@
       </div>
     </div>
 
-    <div class="card-speaker" onclick="openModal('speaker-modal')">
+    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Prudential Indonesia'})">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-4.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1590,7 +1605,7 @@
       </div>
     </div>
 
-    <div class="card-speaker" onclick="openModal('speaker-modal')">
+    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Binus'})">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-5.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1601,7 +1616,7 @@
       </div>
     </div>
 
-    <div class="card-speaker" onclick="openModal('speaker-modal')">
+    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Holywings Group'})">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-6.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1949,24 +1964,215 @@
     if (rows[i]) rows[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // Modal functions
-  function openModal(id) {
-    document.getElementById(id).classList.add('open');
+  // ══════════ DYNAMIC DETAIL MODAL ══════════
+  const WA = 'https://wa.me/6281315601928';
+  const waLink = msg => WA + '?text=' + encodeURIComponent(msg);
+  const TS = '?timestamp=' + Date.now();
+
+  const DETAILS = {
+    // ── STORY OF A CEO (episodes = landscape) ──
+    ceo: {
+      type: 'story',
+      hero: 'hero-img-1.webp',
+      title: 'Flux Creative Universe',
+      metaGreen: "Indonesia's #1", year: '2006–2026',
+      badges: ['CEO SERIES', '4 Episodes'],
+      desc: 'Dari kamar tidur 2006 ke holding kreatif pertama Indonesia. Flux Creative Universe bukan sekadar agensi — ini ekosistem di mana ide, distribusi, dan data bekerja sebagai satu sistem.',
+      side: [['Founder', 'Yohanes Auri'], ['Investor', 'Deddy Corbuzier'], ['Partners', '30+ Founders'], ['Genre', 'Entrepreneurship, Creative']],
+      cta: { label: 'Kerja Sama', msg: 'Halo Auri, saya tertarik kerja sama dengan Flux Creative Universe.' },
+      episodes: [
+        { thumb: 'hero-img-1.webp', title: '1. Mulai dari Kamar Tidur', meta: '2006', desc: 'Story Idenyaflux berawal dari Flux Design — satu kamar, satu ide, nol modal.' },
+        { thumb: 'hero-img-2.webp', title: '2. Buat Idenyaflux', meta: '2020', desc: 'Ide kecil yang tumbuh jadi identitas kreatif dan mulai dikenal.' },
+        { thumb: 'hero-img-3.webp', title: '3. Flux Creative Universe', meta: '2023', desc: 'Bertemu para partner, lahir holding kreatif pertama di Indonesia.' },
+        { thumb: 'hero-img-1.webp', title: '4. Di-invest Deddy Corbuzier', meta: '2025', desc: 'Validasi terbesar untuk FCU — babak baru dimulai.' },
+      ],
+    },
+    // ── CONTENT CREATOR CATEGORIES (episodes = portrait 9:16, redirect ke social) ──
+    'born-to-lead': creatorCat('Born To Lead', 'Seri konten kepemimpinan — mindset & keputusan seorang founder.', 'born-to-lead', 4),
+    'creative-talk': creatorCat('Creative Talk', 'Obrolan kreatif Auri bareng para praktisi & founder.', 'creative-talk', 3),
+    'leadership': creatorCat('Leadership', 'Prinsip memimpin tim 200+ orang di ekosistem kreatif.', 'leadership', 4),
+    'suhu-kreatif': creatorCat('Suhu Kreatif', 'Bongkar framework bikin konten viral yang bisa ditiru.', 'suhu-kreatif', 4),
+    // ── SPEAKER (hero = slideshow, no episodes) ──
+    speaker: {
+      type: 'speaker',
+      gallery: ['speaker-moments-1.webp','speaker-moments-2.webp','speaker-moments-3.webp','speaker-moments-4.webp','speaker-moments-5.webp','speaker-moments-6.webp'],
+      title: 'Speaker Moments',
+      metaGreen: 'Panggung Nasional', year: '20+ Events',
+      badges: ['KEYNOTE', 'WORKSHOP'],
+      desc: 'Dari panggung Kalbe sampai forum korporat — Auri tidak datang untuk inspirasi, dia datang dengan framework yang bisa langsung dijalankan.',
+      side: [['Format', 'Keynote · Workshop · Masterclass'], ['Audience', 'Owner, Marketing, Leader'], ['Skala', 'Nasional']],
+      cta: { label: 'Booking Speaker', msg: 'Halo Auri, saya ingin booking Anda sebagai pembicara.' },
+      // (episodes: none)
+    },
+  };
+
+  function creatorCat(title, desc, slug, n) {
+    const views = ['2.1M','1.6M','1.3M','990K'];
+    const epDesc = [
+      'Reel paling banyak ditonton di kategori ini — insight padat dalam 60 detik.',
+      'Framework praktis yang bisa langsung kamu terapkan hari ini.',
+      'Behind the scenes proses kreatif di balik konten viral.',
+      'Studi kasus nyata dari perjalanan membangun FCU.',
+    ];
+    const eps = [];
+    for (let i = 1; i <= n; i++) eps.push({
+      poster: `${slug}-${i}.webp`,
+      title: `${i}. ${title} #${i}`,
+      views: views[(i - 1) % views.length] + ' views',
+      desc: epDesc[(i - 1) % epDesc.length],
+      link: 'https://www.instagram.com/yohanesauri/',
+    });
+    return {
+      type: 'creator',
+      hero: `${slug}-1.webp`,
+      title, metaGreen: '230K+ Followers', year: 'Instagram · Reels',
+      badges: ['CONTENT SERIES', `${n} Reels`],
+      desc,
+      side: [['Platform', 'Instagram Reels'], ['Kreator', 'Yohanes Auri'], ['Kategori', title]],
+      cta: { label: 'Ajak Collab', msg: `Halo Auri, saya tertarik collab untuk konten ${title}.` },
+      episodes: eps,
+    };
+  }
+
+  const ICON = {
+    play: '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>',
+    like: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>',
+    share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>',
+    chevL: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,4 7,12 15,20"/></svg>',
+    chevR: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,4 17,12 9,20"/></svg>',
+  };
+
+  let galleryTimer = null;
+  let galleryIdx = 0;
+
+  function openDetail(key, override) {
+    const d = Object.assign({}, DETAILS[key], override || {});
+    if (!d.type) return;
+    galleryIdx = 0;
+    const card = document.getElementById('detail-card');
+
+    // hero
+    let heroHtml;
+    if (d.type === 'speaker' && d.gallery) {
+      heroHtml = `<div class="dm-gallery">
+        ${d.gallery.map((g,i)=>`<div class="dm-gallery-slide${i===0?' active':''}"><img src="${g}${TS}" alt=""></div>`).join('')}
+        <button class="dm-gallery-arrow prev" onclick="galleryNav(-1)" aria-label="Sebelumnya">${ICON.chevL}</button>
+        <button class="dm-gallery-arrow next" onclick="galleryNav(1)" aria-label="Berikutnya">${ICON.chevR}</button>
+        <div class="dm-gallery-dots">${d.gallery.map((_,i)=>`<span class="${i===0?'active':''}"></span>`).join('')}</div>
+      </div>`;
+    } else {
+      heroHtml = `<img class="detail-hero-img" src="${d.hero}${TS}" alt="">`;
+    }
+
+    // buttons: main Explore only if episodes; secondary CTA; circle like + share
+    const hasEps = d.episodes && d.episodes.length;
+    const btns = `
+      ${hasEps ? `<button class="detail-btn-primary" onclick="scrollToFirstEpisode()"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg> Explore</button>` : ''}
+      <button class="detail-btn-secondary" onclick="window.open('${waLink(d.cta.msg)}','_blank')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        ${d.cta.label}
+      </button>
+      <button class="detail-circle" id="dm-like" onclick="toggleLike(this)" aria-label="Suka">${ICON.like}</button>
+      <button class="detail-circle" onclick="shareDetail('${(d.title||'').replace(/'/g,'')}')" aria-label="Bagikan">${ICON.share}</button>`;
+
+    // side info
+    const side = (d.side||[]).map(([l,v])=>`<p><span class="lbl">${l}:</span> <span class="val">${v}</span></p>`).join('');
+
+    // episodes
+    let epsHtml = '';
+    if (hasEps && d.type === 'creator') {
+      epsHtml = `<div class="detail-eps-heading">Reels</div>
+      ${d.episodes.map(e=>`
+        <div class="episode-item" onclick="window.open('${e.link}','_blank')">
+          <div class="episode-thumb portrait" style="background-image:url('${e.poster}${TS}')"></div>
+          <div class="episode-info">
+            <div class="episode-header"><div class="episode-title">${e.title}</div><div class="episode-duration">${e.views}</div></div>
+            <div class="episode-desc">${e.desc}</div>
+          </div>
+        </div>`).join('')}`;
+    } else if (hasEps) {
+      epsHtml = `<div class="detail-eps-heading">Episodes</div>
+      ${d.episodes.map((e,i)=>`
+        <div class="episode-item">
+          <div class="episode-num">${i+1}</div>
+          <div class="episode-thumb" style="background-image:url('${e.thumb}${TS}')"></div>
+          <div class="episode-info">
+            <div class="episode-header"><div class="episode-title">${e.title}</div><div class="episode-duration">${e.meta}</div></div>
+            <div class="episode-desc">${e.desc}</div>
+          </div>
+        </div>`).join('')}`;
+    }
+
+    card.innerHTML = `
+      <div class="detail-hero">
+        ${heroHtml}
+        <div class="detail-hero-overlay"></div>
+        <h1 class="detail-hero-title">${d.title}</h1>
+        <button class="detail-close" onclick="closeDetail()" aria-label="Tutup">✕</button>
+      </div>
+      <div class="detail-body">
+        <div class="detail-meta">
+          <span class="meta-green">${d.metaGreen}</span>
+          <span>${d.year}</span>
+          ${(d.badges||[]).map(b=>`<span class="meta-badge">${b}</span>`).join('')}
+        </div>
+        <div class="detail-btn-row">${btns}</div>
+        <div class="detail-layout">
+          <div><p class="detail-desc">${d.desc}</p></div>
+          <div class="detail-side">${side}</div>
+        </div>
+        ${epsHtml}
+      </div>`;
+
+    document.getElementById('detail-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
+    document.getElementById('detail-modal').scrollTop = 0;
+
+    clearInterval(galleryTimer);
+    if (d.type === 'speaker' && d.gallery) {
+      galleryTimer = setInterval(() => galleryNav(1), 4500);
+    }
   }
-  function closeModal(id) {
-    document.getElementById(id).classList.remove('open');
+
+  function closeDetail() {
+    document.getElementById('detail-modal').classList.remove('open');
     document.body.style.overflow = '';
+    clearInterval(galleryTimer);
   }
-  // Close on back swipe
-  document.querySelectorAll('.detail-modal').forEach(modal => {
-    let startY = 0;
-    modal.addEventListener('touchstart', e => startY = e.touches[0].clientY, {passive:true});
-    modal.addEventListener('touchend', e => {
-      const dy = e.changedTouches[0].clientY - startY;
-      if (dy > 80 && modal.scrollTop === 0) closeModal(modal.id);
-    }, {passive:true});
-  });
+
+  function scrollToFirstEpisode() {
+    const el = document.querySelector('#detail-card .episode-item, #detail-card .reel-item');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function toggleLike(btn) { btn.classList.toggle('liked'); }
+
+  function shareDetail(title) {
+    const url = location.href;
+    if (navigator.share) navigator.share({ title: 'Yohanes Auri — ' + title, url }).catch(()=>{});
+    else { navigator.clipboard && navigator.clipboard.writeText(url); }
+  }
+
+  // Gallery navigation (endless)
+  function galleryNav(dir) {
+    const slides = document.querySelectorAll('#detail-card .dm-gallery-slide');
+    const dots = document.querySelectorAll('#detail-card .dm-gallery-dots span');
+    if (!slides.length) return;
+    slides[galleryIdx].classList.remove('active');
+    dots[galleryIdx] && dots[galleryIdx].classList.remove('active');
+    galleryIdx = (galleryIdx + dir + slides.length) % slides.length;
+    slides[galleryIdx].classList.add('active');
+    dots[galleryIdx] && dots[galleryIdx].classList.add('active');
+  }
+
+  // Hero "More Info" → buka modal sesuai slide aktif
+  function openHeroInfo() {
+    const keys = ['ceo', 'born-to-lead', 'speaker'];
+    openDetail(keys[show.current] || 'ceo');
+  }
+
+  // ESC to close
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
 
   // WhatsApp form
   function sendWhatsApp(e) {
@@ -1977,170 +2183,11 @@
   }
 </script>
 
-<!-- CEO DETAIL MODAL -->
-<div class="detail-modal" id="ceo-modal">
-
-  <div class="detail-hero">
-    <img src="hero-img-1.webp?timestamp=1786017228955" alt="FLUX">
-    <div class="detail-hero-overlay"></div>
-    <button class="detail-close" onclick="closeModal('ceo-modal')">✕</button>
-  </div>
-
-  <div class="detail-body">
-    <h1 class="detail-title">FLUX</h1>
-    <div class="detail-meta">
-      <span class="meta-green">Indonesia's #1</span>
-      <span>2006–2026</span>
-      <span class="meta-badge">CEO SERIES</span>
-      <span class="meta-badge">5 Episodes</span>
-    </div>
-    <div class="detail-top10">
-      <span class="top10-icon">TOP 10</span>
-      <span>#1 Creative Holding in Indonesia Today</span>
-    </div>
-    <div class="detail-btn-row">
-      <button class="detail-btn-primary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-        Explore FCU
-      </button>
-      <button class="detail-btn-secondary" onclick="window.open('https://wa.me/6281315601928','_blank')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-        Hubungi / Kerja Sama
-      </button>
-    </div>
-    <p class="detail-desc">Dari kamar tidur 2006 ke holding kreatif pertama Indonesia. Flux Creative Universe bukan sekadar agensi — ini ekosistem di mana ide, distribusi, dan data bekerja sebagai satu sistem. Enam pilar. 200+ orang. Satu jaminan yang tidak ada duanya.</p>
-    <p class="detail-cast"><span>Founder:</span> Yohanes Auri &nbsp;·&nbsp; <span>Investor:</span> Deddy Corbuzier &nbsp;·&nbsp; <span>Partners:</span> 30+ Founders</p>
-
-    <div class="detail-actions">
-      <button class="detail-action-btn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
-        My List
-      </button>
-      <button class="detail-action-btn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/></svg>
-        Rate
-      </button>
-      <button class="detail-action-btn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        Share
-      </button>
-      <button class="detail-action-btn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29"/></svg>
-        Download
-      </button>
-    </div>
-
-    <div class="detail-tabs">
-      <div class="detail-tab active">Episodes</div>
-      <div class="detail-tab">More Like This</div>
-    </div>
-    <div class="detail-season">FCU Series · 5 Episodes</div>
-
-    <!-- Episode 1 -->
-    <div class="episode-item">
-      <div class="episode-thumb" style="background:linear-gradient(135deg,#1a2a4a,#0a0a1a);">
-        <div class="episode-play"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
-      </div>
-      <div class="episode-info">
-        <div class="episode-header">
-          <div class="episode-title">1. ORIGIN</div>
-          <div class="episode-duration">2006</div>
-        </div>
-        <div class="episode-desc">Before the empire, there was a bedroom. Satu laptop. Nol modal. Tidak ada plan B. Beginilah semuanya dimulai.</div>
-      </div>
-    </div>
-
-    <!-- Episode 2 -->
-    <div class="episode-item">
-      <div class="episode-thumb" style="background:linear-gradient(135deg,#2a1a0a,#0a0a1a);">
-        <div class="episode-play"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
-      </div>
-      <div class="episode-info">
-        <div class="episode-header">
-          <div class="episode-title">2. FLUX</div>
-          <div class="episode-duration">2020–2024</div>
-        </div>
-        <div class="episode-desc">Enam pilar. Satu holding. Indonesia's first creative group — creative agency, owned media, KOL, production house, activation, AI & tech.</div>
-      </div>
-    </div>
-
-    <!-- Episode 3 -->
-    <div class="episode-item">
-      <div class="episode-thumb" style="background:linear-gradient(135deg,#1a0a2a,#0a1a0a);">
-        <div class="episode-play"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
-      </div>
-      <div class="episode-info">
-        <div class="episode-header">
-          <div class="episode-title">3. THE INVESTOR</div>
-          <div class="episode-duration">2025</div>
-        </div>
-        <div class="episode-desc">One phone call. One decision. Everything changed. Ketika Deddy Corbuzier bilang: "Gue masuk."</div>
-      </div>
-    </div>
-
-    <!-- Episode 4 -->
-    <div class="episode-item">
-      <div class="episode-thumb" style="background:linear-gradient(135deg,#2a2a0a,#0a1a1a);">
-        <div class="episode-play"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
-      </div>
-      <div class="episode-info">
-        <div class="episode-header">
-          <div class="episode-title">4. THE GUARANTEE</div>
-          <div class="episode-duration">2025</div>
-        </div>
-        <div class="episode-desc">25 juta views minimum — atau klien tidak bayar. Satu keputusan yang mengubah industri kreatif Indonesia selamanya.</div>
-      </div>
-    </div>
-
-    <!-- Episode 5 -->
-    <div class="episode-item">
-      <div class="episode-thumb" style="background:linear-gradient(135deg,#0a2a1a,#1a0a2a);">
-        <div class="episode-play"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>
-      </div>
-      <div class="episode-info">
-        <div class="episode-header">
-          <div class="episode-title">5. CERTIFIED</div>
-          <div class="episode-duration">2025</div>
-        </div>
-        <div class="episode-desc">2.3 Billion views. Rekor MURI. Marketeers Heroes. Client renewals. Angka tidak bohong — dan ini baru permulaan.</div>
-      </div>
-    </div>
-
-  </div>
+<!-- DYNAMIC DETAIL MODAL -->
+<div class="detail-modal" id="detail-modal">
+  <div class="detail-backdrop" onclick="closeDetail()"></div>
+  <div class="detail-card" id="detail-card"><!-- injected --></div>
 </div>
 
-<!-- CREATOR STUB MODAL -->
-<div class="detail-modal" id="creator-modal">
-  <div class="detail-hero" style="background:linear-gradient(135deg,#1a0a2a,#2a0a1a);">
-    <div class="detail-hero-overlay"></div>
-    <button class="detail-close" onclick="closeModal('creator-modal')">✕</button>
-  </div>
-  <div class="detail-body">
-    <h1 class="detail-title">CREATOR</h1>
-    <div class="detail-meta">
-      <span class="meta-green">230K+ Followers</span>
-      <span>2023–2026</span>
-      <span class="meta-badge">CONTENT SERIES</span>
-    </div>
-    <p class="detail-desc" style="padding:20px 0;text-align:center;color:#777;">Halaman ini sedang disiapkan — coming next episode 🎬</p>
-  </div>
-</div>
-
-<!-- SPEAKER STUB MODAL -->
-<div class="detail-modal" id="speaker-modal">
-  <div class="detail-hero" style="background:linear-gradient(135deg,#2a1a0a,#1a1000);">
-    <div class="detail-hero-overlay"></div>
-    <button class="detail-close" onclick="closeModal('speaker-modal')">✕</button>
-  </div>
-  <div class="detail-body">
-    <h1 class="detail-title">STAGE</h1>
-    <div class="detail-meta">
-      <span class="meta-green">4,000+ Audience</span>
-      <span>20+ Events 2025</span>
-      <span class="meta-badge">SPEAKER SERIES</span>
-    </div>
-    <p class="detail-desc" style="padding:20px 0;text-align:center;color:#777;">Halaman ini sedang disiapkan — coming next episode 🎤</p>
-  </div>
-</div>
 </body>
 </html>
