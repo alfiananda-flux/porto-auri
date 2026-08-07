@@ -1607,7 +1607,7 @@
   </div>
   <div class="cards-scroll">
 
-    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Bisnis Hack'})">
+    <div class="card-speaker" onclick="openSpeaker(0)">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-1.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1618,7 +1618,7 @@
       </div>
     </div>
 
-    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Asian Tiger School'})">
+    <div class="card-speaker" onclick="openSpeaker(1)">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-2.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1629,7 +1629,7 @@
       </div>
     </div>
 
-    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Kalbe Nutrition'})">
+    <div class="card-speaker" onclick="openSpeaker(2)">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-3.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1640,7 +1640,7 @@
       </div>
     </div>
 
-    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Prudential Indonesia'})">
+    <div class="card-speaker" onclick="openSpeaker(3)">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-4.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1651,7 +1651,7 @@
       </div>
     </div>
 
-    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Binus'})">
+    <div class="card-speaker" onclick="openSpeaker(4)">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-5.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -1662,7 +1662,7 @@
       </div>
     </div>
 
-    <div class="card-speaker" onclick="openDetail('speaker', {title: 'Holywings Group'})">
+    <div class="card-speaker" onclick="openSpeaker(5)">
       <div class="card-speaker-img" style="background-image:url('speaker-moments-6.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
@@ -2080,6 +2080,26 @@
     };
   }
 
+  // Galeri foto per event speaker (image pertama tanpa suffix, lalu mulai dari -b)
+  const SPEAKER_EVENTS = [
+    { title: 'Bisnis Hack',          count: 6 },
+    { title: 'Asian Tiger School',   count: 5 },
+    { title: 'Kalbe Nutrition',      count: 4 },
+    { title: 'Prudential Indonesia', count: 3 },
+    { title: 'Binus',                count: 7 },
+    { title: 'Holywings Group',      count: 7 },
+  ];
+  function speakerGallery(n, count) {
+    const letters = ['b','c','d','e','f','g','h'];
+    const arr = [`speaker-moments-${n}.webp`];
+    for (let i = 0; i < count - 1; i++) arr.push(`speaker-moments-${n}-${letters[i]}.webp`);
+    return arr;
+  }
+  function openSpeaker(idx) {
+    const ev = SPEAKER_EVENTS[idx];
+    openDetail('speaker', { title: ev.title, gallery: speakerGallery(idx + 1, ev.count) });
+  }
+
   const ICON = {
     play: '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>',
     like: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>',
@@ -2177,9 +2197,12 @@
     document.getElementById('detail-modal').scrollTop = 0;
 
     clearInterval(galleryTimer);
-    if (d.type === 'speaker' && d.gallery) {
-      galleryTimer = setInterval(() => galleryNav(1), 4500);
-    }
+    if (d.type === 'speaker' && d.gallery) startGalleryAuto();
+  }
+
+  function startGalleryAuto() {
+    clearInterval(galleryTimer);
+    galleryTimer = setInterval(() => galleryNav(1, true), 4500);
   }
 
   function closeDetail() {
@@ -2223,7 +2246,7 @@
   }
 
   // Gallery navigation (endless)
-  function galleryNav(dir) {
+  function galleryNav(dir, fromAuto) {
     const slides = document.querySelectorAll('#detail-card .dm-gallery-slide');
     const dots = document.querySelectorAll('#detail-card .dm-gallery-dots span');
     if (!slides.length) return;
@@ -2232,6 +2255,8 @@
     galleryIdx = (galleryIdx + dir + slides.length) % slides.length;
     slides[galleryIdx].classList.add('active');
     dots[galleryIdx] && dots[galleryIdx].classList.add('active');
+    // Klik manual → reset durasi auto-slide dari awal
+    if (!fromAuto) startGalleryAuto();
   }
 
   // Hero "More Info" → buka modal sesuai slide aktif
