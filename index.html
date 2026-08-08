@@ -646,12 +646,14 @@
     left: 0; right: 0; bottom: 0;
     z-index: 3;
     padding: 40px 12px 12px;
+    text-align: center;
     background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 55%, transparent 100%);
   }
   .card-content-title {
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1.3;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    line-height: 1.1;
     margin-bottom: 3px;
     text-shadow: 0 2px 8px rgba(0,0,0,0.8);
   }
@@ -1065,6 +1067,7 @@
   .dm-gallery-dots span.active { background: #fff; width: 20px; border-radius: 4px; }
 
   .detail-body { padding: 6px 32px 40px; }
+  .detail-body-title { display: none; } /* judul di hero (desktop) */
   .detail-meta {
     display: flex;
     align-items: center;
@@ -1319,8 +1322,17 @@
   @media (max-width: 768px) {
     .detail-modal { padding: 0; }
     .detail-card { max-width: none; min-height: 100vh; border-radius: 0; margin: 0; }
-    .detail-hero-title { font-size: 34px; left: 20px; right: 20px; bottom: 18px; }
-    .detail-body { padding: 6px 20px 48px; }
+    /* Mobile: judul turun ke bawah hero, tidak overlap; overlay gradient tetap */
+    .detail-hero-title { display: none; }
+    .detail-body-title {
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 34px;
+      letter-spacing: 1.5px;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .detail-body { padding: 24px 20px 48px; } /* gap antara hero & teks */
     .detail-layout { grid-template-columns: 1fr; gap: 8px; }
     .detail-side { margin-top: 8px; }
     .episode-thumb { width: 120px; height: 68px; }
@@ -1563,7 +1575,7 @@
   <div class="cards-scroll">
 
     <div class="card-content" onclick="openDetail('born-to-lead')">
-      <div class="card-content-img" style="background-image:url('born-to-lead.webp?timestamp=1786099139447');background-size:cover;background-position:center;">
+      <div class="card-content-img" style="background-image:url('born-to-lead.webp?timestamp=1786185011352');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
@@ -1572,7 +1584,7 @@
     </div>
 
     <div class="card-content" onclick="openDetail('creative-talk')">
-      <div class="card-content-img" style="background-image:url('creative-talk.webp?timestamp=1786099139447');background-size:cover;background-position:center;">
+      <div class="card-content-img" style="background-image:url('creative-talk.webp?timestamp=1786185011352');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
@@ -1581,7 +1593,7 @@
     </div>
 
     <div class="card-content" onclick="openDetail('leadership')">
-      <div class="card-content-img" style="background-image:url('leadership.webp?timestamp=1786099139447');background-size:cover;background-position:center;">
+      <div class="card-content-img" style="background-image:url('leadership.webp?timestamp=1786185011352');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
@@ -1590,7 +1602,7 @@
     </div>
 
     <div class="card-content" onclick="openDetail('suhu-kreatif')">
-      <div class="card-content-img" style="background-image:url('suhu-kreatif.webp?timestamp=1786099139447');background-size:cover;background-position:center;">
+      <div class="card-content-img" style="background-image:url('suhu-kreatif.webp?timestamp=1786185011352');background-size:cover;background-position:center;">
         <div class="platform-badge platform-ig">IG</div>
       </div>
       <div class="card-content-info">
@@ -2101,7 +2113,7 @@
     });
     return {
       type: 'creator',
-      hero: `${slug}.webp`,
+      hero: `${slug}-ls.webp`,
       title, metaGreen: '230K+ Followers', year: 'Instagram · Reels',
       badges: ['CONTENT SERIES', `${n} Reels`],
       desc,
@@ -2212,6 +2224,7 @@
         <button class="detail-close" onclick="closeDetail()" aria-label="Tutup">✕</button>
       </div>
       <div class="detail-body">
+        <h1 class="detail-body-title">${d.title}</h1>
         <div class="detail-meta">
           <span class="meta-green">${d.metaGreen}</span>
           <span>${d.year}</span>
