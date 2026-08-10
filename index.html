@@ -651,9 +651,9 @@
   }
   .card-content-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
+    font-size: 32px;  /* 20px × 1.6 */
     letter-spacing: 1px;
-    line-height: 1.1;
+    line-height: 1.05;
     margin-bottom: 3px;
     text-shadow: 0 2px 8px rgba(0,0,0,0.8);
   }
@@ -1183,6 +1183,10 @@
     width: 84px;  /* 9:16 */
     height: 149px;
   }
+  .episode-thumb.landscape16 {
+    width: 150px;  /* 16:9 */
+    height: 84px;
+  }
   .episode-play {
     position: absolute;
     inset: 0;
@@ -1585,7 +1589,7 @@
 
     <div class="card-content" onclick="openDetail('creative-talk')">
       <div class="card-content-img" style="background-image:url('creative-talk.webp?timestamp=1786185011352');background-size:cover;background-position:center;">
-        <div class="platform-badge platform-ig">IG</div>
+        <div class="platform-badge platform-ig">YT</div>
       </div>
       <div class="card-content-info">
         <div class="card-content-title">Creative Talk</div>
@@ -2042,6 +2046,43 @@
   ];
   const ceoCta = { label: 'Kerja Sama', msg: 'Halo Auri, saya tertarik kerja sama dengan Flux Creative Universe.' };
 
+  // Episode khusus stage 1 (The Origin) — perjalanan Flux Design
+  const STORY1_EPISODES = [
+    { thumb: 'story-ceo-1-ls.webp', title: 'The Origin', meta: 'Episode 1', desc: 'Bermodal satu laptop dan sebersit keyakinan, Auri menyalakan Flux Design dari sudut kamar tidurnya. Tanpa tim, tanpa modal, hanya mimpi yang enggan padam.' },
+    { thumb: 'story-ceo-2-ls.webp', title: 'Kanvas Pertama', meta: 'Episode 2', desc: 'Dengan portofolio tipis dan tekad tebal, Auri mengetuk pintu sekolah demi sekolah, menawarkan buku tahunan sebagai kanvas pertama Flux Design.' },
+    { thumb: 'story-ceo-3-ls.webp', title: 'Tinta dan Kertas', meta: 'Episode 3', desc: 'Order demi order berdatangan: kalender, undangan, hingga packaging. Auri belajar bahwa desain sejati harus bertahan di dunia nyata, bukan sekadar layar.' },
+    { thumb: 'story-ceo-4-ls.webp', title: 'Sebuah Identitas', meta: 'Episode 4', desc: 'Dari garis dan warna lahir identitas. Logo Pasar Jaya dan MVP Entertainment menandai babak baru: Flux tak lagi mencetak, tetapi mendefinisikan sebuah merek.' },
+    { thumb: 'story-ceo-5-ls.webp', title: 'Panggung Besar', meta: 'Episode 5', desc: 'Ruang rapat besar menanti. Auri melangkah ke hadapan perbankan hingga maskapai, membawa mimpi kamar tidur untuk bersaing di panggung merek raksasa.' },
+  ];
+
+  // ── Data konten per kategori Content Creator ──
+  const LEADERSHIP_EPS = [
+    { title: 'Harga Sebuah Kepedulian', desc: 'Hampir dua dekade memimpin, ia sadar satu hal pahit: orang yang paling ia banggakan justru yang paling sering menorehkan luka yang tak pernah ia ceritakan.', url: 'https://www.instagram.com/reel/DbskAKpEz8z/' },
+    { title: 'Satu Kata, Seribu Luka', desc: 'Ratusan jam jadi tempat bersandar bisa runtuh hanya karena satu momen ia lebih tegas. Ternyata label "toxic" jauh lebih mudah menempel daripada rasa terima kasih.', url: 'https://www.instagram.com/reel/Dbnaj30kqyl/' },
+    { title: 'Yang Menguatkan, Diam-Diam Rapuh', desc: 'Ia menyelesaikan sepuluh masalah seminggu, tapi cuma diingat dari satu kesalahan. Di balik sosok penyemangat semua orang, ada kesedihan yang tak pernah boleh ia tunjukkan.', url: 'https://www.instagram.com/reel/DbVY1O8E88-/' },
+    { title: 'Empati yang Selalu Satu Arah', desc: 'Dunia kerja punya seribu nama untuk atasan yang gagal, tapi tak satu pun untuk tim yang lupa berterima kasih. Kapan terakhir ada yang menanyakan kabarnya?', url: 'https://www.instagram.com/reel/DbIgr3fCdey/' },
+    { title: 'Beban yang Tak Muat di Slip Gaji', desc: 'Puluhan juta terlihat besar, sampai kamu tahu itu bayaran untuk jadi samsak setiap kali keadaan berantakan. Ada harga yang tak pernah tertulis di angka.', url: 'https://www.instagram.com/reel/DbDXDTUleoo/' },
+  ];
+  const CREATIVE_TALK_EPS = [
+    { title: 'Bisnis atau Yayasan?', desc: 'Coach Ferly membongkar masalah nomor satu pengusaha Indonesia. Dari surat kecil anak yang merindukan ayahnya, sampai bendera raksasa yang dijahit di puncak Papua.', url: 'https://youtu.be/kkVj8maPV0Y' },
+    { title: 'Dari Gosip ke Dampak', desc: 'Dandi meninggalkan akun gosip demi media yang memberi manfaat. Bersama Flux, followersnya meledak 300 ribu dalam dua bulan. Tapi satu pertanyaan tersisa: di mana remmu?', url: 'https://youtu.be/rL04wrclV8I' },
+    { title: 'Ditanya Anak-Anak', desc: 'Untuk pertama kalinya, Auri duduk di kursi tamu menghadapi dua hakim paling jujur: anak-anaknya sendiri. Dari soal uang, bully masa kecil, sampai monster di rumah.', url: 'https://youtu.be/nKJt1fDPlQ8' },
+    { title: 'Uang Jajan Dua Puluh Lima Ribu', desc: 'Di balik senyum ceria Pak Yono tersimpan perjuangan seorang penjahit menguliahkan anaknya sampai jadi manajer. Rahasianya sederhana: jujur, tepat waktu, dan bersyukur.', url: 'https://youtu.be/5LhLd2T-KQk' },
+    { title: 'Sahabat yang Pernah Diblok', desc: 'Sambil menyantap bakmi, sahabat lama membongkar rahasia Auri: dari party masa muda, blokir berkali-kali, sampai pertemanan yang pulih di hari pernikahan.', url: 'https://youtu.be/3N0Rfa3C2BI' },
+  ];
+  const SUHU_EPS = [
+    { title: 'Sang Suhu Kreatif Turun Gunung', desc: 'Seorang murid memohon diajari teknik rahasia yang mampu menghentikan jempol dari scrolling. Di balik hutan sunyi, sang master bersiap membuka ilmunya.', url: 'https://www.instagram.com/reel/DW0_3csFDt4/' },
+    { title: 'Awal dari Sebuah Ajaran', desc: 'Billboard, sosial media, konten viral, semua ditepis sang Suhu satu per satu. Rahasia menang bukan soal konten, tapi soal atensi yang bikin orang berhenti scrolling.', url: 'https://www.instagram.com/reel/DW6JXBaD0kF/' },
+    { title: 'Musuh Terbesar Bernama Burnout', desc: 'Sang murid menantang lawan yang tak pernah bisa dikalahkan dengan kerja keras. Rahasianya ternyata sederhana: tahu kapan harus berhenti dan pergi healing.', url: 'https://www.instagram.com/reel/DXJlmBpDIMI/' },
+    { title: 'Teknik Terlarang yang Harus Ditinggalkan', desc: 'Sang murid tergoda jalan pintas yang bikin semua lebih cepat dan mudah. Tapi sang Suhu memperingatkan: sekali plagiat dipakai, mindset rusak dan kreativitas mati.', url: 'https://www.instagram.com/reel/DXjV8yJlH0u/' },
+    { title: 'Class in Session: Jangan Asal Viral', desc: 'Kali ini muridnya belajar melawan pola pikir klien yang keliru. Sang Suhu menegaskan, viral tanpa arah cuma bikin nyasar dan semua kerja jadi sia-sia.', url: 'https://www.instagram.com/reel/DXto2DsEYgq/' },
+    { title: 'Bayaran Kecil, Portofolio Kecil', desc: 'Dua puluh logo lima puluh ribu terdengar mustahil. Tapi sang Suhu justru mengajarkan: beri lebih dari bayaranmu, dan cepat atau lambat nilaimu akan naik sendiri.', url: 'https://www.instagram.com/reel/DX1fYGLzWnL/' },
+    { title: 'Skandal di Balik Kepercayaan', desc: 'Seorang muridnya kabur membawa tabungan 20 tahun milik klien. Sang Suhu memilih bertanggung jawab, karena pemimpin menanggung yang benar sekaligus yang salah.', url: 'https://www.instagram.com/reel/DX_q4BrgjCK/' },
+    { title: 'Yang Kecil Justru Menang', desc: 'Seorang pengusaha bangkrut setelah menghabiskan uang untuk kampanye besar-besaran. Sang Suhu mengungkap rahasianya: yang menang bukan yang mahal, tapi yang menyentuh hati.', url: 'https://www.instagram.com/reel/DYHZJ7LIBEa/' },
+    { title: 'Jurus Meja Makan', desc: 'Presentasi dan pitch berkali-kali tetap gagal meyakinkan klien. Sang Suhu justru menutup deal sambil makan bareng, karena orang percaya setelah merasa nyaman.', url: 'https://www.instagram.com/reel/DYR5wMJzy2N/' },
+    { title: 'Hadapi Satu per Satu', desc: 'Muridnya dikeroyok banyak deadline sekaligus tanpa jeda. Sang Suhu turun tangan dengan satu prinsip: jangan biarkan mereka menyerang bersamaan, taklukkan satu demi satu.', url: 'https://www.instagram.com/reel/DYZbFJxTRRb/' },
+  ];
+
   const DETAILS = {
     // ── STORY OF A CEO — konten per stage ──
     story1: {
@@ -2050,7 +2091,7 @@
       metaGreen: 'The Origin', year: '2006', badges: ['STAGE 1', 'Origin'],
       desc: 'Semua berawal dari satu kamar tidur di 2006. Yohanes Auri memulai Flux Design dengan satu laptop, satu ide, dan nol modal. Tidak ada tim, tidak ada investor — hanya keyakinan bahwa kreativitas bisa jadi bisnis.',
       side: [['Tahun', '2006'], ['Fase', 'Origin'], ['Brand', 'Flux Design'], ['Modal', 'Nol']],
-      cta: ceoCta, episodes: CEO_EPISODES,
+      cta: ceoCta, episodes: STORY1_EPISODES,
     },
     story2: {
       type: 'story', hero: 'story-ceo-2-ls.webp',
@@ -2078,9 +2119,15 @@
     },
     // ── CONTENT CREATOR CATEGORIES (episodes = portrait 9:16, redirect ke social) ──
     'born-to-lead': creatorCat('Born To Lead', 'Seri konten kepemimpinan — mindset & keputusan seorang founder.', 'born-to-lead', 4),
-    'creative-talk': creatorCat('Creative Talk', 'Obrolan kreatif Auri bareng para praktisi & founder.', 'creative-talk', 3),
-    'leadership': creatorCat('Leadership', 'Prinsip memimpin tim 200+ orang di ekosistem kreatif.', 'leadership', 4),
-    'suhu-kreatif': creatorCat('Suhu Kreatif', 'Bongkar framework bikin konten viral yang bisa ditiru.', 'suhu-kreatif', 4),
+    'leadership': creatorSeries({ title: 'Leadership', slug: 'leadership', platform: 'Instagram · Reels',
+      desc: 'Selama hampir 20 tahun memimpin, seorang leader membongkar sisi yang jarang terlihat: kecewa yang dipendam, label "toxic" yang menghapus segalanya, dan beban yang tak pernah muncul di slip gaji. Sebuah pengingat jujur bahwa di balik jabatan, leader juga manusia.',
+      episodes: LEADERSHIP_EPS }),
+    'creative-talk': creatorSeries({ title: 'Creative Talk', slug: 'creative-talk', platform: 'YouTube',
+      desc: 'Dalam seri obrolan Creative Talk, seorang founder agensi kreatif duduk bersama para tamu tak terduga, mulai dari coach bisnis, penjahit berusia 64 tahun, sahabat lama, hingga anak-anaknya sendiri. Dari ruang rapat sampai meja makan, terungkap kisah nyata soal bisnis, keluarga, dan arti sukses.',
+      episodes: CREATIVE_TALK_EPS, ratio: '16:9' }),
+    'suhu-kreatif': creatorSeries({ title: 'Suhu Kreatif', slug: 'suhu-kreatif', platform: 'Instagram · Reels',
+      desc: 'Di sebuah perguruan bela diri kreatif, seorang Suhu menempa murid-muridnya bukan lewat jurus biasa, melainkan pelajaran keras soal atensi, plagiat, burnout, dan kepercayaan yang hancur. Satu per satu mereka datang mencari jawaban, dan menemukan bahwa ide terbaik lahir dari keberanian.',
+      episodes: SUHU_EPS }),
     // ── SPEAKER (hero = slideshow, no episodes) ──
     speaker: {
       type: 'speaker',
@@ -2120,6 +2167,27 @@
       side: [['Platform', 'Instagram Reels'], ['Kreator', 'Yohanes Auri'], ['Kategori', title]],
       cta: { label: 'Ajak Collab', msg: `Halo Auri, saya tertarik collab untuk konten ${title}.` },
       episodes: eps,
+    };
+  }
+
+  // Builder data-driven: poster = {slug}-content-{i}.webp, tanpa views
+  function creatorSeries(cfg) {
+    const eps = cfg.episodes.map((e, i) => ({
+      poster: `${cfg.slug}-content-${i + 1}.webp`,
+      title: e.title,
+      desc: e.desc,
+      link: e.url,
+    }));
+    return {
+      type: 'creator',
+      hero: `${cfg.slug}-ls.webp`,
+      title: cfg.title, metaGreen: '230K+ Followers', year: cfg.platform,
+      badges: ['CONTENT SERIES', `${eps.length} Konten`],
+      desc: cfg.desc,
+      side: [['Platform', cfg.platform], ['Kreator', 'Yohanes Auri'], ['Kategori', cfg.title]],
+      cta: { label: 'Ajak Collab', msg: `Halo Auri, saya tertarik collab untuk konten ${cfg.title}.` },
+      episodes: eps,
+      epRatio: cfg.ratio || '9:16',
     };
   }
 
@@ -2194,12 +2262,14 @@
     // episodes
     let epsHtml = '';
     if (hasEps && d.type === 'creator') {
-      epsHtml = `<div class="detail-eps-heading">Reels</div>
-      ${d.episodes.map(e=>`
+      const thumbCls = d.epRatio === '16:9' ? 'landscape16' : 'portrait';
+      epsHtml = `<div class="detail-eps-heading">Konten</div>
+      ${d.episodes.map((e,i)=>`
         <div class="episode-item" onclick="window.open('${e.link}','_blank')">
-          <div class="episode-thumb portrait" style="background-image:url('${e.poster}${TS}')"></div>
+          <div class="episode-num">${i+1}</div>
+          <div class="episode-thumb ${thumbCls}" style="background-image:url('${e.poster}${TS}')"></div>
           <div class="episode-info">
-            <div class="episode-header"><div class="episode-title">${e.title}</div><div class="episode-duration">${e.views}</div></div>
+            <div class="episode-header"><div class="episode-title">${e.title}</div></div>
             <div class="episode-desc">${e.desc}</div>
           </div>
         </div>`).join('')}`;
