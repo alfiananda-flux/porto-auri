@@ -62,6 +62,31 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: #fff; }
+  .nav-right { display: flex; align-items: center; gap: 22px; }
+  /* Language toggle (Netflix style) */
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .lang-toggle button {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 5px 11px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .lang-toggle button:hover { color: #fff; }
+  .lang-toggle button.active { background: #fff; color: #000; }
+  .mobile-lang { display: none; margin-top: 28px; }
+  .mobile-lang .lang-toggle button { font-size: 15px; padding: 9px 20px; }
 
   /* ── BURGER MENU (mobile, Netflix style) ── */
   .nav-burger {
@@ -913,6 +938,8 @@
     nav { padding: 14px 16px; gap: 8px; }
     .nav-links { display: none; }
     .nav-burger { display: flex; }
+    .nav-right .lang-toggle { display: none; } /* pindah ke sidebar menu */
+    .mobile-lang { display: block; }
     .hero-content { padding: 0 20px; }
     .hero-title img { max-height: 6.25rem; /* 100px */ max-width: 80vw; }
     /* Overlay dari bawah ke atas (bukan dari kiri) biar info di bawah hero tetap terbaca */
@@ -1188,8 +1215,10 @@
     height: 84px;
   }
 
-  /* ── Course (Born To Lead) — accordion tepat di bawah deskripsi ── */
-  .course-item { align-items: flex-start; } /* selain hover, pakai gaya episode-item */
+  /* ── Course (Born To Lead) — accordion di bawah keseluruhan episode ── */
+  .course-item { margin-bottom: 12px; }
+  .course-item .episode-item { align-items: flex-start; } /* poster sejajar title */
+  .course-item .episode-num { align-self: center; }        /* nomor centered vertikal */
   .ep-label {
     display: inline-block;
     font-size: 10px;
@@ -1203,11 +1232,12 @@
     vertical-align: middle;
   }
   .course-acc-toggle {
-    display: inline-flex;
+    width: 100%;
+    display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-    padding: 8px 12px;
+    justify-content: space-between;
+    margin-top: 4px;
+    padding: 11px 16px;
     background: rgba(255,255,255,0.05);
     border: 1px solid #2a2a2a;
     border-radius: 6px;
@@ -1401,6 +1431,8 @@
     .detail-layout { grid-template-columns: 1fr; gap: 8px; }
     .detail-side { margin-top: 8px; }
     .episode-thumb { width: 120px; height: 68px; }
+    /* meta boleh turun ke baris berikutnya biar judul episode tetap 1 baris */
+    .episode-header { flex-wrap: wrap; }
   }
 
   .footer-cta { max-width: 760px; margin: 0 auto 48px; text-align: center; }
@@ -1448,23 +1480,35 @@
 <!-- NAVBAR -->
 <nav id="navbar">
   <img src="logo.webp?timestamp=1786017228955" alt="AURIFLUX" style="height:44px;width:auto;">
-  <ul class="nav-links">
-    <li><a href="#" onclick="scrollToRow(0); return false;">CEO Story</a></li>
-    <li><a href="#" onclick="scrollToRow(1); return false;">Content</a></li>
-    <li><a href="#" onclick="scrollToRow(2); return false;">Speaker</a></li>
-    <li><a href="#" onclick="openDetail('ceo'); return false;">FCU</a></li>
-  </ul>
-  <button class="nav-burger" id="nav-burger" onclick="toggleMobileMenu()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#" onclick="scrollToRow(0); return false;" data-t>CEO Story</a></li>
+      <li><a href="#" onclick="scrollToRow(1); return false;" data-t>Content</a></li>
+      <li><a href="#" onclick="scrollToRow(2); return false;" data-t>Speaker</a></li>
+      <li><a href="#" onclick="openDetail('ceo'); return false;" data-t>FCU</a></li>
+    </ul>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" data-lang="id" onclick="setLang('id')">ID</button>
+      <button type="button" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="nav-burger" id="nav-burger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- MOBILE MENU (Netflix style) -->
 <div class="mobile-menu" id="mobile-menu">
-  <a href="#" onclick="mobileNav(() => scrollToRow(0)); return false;">CEO Story</a>
-  <a href="#" onclick="mobileNav(() => scrollToRow(1)); return false;">Content</a>
-  <a href="#" onclick="mobileNav(() => scrollToRow(2)); return false;">Speaker</a>
-  <a href="#" onclick="mobileNav(() => openDetail('ceo')); return false;">FCU</a>
+  <a href="#" onclick="mobileNav(() => scrollToRow(0)); return false;" data-t>CEO Story</a>
+  <a href="#" onclick="mobileNav(() => scrollToRow(1)); return false;" data-t>Content</a>
+  <a href="#" onclick="mobileNav(() => scrollToRow(2)); return false;" data-t>Speaker</a>
+  <a href="#" onclick="mobileNav(() => openDetail('ceo')); return false;" data-t>FCU</a>
+  <div class="mobile-lang">
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" data-lang="id" onclick="setLang('id')">ID</button>
+      <button type="button" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
 </div>
 
 <!-- HERO -->
@@ -1498,9 +1542,7 @@
     </div>
     <h1 class="hero-title" id="hero-title"><img src="hero-title-1.webp?timestamp=1786017228955" alt="YOHANES AURI"></h1>
     <div class="hero-subtitle-role" id="hero-role">Flux Creative Universe</div>
-    <p class="hero-desc" id="hero-desc">
-      Dari kamar tidur 2006 ke holding kreatif pertama Indonesia. Membangun FCU dari nol jadi 6 pilar bisnis dengan 200+ orang, dan sistem guarantee yang tidak ada duanya.
-    </p>
+    <p class="hero-desc" id="hero-desc">Dari kamar tidur 2006 ke holding kreatif pertama Indonesia. Membangun FCU dari nol jadi 6 pilar bisnis dengan 200+ orang, dan sistem guarantee yang tidak ada duanya.</p>
     <div class="hero-tags" id="hero-tags">
       <span class="tag">CEO</span>
       <span class="tag">Investor</span>
@@ -1510,11 +1552,11 @@
     <div class="hero-actions">
       <button class="btn-primary" onclick="scrollToSection()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-        Explore
+        <span data-t>Explore</span>
       </button>
       <button class="btn-secondary" onclick="openHeroInfo()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-linecap="round"/></svg>
-        More Info
+        <span data-t>More Info</span>
       </button>
     </div>
   </div>
@@ -1538,19 +1580,19 @@
 <div class="stats-bar">
   <div class="stat-item">
     <div class="stat-num">2.3B</div>
-    <div class="stat-label">Organic Views (MURI)</div>
+    <div class="stat-label" data-t>Organic Views (MURI)</div>
   </div>
   <div class="stat-item">
     <div class="stat-num">200+</div>
-    <div class="stat-label">Tim di FCU</div>
+    <div class="stat-label" data-t>Tim di FCU</div>
   </div>
   <div class="stat-item">
     <div class="stat-num">230K+</div>
-    <div class="stat-label">Followers Personal</div>
+    <div class="stat-label" data-t>Followers Personal</div>
   </div>
   <div class="stat-item">
     <div class="stat-num">30+</div>
-    <div class="stat-label">Partners / Founders</div>
+    <div class="stat-label" data-t>Partners / Founders</div>
   </div>
 </div>
 
@@ -1559,10 +1601,9 @@
   <div class="row-header">
     <div class="top10-badge">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-      FCU STORY
+      <span data-t>FCU STORY</span>
     </div>
-    <span class="row-title">The Story of a <span>CEO</span></span>
-    <span class="see-all">See All ›</span>
+    <span class="row-title" data-t-html>The Story of a <span>CEO</span></span>
   </div>
   <div class="cards-scroll">
 
@@ -1570,9 +1611,9 @@
       <div class="card-story-num"><svg viewBox="0 0 85 148" fill="none" opacity="0.5" preserveAspectRatio="xMaxYMid meet"><path fill-rule="evenodd" clip-rule="evenodd" d="M29.75 47.0104V13.6887L86.59 0.138672V148.139H47.1763V42.4542L29.75 47.0104ZM49.4806 39.5094V145.875H84.2857V3.01729L32.0543 15.4686V44.0655L49.4806 39.5094Z" fill="url(#num-grad-1)"/><defs><linearGradient id="num-grad-1" x1="50.0996" y1="57" x2="85.0824" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient></defs></svg></div>
       <div class="card-story-img" style="background-image:url('story-ceo-1.webp?timestamp=1786095163558');background-size:cover;background-position:center;"></div>
       <div class="card-story-info">
-        <div class="card-story-label">Origin · Flux Design</div>
-        <div class="card-story-title">Mulai dari Kamar Tidur</div>
-        <div class="card-story-sub">Story Idenyaflux berawal dari Flux Design — satu kamar, satu ide.</div>
+        <div class="card-story-label" data-t>Origin · Flux Design</div>
+        <div class="card-story-title" data-t>Mulai dari Kamar Tidur</div>
+        <div class="card-story-sub" data-t>Story Idenyaflux berawal dari Flux Design — satu kamar, satu ide.</div>
       </div>
     </div>
 
@@ -1580,9 +1621,9 @@
       <div class="card-story-num"><svg viewBox="0 0 85 148" fill="none" opacity="0.45" preserveAspectRatio="xMaxYMid meet"><path fill-rule="evenodd" clip-rule="evenodd" d="M110.771 23.6005C106.244 16.6041 99.9332 11.1854 91.8394 7.34424C83.7456 3.50309 74.5543 1.58252 64.2655 1.58252C53.9767 1.58252 44.854 3.57168 36.8973 7.55001C28.9407 11.5283 22.493 17.0157 17.5544 24.0121C13.1833 30.3814 10.3471 37.5466 9.04575 45.5077C8.91765 46.2914 8.80441 47.0829 8.70605 47.882H44.9226C45.8829 44.3153 47.872 41.3658 50.8901 39.0337C53.9081 36.5644 58.0236 35.3297 63.2366 35.3297C68.4496 35.3297 72.3593 36.633 74.9658 39.2395C77.7095 41.8459 79.0813 45.0698 79.0813 48.9109C79.0813 52.4777 78.0524 55.7015 75.9947 58.5824C74.0741 61.4632 70.5759 65.0986 65.5001 69.4885L10.3523 117.228V148.095H118.796V115.582H62.4135L90.6048 92.7411C95.5434 88.7628 100.07 84.5787 104.186 80.1888C108.301 75.7989 111.594 70.9975 114.063 65.7845C116.532 60.5715 117.767 54.6726 117.767 48.0878C117.767 38.7593 115.435 30.5969 110.771 23.6005ZM116.422 117.957H55.7114L89.1153 90.8921C93.9724 86.9794 98.4177 82.87 102.454 78.5649C106.408 74.347 109.558 69.7489 111.917 64.7681C114.216 59.915 115.393 54.3709 115.393 48.0878C115.393 39.1748 113.171 31.4818 108.795 24.9176L108.786 24.904L108.777 24.8904C104.508 18.292 98.5481 13.1562 90.8214 9.48927C83.0898 5.82 74.2544 3.95685 64.2655 3.95685C54.2875 3.95685 45.5381 5.88422 37.9591 9.67368C30.3437 13.4814 24.2058 18.7109 19.5032 25.3685C15.415 31.3296 12.7273 38.0322 11.4529 45.5077H43.1925C44.4252 42.2094 46.5138 39.4217 49.4124 37.1749C52.9756 34.2718 57.6742 32.9554 63.2366 32.9554C68.803 32.9554 73.4151 34.3454 76.623 37.5389C79.832 40.5978 81.4557 44.4401 81.4557 48.9109C81.4557 52.9557 80.2819 56.6521 77.9491 59.9311C75.8419 63.0803 72.1524 66.8743 67.0533 71.2843L12.7266 118.313V145.72H116.422V117.957Z" fill="url(#num-grad-2)"/><defs><linearGradient id="num-grad-2" x1="48.4733" y1="57" x2="83.0862" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient></defs></svg></div>
       <div class="card-story-img" style="background-image:url('story-ceo-2.webp?timestamp=1786095163558');background-size:cover;background-position:center;"></div>
       <div class="card-story-info">
-        <div class="card-story-label">The Idea</div>
-        <div class="card-story-title">Buat Idenyaflux</div>
-        <div class="card-story-sub">Ide kecil yang tumbuh jadi identitas kreatif.</div>
+        <div class="card-story-label" data-t>The Idea</div>
+        <div class="card-story-title" data-t>Buat Idenyaflux</div>
+        <div class="card-story-sub" data-t>Ide kecil yang tumbuh jadi identitas kreatif.</div>
       </div>
     </div>
 
@@ -1590,9 +1631,9 @@
       <div class="card-story-num"><svg viewBox="0 0 85 148" fill="none" opacity="0.4" preserveAspectRatio="xMaxYMid meet"><path fill-rule="evenodd" clip-rule="evenodd" d="M50.3739 112.913C46.9032 111.178 44.6338 108.709 43.5659 105.505H7.12305C7.23052 106.307 7.35336 107.098 7.49156 107.879C9.58478 119.708 15.202 129.128 24.3433 136.141C34.0881 143.616 47.1701 147.354 63.5895 147.354C74.0017 147.354 83.2125 145.619 91.222 142.148C99.3649 138.677 105.706 133.805 110.244 127.531C114.917 121.123 117.253 113.514 117.253 104.704C117.253 97.7623 115.317 91.2213 111.446 85.0807C108.128 79.8177 103.29 75.8785 96.9317 73.2632C95.8717 72.8271 94.7693 72.4279 93.6248 72.0654C94.7469 71.639 95.8237 71.1768 96.8553 70.6787C101.96 68.2141 105.955 64.8718 108.843 60.652C112.313 55.4459 114.049 49.639 114.049 43.2315C114.049 34.8216 111.779 27.5464 107.241 21.4058C102.702 15.1318 96.6283 10.2594 89.0194 6.78863C81.4104 3.31789 73.0005 1.58252 63.7897 1.58252C48.5718 1.58252 36.2239 5.32025 26.7461 12.7957C17.8739 19.7935 11.9261 29.0138 8.90271 40.4567C8.69634 41.2378 8.50359 42.0292 8.32446 42.831H43.5659C44.5003 40.1612 46.5027 37.9586 49.573 36.2233C52.6433 34.4879 56.381 33.6202 60.7862 33.6202C65.7253 33.6202 69.73 34.6214 72.8003 36.6237C75.8706 38.4926 77.4057 41.4961 77.4057 45.6343C77.4057 49.3721 75.8706 52.5091 72.8003 55.0454C69.8635 57.4482 65.9255 58.6496 60.9864 58.6496H44.5671V89.2857H62.388C67.3272 89.2857 71.3986 90.3536 74.6024 92.4894C77.9397 94.6253 79.6083 97.7623 79.6083 101.901C79.6083 106.706 78.0064 110.177 74.8026 112.313C71.7324 114.315 67.7277 115.316 62.7885 115.316C58.1164 115.316 53.9782 114.515 50.3739 112.913ZM46.9414 86.9113H62.388C67.6555 86.9113 72.2137 88.0497 75.9011 90.5016C79.9435 93.0968 81.9826 97.0036 81.9826 101.901C81.9826 107.277 80.1504 111.601 76.1197 114.288L76.1097 114.295L76.0997 114.302C72.531 116.629 68.0323 117.691 62.7885 117.691C57.8446 117.691 53.3682 116.843 49.4096 115.083L49.3603 115.061L49.3121 115.037C45.938 113.35 43.4311 110.969 41.9652 107.879H9.90441C11.9566 118.965 17.2547 127.71 25.7885 134.257C34.9984 141.322 47.5176 144.98 63.5895 144.98C73.7385 144.98 82.6182 143.288 90.2779 139.969L90.2844 139.966L90.291 139.964C98.095 136.637 104.069 132.016 108.321 126.139L108.326 126.132C112.669 120.175 114.878 113.07 114.878 104.704C114.878 98.2315 113.081 92.1266 109.437 86.347C105.911 80.7543 100.471 76.7241 92.908 74.329L86.4039 72.2693L92.7814 69.8459C99.0729 67.4552 103.72 63.9282 106.875 59.3232C110.074 54.52 111.674 49.1774 111.674 43.2315C111.674 35.2754 109.537 28.5075 105.331 22.8171L105.324 22.8073L105.317 22.7975C101.038 16.883 95.2998 12.263 88.034 8.94885C80.7645 5.63296 72.6953 3.95685 63.7897 3.95685C48.9637 3.95685 37.1763 7.59306 28.2165 14.66C19.9305 21.1954 14.3092 29.7625 11.3619 40.4567H42.0064C43.3326 37.8682 45.5285 35.7819 48.4047 34.1562C51.9098 32.1751 56.0722 31.2459 60.7862 31.2459C66.015 31.2459 70.5029 32.3015 74.0667 34.615C77.9412 36.9883 79.78 40.8291 79.78 45.6343C79.78 50.1317 77.8878 53.9223 74.3125 56.8759L74.3081 56.8795L74.3038 56.883C70.8292 59.7259 66.3063 61.024 60.9864 61.024H46.9414V86.9113Z" fill="url(#num-grad-3)"/><defs><linearGradient id="num-grad-3" x1="53.4701" y1="57" x2="88.7906" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient></defs></svg></div>
       <div class="card-story-img" style="background-image:url('story-ceo-3.webp?timestamp=1786438423440');background-size:cover;background-position:center;"></div>
       <div class="card-story-info">
-        <div class="card-story-label">Founding · FCU</div>
-        <div class="card-story-title">Flux Creative Universe</div>
-        <div class="card-story-sub">Bertemu para partner, lahir holding kreatif.</div>
+        <div class="card-story-label" data-t>Founding · FCU</div>
+        <div class="card-story-title" data-t>Flux Creative Universe</div>
+        <div class="card-story-sub" data-t>Bertemu para partner, lahir holding kreatif.</div>
       </div>
     </div>
 
@@ -1600,9 +1641,9 @@
       <div class="card-story-num"><svg viewBox="0 0 85 148" fill="none" opacity="0.35" preserveAspectRatio="xMaxYMid meet"><path fill-rule="evenodd" clip-rule="evenodd" d="M108.314 117.932H128.04V86.7518H108.314V0H69.7103L3.95703 88.2366V117.932H70.7708V147.627H108.314V117.932ZM105.939 145.252V115.557H125.665V89.1262H105.939V2.37433H70.902L6.33137 89.024V115.557H73.1451V145.252H105.939ZM37.186 89.1262L73.1451 41.0044V89.1262H37.186ZM70.7708 86.7518H41.9242L70.7708 48.1483V86.7518Z" fill="url(#num-grad-4)"/><defs><linearGradient id="num-grad-4" x1="43.542" y1="57" x2="88.6544" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient></defs></svg></div>
       <div class="card-story-img" style="background-image:url('story-ceo-4.webp?timestamp=1786095163558');background-size:cover;background-position:center;"></div>
       <div class="card-story-info">
-        <div class="card-story-label">Investor</div>
-        <div class="card-story-title">Di-invest Deddy Corbuzier</div>
-        <div class="card-story-sub">Validasi terbesar untuk FCU.</div>
+        <div class="card-story-label" data-t>Investor</div>
+        <div class="card-story-title" data-t>Di-invest Deddy Corbuzier</div>
+        <div class="card-story-sub" data-t>Validasi terbesar untuk FCU.</div>
       </div>
     </div>
 
@@ -1614,24 +1655,24 @@
   <div class="row-header">
     <div class="top10-badge">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-      CONTENT
+      <span data-t>CONTENT</span>
     </div>
-    <span class="row-title">Content <span>Creator</span></span>
+    <span class="row-title" data-t-html>Content <span>Creator</span></span>
     <div class="row-ctas">
-      <span class="row-ctas-label">Konten lainnya</span>
-      <span class="see-all">
+      <span class="row-ctas-label" data-t>Konten lainnya</span>
+      <span class="see-all" onclick="window.open('https://www.linkedin.com/in/yohanesauriflux/','_blank')" style="cursor:pointer">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
         yohanesauri
       </span>
-      <span class="see-all">
+      <span class="see-all" onclick="window.open('https://www.youtube.com/@CreativeTalkAuri','_blank')" style="cursor:pointer">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.3 2.8 12 2.8 12 2.8s-4.3 0-6.8.1c-.6.1-1.9.1-3 1.3C1.3 5 1 7 1 7S.7 9.1.7 11.3v2c0 2.1.3 4.2.3 4.2s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.3 21.6 12 21.7 12 21.7s4.3 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.1.3-4.2v-2C23.3 9.1 23 7 23 7zM9.7 15.5V8.4l8 3.6-8 3.5z"/></svg>
         yohanesauri
       </span>
-      <span class="see-all">
+      <span class="see-all" onclick="window.open('https://www.instagram.com/yohanesauri/','_blank')" style="cursor:pointer">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         yohanesauri
       </span>
-      <span class="see-all">
+      <span class="see-all" onclick="window.open('https://www.threads.com/@yohanesauriflux','_blank')" style="cursor:pointer">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32l-1.757-1.18c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.321.142 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z"/></svg>
         yohanesauri
       </span>
@@ -1683,10 +1724,10 @@
   <div class="row-header">
     <div class="top10-badge">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10a7 7 0 0 1-14 0H3a9 9 0 0 0 8 8.94V21H9v2h6v-2h-2v-2.06A9 9 0 0 0 21 10z"/></svg>
-      STAGE
+      <span data-t>STAGE</span>
     </div>
-    <span class="row-title">Top 10 <span>Speaker Moments</span></span>
-    <span class="see-all">Booking ›</span>
+    <span class="row-title" data-t-html>Top 10 <span>Speaker Moments</span></span>
+    <span class="see-all" onclick="document.querySelector('.footer-cta').scrollIntoView({behavior:'smooth',block:'center'})" data-t>Booking ›</span>
   </div>
   <div class="cards-scroll">
 
@@ -1694,10 +1735,10 @@
       <div class="card-speaker-img" style="background-image:url('speaker-moments-1.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">Creative Hack Marketing Secret</div>
-        <div class="card-speaker-meta"><span class="audience-badge">150 Peserta</span></div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Framework marketing & viral content</div>
-          <div class="company">BisnisHack</div></div></div>
+        <div class="card-speaker-title" data-t>Creative Hack Marketing Secret</div>
+        <div class="card-speaker-meta"><span class="audience-badge" data-t>150 Peserta</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic" data-t>Framework marketing & viral content</div>
+          <div class="company" data-t>BisnisHack</div></div></div>
       </div>
     </div>
 
@@ -1705,10 +1746,10 @@
       <div class="card-speaker-img" style="background-image:url('speaker-moments-2.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">Marketing Manager Bootcamp</div>
-        <div class="card-speaker-meta"><span class="audience-badge">100+ Manager</span></div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Creative thinking & strategi marketing</div>
-          <div class="company">Asian Tiger School</div></div></div>
+        <div class="card-speaker-title" data-t>Marketing Manager Bootcamp</div>
+        <div class="card-speaker-meta"><span class="audience-badge" data-t>100+ Manager</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic" data-t>Creative thinking & strategi marketing</div>
+          <div class="company" data-t>Asian Tiger School</div></div></div>
       </div>
     </div>
 
@@ -1716,10 +1757,10 @@
       <div class="card-speaker-img" style="background-image:url('speaker-moments-3.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">High Impact Campaign</div>
-        <div class="card-speaker-meta"><span class="audience-badge">Multi-Brand</span></div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Momentum viral brand kesehatan</div>
-          <div class="company">Kalbe Nutritionals</div></div></div>
+        <div class="card-speaker-title" data-t>High Impact Campaign</div>
+        <div class="card-speaker-meta"><span class="audience-badge" data-t>Multi-Brand</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic" data-t>Momentum viral brand kesehatan</div>
+          <div class="company" data-t>Kalbe Nutritionals</div></div></div>
       </div>
     </div>
 
@@ -1727,10 +1768,10 @@
       <div class="card-speaker-img" style="background-image:url('speaker-moments-4.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">Agency Leaders Conference</div>
-        <div class="card-speaker-meta"><span class="audience-badge">±1.000 Leader</span></div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Berpikir Besar & Berani Kreatif</div>
-          <div class="company">Prudential</div></div></div>
+        <div class="card-speaker-title" data-t>Agency Leaders Conference</div>
+        <div class="card-speaker-meta"><span class="audience-badge" data-t>±1.000 Leader</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic" data-t>Berpikir Besar & Berani Kreatif</div>
+          <div class="company" data-t>Prudential</div></div></div>
       </div>
     </div>
 
@@ -1738,10 +1779,10 @@
       <div class="card-speaker-img" style="background-image:url('speaker-moments-5.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">How to Be an Annoying Leader</div>
-        <div class="card-speaker-meta"><span class="audience-badge">Institusi</span></div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Leadership dari sudut pandang tak biasa</div>
-          <div class="company">Binus</div></div></div>
+        <div class="card-speaker-title" data-t>How to Be an Annoying Leader</div>
+        <div class="card-speaker-meta"><span class="audience-badge" data-t>Institusi</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic" data-t>Leadership dari sudut pandang tak biasa</div>
+          <div class="company" data-t>Binus</div></div></div>
       </div>
     </div>
 
@@ -1749,10 +1790,10 @@
       <div class="card-speaker-img" style="background-image:url('speaker-moments-6.webp?timestamp=1786017228955');background-size:cover;background-position:center;">
           </div>
       <div class="card-speaker-info">
-        <div class="card-speaker-title">Creative Sharing Session</div>
-        <div class="card-speaker-meta"><span class="audience-badge">Korporat</span></div>
-        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic">Creative thinking & viral content</div>
-          <div class="company">Holywings Group</div></div></div>
+        <div class="card-speaker-title" data-t>Creative Sharing Session</div>
+        <div class="card-speaker-meta"><span class="audience-badge" data-t>Korporat</span></div>
+        <div class="speaker-topic-badge"><div class="badge-text"><div class="topic" data-t>Creative thinking & viral content</div>
+          <div class="company" data-t>Holywings Group</div></div></div>
       </div>
     </div>
 
@@ -1764,30 +1805,30 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-cta">
-    <h2 class="footer-cta-title">Ready to <span>Collaborate?</span></h2>
-    <p class="footer-cta-sub">Kirim pesan langsung ke Yohanes Auri via WhatsApp untuk kolaborasi, booking speaker, atau partnership.</p>
+    <h2 class="footer-cta-title" data-t-html>Ready to <span>Collaborate?</span></h2>
+    <p class="footer-cta-sub" data-t>Kirim pesan langsung ke Yohanes Auri via WhatsApp untuk kolaborasi, booking speaker, atau partnership.</p>
     <form class="wa-form" onsubmit="sendWhatsApp(event)">
-      <input type="text" id="wa-message" placeholder="Tulis pesan Anda..." required>
+      <input type="text" id="wa-message" placeholder="Tulis pesan Anda..." data-t-ph required>
       <button type="submit" class="wa-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Kirim via WhatsApp
+        <span data-t>Kirim via WhatsApp</span>
       </button>
     </form>
   </div>
   <div class="footer-bottom">
     <img src="logo.webp?timestamp=1786017228955" alt="AURIFLUX" class="footer-logo-img">
-    <p>&copy; 2026 Yohanes Auri &middot; Flux Creative Universe &middot; All Rights Reserved</p>
+    <p data-t>&copy; 2026 Yohanes Auri &middot; Flux Creative Universe &middot; All Rights Reserved</p>
     <div class="footer-socials">
-      <a href="#" aria-label="Instagram">
+      <a href="https://www.instagram.com/yohanesauri/" target="_blank" rel="noopener" aria-label="Instagram">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
       </a>
-      <a href="#" aria-label="Threads">
+      <a href="https://www.threads.com/@yohanesauriflux" target="_blank" rel="noopener" aria-label="Threads">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32l-1.757-1.18c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.321.142 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z"/></svg>
       </a>
-      <a href="#" aria-label="LinkedIn">
+      <a href="https://www.linkedin.com/in/yohanesauriflux/" target="_blank" rel="noopener" aria-label="LinkedIn">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
       </a>
-      <a href="#" aria-label="YouTube">
+      <a href="https://www.youtube.com/@CreativeTalkAuri" target="_blank" rel="noopener" aria-label="YouTube">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.3 2.8 12 2.8 12 2.8s-4.3 0-6.8.1c-.6.1-1.9.1-3 1.3C1.3 5 1 7 1 7S.7 9.1.7 11.3v2c0 2.1.3 4.2.3 4.2s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.3 21.6 12 21.7 12 21.7s4.3 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.1.3-4.2v-2C23.3 9.1 23 7 23 7zM9.7 15.5V8.4l8 3.6-8 3.5z"/></svg>
       </a>
     </div>
@@ -1823,6 +1864,268 @@
       );
     });
   })();
+
+  // ═══════════════ i18n (ID / EN) ═══════════════
+  const LANG_KEY = 'auriflux_lang';
+  let LANG = 'id';
+  const TR_PAIRS = [
+    // Hero
+    [`Dari kamar tidur 2006 ke holding kreatif pertama Indonesia. Membangun FCU dari nol jadi 6 pilar bisnis dengan 200+ orang, dan sistem guarantee yang tidak ada duanya.`,
+     `From a 2006 bedroom to Indonesia's first creative holding. Building FCU from zero into 6 business pillars with 200+ people, and a guarantee system like no other.`],
+    [`230K+ followers. 9–10M views per bulan. Konten yang bukan sekadar estetik — tapi sistem yang bisa ditiru orang lain untuk grow bisnis mereka.`,
+     `230K+ followers. 9–10M views per month. Content that isn't just aesthetic — but a system others can replicate to grow their business.`],
+    [`Dari panggung Kalbe Group sampai forum startup. Auri tidak datang untuk inspirasi — dia datang dengan framework yang bisa langsung dijalankan.`,
+     `From the Kalbe Group stage to startup forums. Auri doesn't come to inspire — he comes with a framework you can run right away.`],
+    // Stats
+    [`Tim di FCU`, `FCU Team`],
+    [`Followers Personal`, `Personal Followers`],
+    // Section CTAs
+    [`Konten lainnya`, `More content`],
+    // Story cards
+    [`Mulai dari Kamar Tidur`, `Starting from the Bedroom`],
+    [`Buat Idenyaflux`, `Building Idenyaflux`],
+    [`Di-invest Deddy Corbuzier`, `Invested by Deddy Corbuzier`],
+    [`Story Idenyaflux berawal dari Flux Design — satu kamar, satu ide.`, `The Idenyaflux story began with Flux Design — one room, one idea.`],
+    [`Ide kecil yang tumbuh jadi identitas kreatif.`, `A small idea that grew into a creative identity.`],
+    [`Bertemu para partner, lahir holding kreatif.`, `Meeting the partners, a creative holding was born.`],
+    [`Validasi terbesar untuk FCU.`, `The biggest validation for FCU.`],
+    // Speaker cards
+    [`150 Peserta`, `150 Participants`],
+    [`Institusi`, `Institution`],
+    [`Korporat`, `Corporate`],
+    [`Creative thinking & strategi marketing`, `Creative thinking & marketing strategy`],
+    [`Momentum viral brand kesehatan`, `Viral momentum for health brands`],
+    [`Berpikir Besar & Berani Kreatif`, `Think Big & Be Creative`],
+    [`Leadership dari sudut pandang tak biasa`, `Leadership from an unusual perspective`],
+    // Footer
+    [`Kirim pesan langsung ke Yohanes Auri via WhatsApp untuk kolaborasi, booking speaker, atau partnership.`,
+     `Message Yohanes Auri directly via WhatsApp for collaboration, speaker booking, or partnership.`],
+    [`Tulis pesan Anda...`, `Write your message...`],
+    [`Kirim via WhatsApp`, `Send via WhatsApp`],
+    // Modal headings & labels
+    [`Kelas`, `Class`], [`Konten`, `Content`], [`Materi Kelas`, `Class Material`], [`materi`, `materials`],
+    [`Kerja Sama`, `Collaborate`], [`Ajak Collab`, `Collab`], [`Ambil Kelas`, `Get the Class`],
+    [`Tahun`, `Year`], [`Fase`, `Phase`], [`Modal`, `Capital`], [`Fokus`, `Focus`], [`Tim`, `Team`],
+    [`Pilar`, `Pillars`], [`Paket`, `Package`], [`Kreator`, `Creator`], [`Kategori`, `Category`],
+    [`Tema`, `Theme`], [`Skala`, `Scale`], [`Mentor`, `Mentor`],
+    [`Nol`, `Zero`], [`6 Bisnis`, `6 Businesses`], [`200+ orang`, `200+ people`],
+    [`Kelas Interaktif`, `Interactive Class`], [`Lengkap & Hemat`, `Full & Lite`],
+    [`5 Konten`, `5 Content`], [`4 Konten`, `4 Content`], [`3 Konten`, `3 Content`], [`10 Konten`, `10 Content`],
+    [`KELAS`, `CLASS`], [`2 Paket`, `2 Packages`], [`4 Reels`, `4 Reels`],
+    // Story stage descs
+    [`Semua berawal dari satu kamar tidur di 2006. Yohanes Auri memulai Flux Design dengan satu laptop, satu ide, dan nol modal. Tidak ada tim, tidak ada investor — hanya keyakinan bahwa kreativitas bisa jadi bisnis.`,
+     `It all began in a bedroom in 2006. Yohanes Auri started Flux Design with one laptop, one idea, and zero capital. No team, no investor — only the belief that creativity could become a business.`],
+    [`Ide kecil yang tumbuh jadi identitas. Idenyaflux lahir sebagai cara berpikir kreatif yang bisa ditiru — bukan sekadar estetik, tapi sistem konten yang benar-benar menghasilkan.`,
+     `A small idea that grew into an identity. Idenyaflux was born as a replicable way of thinking creatively — not just aesthetics, but a content system that truly delivers.`],
+    [`Bertemu para partner, lahirlah Flux Creative Universe — holding kreatif pertama di Indonesia. Enam pilar bisnis, 200+ orang, satu ekosistem di mana ide, distribusi, dan data bekerja sebagai satu sistem.`,
+     `Meeting the partners, Flux Creative Universe was born — Indonesia's first creative holding. Six business pillars, 200+ people, one ecosystem where idea, distribution, and data work as a single system.`],
+    [`Validasi terbesar datang di 2023 — Deddy Corbuzier resmi berinvestasi di FCU. Satu keputusan yang membuka babak baru bagi holding kreatif ini.`,
+     `The biggest validation came in 2023 — Deddy Corbuzier officially invested in FCU. One decision that opened a new chapter for this creative holding.`],
+    // STORY1 episodes
+    [`Kanvas Pertama`, `The First Canvas`], [`Tinta dan Kertas`, `Ink and Paper`], [`Sebuah Identitas`, `An Identity`], [`Panggung Besar`, `The Big Stage`],
+    [`Bermodal satu laptop dan sebersit keyakinan, Auri menyalakan Flux Design dari sudut kamar tidurnya. Tanpa tim, tanpa modal, hanya mimpi yang enggan padam.`,
+     `Armed with one laptop and a flicker of belief, Auri lit up Flux Design from the corner of his bedroom. No team, no capital, just a dream that refused to fade.`],
+    [`Dengan portofolio tipis dan tekad tebal, Auri mengetuk pintu sekolah demi sekolah, menawarkan buku tahunan sebagai kanvas pertama Flux Design.`,
+     `With a thin portfolio and thick determination, Auri knocked on school after school, offering yearbooks as Flux Design's first canvas.`],
+    [`Order demi order berdatangan: kalender, undangan, hingga packaging. Auri belajar bahwa desain sejati harus bertahan di dunia nyata, bukan sekadar layar.`,
+     `Orders kept coming: calendars, invitations, even packaging. Auri learned that true design must hold up in the real world, not just on a screen.`],
+    [`Dari garis dan warna lahir identitas. Logo Pasar Jaya dan MVP Entertainment menandai babak baru: Flux tak lagi mencetak, tetapi mendefinisikan sebuah merek.`,
+     `From lines and colors, identity was born. The Pasar Jaya and MVP Entertainment logos marked a new chapter: Flux no longer printed, it defined a brand.`],
+    [`Ruang rapat besar menanti. Auri melangkah ke hadapan perbankan hingga maskapai, membawa mimpi kamar tidur untuk bersaing di panggung merek raksasa.`,
+     `A big boardroom awaited. Auri stepped before banks and airlines, carrying a bedroom dream to compete on the stage of giant brands.`],
+    // STORY2 episodes
+    [`Titik Balik`, `Turning Point`], [`Satu Ide Besar`, `One Big Idea`], [`Melawan Raksasa`, `Fighting Giants`],
+    [`XL Prepaid: Satu Paket Untuk Sekeluarga`, `XL Prepaid: One Plan for the Whole Family`],
+    [`Awal 2018, lanskap kreatif bergeser cepat. Yohanes Auri menyadari rumah desainnya tak lagi cukup, lalu memilih melahirkan sesuatu yang lebih besar.`,
+     `In early 2018, the creative landscape shifted fast. Yohanes Auri realized his design house was no longer enough, and chose to birth something bigger.`],
+    [`Kreativitas kini harus menggerakkan bisnis. Auri menarik para praktisi senior dari agensi multinasional, menyatukan mereka demi menyusun ide yang tajam.`,
+     `Creativity now had to drive business. Auri drew in senior practitioners from multinational agencies, uniting them to craft sharper ideas.`],
+    [`Berhadapan langsung dengan agensi jaringan internasional, Idenya Flux merebut Citilink, XL, hingga Garuda, dan membuktikan agensi lokal sanggup menang.`,
+     `Facing international network agencies head-on, Idenya Flux won Citilink, XL, even Garuda, proving a local agency could win.`],
+    [`Mongol dihadirkan menghibur penumpang rute Manado lewat komedinya. Hasilnya, pendapatan Citilink melonjak 32,5 persen, menembus lebih dari Rp8 miliar.`,
+     `Mongol was brought in to entertain Manado-route passengers with his comedy. The result: Citilink's revenue jumped 32.5 percent, past Rp8 billion.`],
+    [`Lewat TVC, Idenya Flux mengangkat Paket Akrab dari XL Prepaid, satu paket data yang bisa dipakai bersama untuk seluruh anggota keluarga di rumah.`,
+     `Through a TVC, Idenya Flux highlighted XL Prepaid's Paket Akrab, one data plan the whole family at home can share.`],
+    [`Menghadirkan beragam momen seru di Instagram dan YouTube untuk Pizza Hut Indonesia. Hasilnya, 3,1 juta impresi, 3,1 juta reach, dan 1,8 ribu engagement.`,
+     `Delivering a variety of fun moments on Instagram and YouTube for Pizza Hut Indonesia. The result: 3.1M impressions, 3.1M reach, and 1.8K engagement.`],
+    [`Sebagai Agency Partner, Idenya Flux menggarap seluruh kampanye digital Sriwijaya Air lewat #AdaAjaUnfortunately demi memperkenalkan keunggulan maskapainya.`,
+     `As Agency Partner, Idenya Flux ran Sriwijaya Air's entire digital campaign through #AdaAjaUnfortunately to showcase the airline's strengths.`],
+    [`Sejak 2021, Idenya Flux mengelola konten digital Uniqlo di semua platform, lengkap dengan konsep photoshoot untuk peluncuran koleksi dan pembukaan toko.`,
+     `Since 2021, Idenya Flux has managed Uniqlo's digital content across all platforms, complete with photoshoot concepts for collection launches and store openings.`],
+    // STORY3 episodes
+    [`Titik Puncak`, `The Peak`], [`Lahir dari Badai`, `Born from the Storm`], [`Merakit Semesta`, `Assembling the Universe`],
+    [`Melihat kreator berbakat yang rapuh secara bisnis, Auri bergandengan dengan Grace Tahir menempa Peak Digital Capital—tempat mimpi nano bisa tumbuh jadi raksasa.`,
+     `Seeing talented creators who were fragile in business, Auri joined Grace Tahir to forge Peak Digital Capital—a place where nano dreams can grow into giants.`],
+    [`Ivan Tanjaya belajar dari badai yang nyaris meruntuhkan Holywings: media adalah kuasa. Auri dan Deddy menyatukan visi, lahir HolyFlux dari puing keraguan.`,
+     `Ivan Tanjaya learned from the storm that nearly toppled Holywings: media is power. Auri and Deddy aligned their vision, and HolyFlux rose from the rubble of doubt.`],
+    [`Ide besar sering terkubur oleh modal dan kekacauan operasional. Auri mengumpulkannya satu per satu, merakit semesta kreatif yang utuh dan berdaya.`,
+     `Big ideas are often buried by capital and operational chaos. Auri gathered them one by one, assembling a whole and empowered creative universe.`],
+    // STORY4 episodes
+    [`Ikatan Bernama DNA`, `A Bond Called DNA`], [`Restu Sang Investor`, `The Investor's Blessing`],
+    [`Dua nama, satu visi. Auri dan Deddy Corbuzier menyatukan strategi brand dengan kekuatan media digital, lahir sebuah agency kreatif bernama DNA.`,
+     `Two names, one vision. Auri and Deddy Corbuzier merged brand strategy with digital media power, and a creative agency named DNA was born.`],
+    [`Melihat DNA bersinar, Deddy Corbuzier melangkah lebih jauh. Lewat PT Dektos Digital, ia menanamkan modal di FCU dan menjadi investor utamanya.`,
+     `Seeing DNA shine, Deddy Corbuzier went further. Through PT Dektos Digital, he invested in FCU and became its main investor.`],
+    // Creator category descriptions
+    [`Selama hampir 20 tahun memimpin, seorang leader membongkar sisi yang jarang terlihat: kecewa yang dipendam, label "toxic" yang menghapus segalanya, dan beban yang tak pernah muncul di slip gaji. Sebuah pengingat jujur bahwa di balik jabatan, leader juga manusia.`,
+     `Across nearly 20 years of leading, a leader unpacks the rarely-seen side: bottled-up disappointment, the "toxic" label that erases everything, and burdens that never show on a payslip. An honest reminder that behind the title, a leader is human too.`],
+    [`Dalam seri obrolan Creative Talk, seorang founder agensi kreatif duduk bersama para tamu tak terduga, mulai dari coach bisnis, penjahit berusia 64 tahun, sahabat lama, hingga anak-anaknya sendiri. Dari ruang rapat sampai meja makan, terungkap kisah nyata soal bisnis, keluarga, dan arti sukses.`,
+     `In the Creative Talk series, a creative agency founder sits with unexpected guests — from a business coach, a 64-year-old tailor, an old friend, to his own children. From boardroom to dinner table, real stories unfold about business, family, and the meaning of success.`],
+    [`Di sebuah perguruan bela diri kreatif, seorang Suhu menempa murid-muridnya bukan lewat jurus biasa, melainkan pelajaran keras soal atensi, plagiat, burnout, dan kepercayaan yang hancur. Satu per satu mereka datang mencari jawaban, dan menemukan bahwa ide terbaik lahir dari keberanian.`,
+     `In a creative martial-arts school, a Master forges his students not with ordinary moves, but with hard lessons on attention, plagiarism, burnout, and broken trust. One by one they come seeking answers, and find that the best ideas are born from courage.`],
+    // Leadership episodes
+    [`Harga Sebuah Kepedulian`, `The Price of Caring`], [`Satu Kata, Seribu Luka`, `One Word, a Thousand Wounds`],
+    [`Yang Menguatkan, Diam-Diam Rapuh`, `The One Who Strengthens, Quietly Fragile`], [`Empati yang Selalu Satu Arah`, `Empathy That Only Goes One Way`],
+    [`Beban yang Tak Muat di Slip Gaji`, `A Burden That Doesn't Fit on a Payslip`],
+    [`Hampir dua dekade memimpin, ia sadar satu hal pahit: orang yang paling ia banggakan justru yang paling sering menorehkan luka yang tak pernah ia ceritakan.`,
+     `Nearly two decades of leading, he realized one bitter truth: the people he was proudest of were the ones who most often left wounds he never spoke of.`],
+    [`Ratusan jam jadi tempat bersandar bisa runtuh hanya karena satu momen ia lebih tegas. Ternyata label "toxic" jauh lebih mudah menempel daripada rasa terima kasih.`,
+     `Hundreds of hours of being a shoulder to lean on can collapse over one moment of firmness. It turns out the "toxic" label sticks far more easily than gratitude.`],
+    [`Ia menyelesaikan sepuluh masalah seminggu, tapi cuma diingat dari satu kesalahan. Di balik sosok penyemangat semua orang, ada kesedihan yang tak pernah boleh ia tunjukkan.`,
+     `He solved ten problems a week, but was remembered for one mistake. Behind everyone's cheerleader lies a sadness he could never show.`],
+    [`Dunia kerja punya seribu nama untuk atasan yang gagal, tapi tak satu pun untuk tim yang lupa berterima kasih. Kapan terakhir ada yang menanyakan kabarnya?`,
+     `The working world has a thousand names for a failing boss, but none for a team that forgets to say thanks. When was the last time someone asked how he was doing?`],
+    [`Puluhan juta terlihat besar, sampai kamu tahu itu bayaran untuk jadi samsak setiap kali keadaan berantakan. Ada harga yang tak pernah tertulis di angka.`,
+     `Tens of millions looks big, until you learn it's the pay for being the punching bag every time things fall apart. There's a price that's never written in the numbers.`],
+    // Creative Talk episodes
+    [`Bisnis atau Yayasan?`, `Business or Charity?`], [`Dari Gosip ke Dampak`, `From Gossip to Impact`], [`Ditanya Anak-Anak`, `Questioned by the Kids`],
+    [`Uang Jajan Dua Puluh Lima Ribu`, `A 25-Thousand Rupiah Allowance`], [`Sahabat yang Pernah Diblok`, `The Friend Once Blocked`],
+    [`Coach Ferly membongkar masalah nomor satu pengusaha Indonesia. Dari surat kecil anak yang merindukan ayahnya, sampai bendera raksasa yang dijahit di puncak Papua.`,
+     `Coach Ferly unpacks the number-one problem of Indonesian entrepreneurs. From a child's little letter missing his father, to a giant flag sewn atop Papua.`],
+    [`Dandi meninggalkan akun gosip demi media yang memberi manfaat. Bersama Flux, followersnya meledak 300 ribu dalam dua bulan. Tapi satu pertanyaan tersisa: di mana remmu?`,
+     `Dandi left gossip accounts behind for media that gives value. With Flux, his followers exploded by 300 thousand in two months. But one question remained: where are your brakes?`],
+    [`Untuk pertama kalinya, Auri duduk di kursi tamu menghadapi dua hakim paling jujur: anak-anaknya sendiri. Dari soal uang, bully masa kecil, sampai monster di rumah.`,
+     `For the first time, Auri sat in the guest chair facing the two most honest judges: his own children. From money, to childhood bullying, to the monster at home.`],
+    [`Di balik senyum ceria Pak Yono tersimpan perjuangan seorang penjahit menguliahkan anaknya sampai jadi manajer. Rahasianya sederhana: jujur, tepat waktu, dan bersyukur.`,
+     `Behind Pak Yono's cheerful smile lies a tailor's struggle to put his child through college until becoming a manager. His secret is simple: honesty, punctuality, and gratitude.`],
+    [`Sambil menyantap bakmi, sahabat lama membongkar rahasia Auri: dari party masa muda, blokir berkali-kali, sampai pertemanan yang pulih di hari pernikahan.`,
+     `Over a bowl of noodles, an old friend spills Auri's secrets: from youthful parties, to being blocked many times, to a friendship healed on his wedding day.`],
+    // Suhu Kreatif episodes
+    [`Sang Suhu Kreatif Turun Gunung`, `The Creative Master Descends`], [`Awal dari Sebuah Ajaran`, `The Start of a Teaching`],
+    [`Musuh Terbesar Bernama Burnout`, `The Greatest Enemy Named Burnout`], [`Teknik Terlarang yang Harus Ditinggalkan`, `The Forbidden Technique to Abandon`],
+    [`Class in Session: Jangan Asal Viral`, `Class in Session: Don't Just Go Viral`], [`Bayaran Kecil, Portofolio Kecil`, `Small Pay, Small Portfolio`],
+    [`Skandal di Balik Kepercayaan`, `The Scandal Behind Trust`], [`Yang Kecil Justru Menang`, `The Small One Wins Instead`],
+    [`Jurus Meja Makan`, `The Dining-Table Move`], [`Hadapi Satu per Satu`, `Face Them One by One`],
+    [`Seorang murid memohon diajari teknik rahasia yang mampu menghentikan jempol dari scrolling. Di balik hutan sunyi, sang master bersiap membuka ilmunya.`,
+     `A student begs to be taught the secret technique that can stop a thumb from scrolling. Deep in the silent forest, the master prepares to reveal his knowledge.`],
+    [`Billboard, sosial media, konten viral, semua ditepis sang Suhu satu per satu. Rahasia menang bukan soal konten, tapi soal atensi yang bikin orang berhenti scrolling.`,
+     `Billboards, social media, viral content — the Master brushes them all aside one by one. The secret to winning isn't the content, but the attention that makes people stop scrolling.`],
+    [`Sang murid menantang lawan yang tak pernah bisa dikalahkan dengan kerja keras. Rahasianya ternyata sederhana: tahu kapan harus berhenti dan pergi healing.`,
+     `The student challenges an opponent that can never be beaten with hard work. The secret turns out to be simple: knowing when to stop and go heal.`],
+    [`Sang murid tergoda jalan pintas yang bikin semua lebih cepat dan mudah. Tapi sang Suhu memperingatkan: sekali plagiat dipakai, mindset rusak dan kreativitas mati.`,
+     `The student is tempted by a shortcut that makes everything faster and easier. But the Master warns: once plagiarism is used, the mindset breaks and creativity dies.`],
+    [`Kali ini muridnya belajar melawan pola pikir klien yang keliru. Sang Suhu menegaskan, viral tanpa arah cuma bikin nyasar dan semua kerja jadi sia-sia.`,
+     `This time the student learns to counter a client's flawed mindset. The Master insists: going viral without direction only leads astray and wastes all the work.`],
+    [`Dua puluh logo lima puluh ribu terdengar mustahil. Tapi sang Suhu justru mengajarkan: beri lebih dari bayaranmu, dan cepat atau lambat nilaimu akan naik sendiri.`,
+     `Twenty logos for fifty thousand sounds impossible. But the Master teaches instead: give more than your pay, and sooner or later your value will rise on its own.`],
+    [`Seorang muridnya kabur membawa tabungan 20 tahun milik klien. Sang Suhu memilih bertanggung jawab, karena pemimpin menanggung yang benar sekaligus yang salah.`,
+     `One of his students fled with a client's 20 years of savings. The Master chose to take responsibility, because a leader bears both the right and the wrong.`],
+    [`Seorang pengusaha bangkrut setelah menghabiskan uang untuk kampanye besar-besaran. Sang Suhu mengungkap rahasianya: yang menang bukan yang mahal, tapi yang menyentuh hati.`,
+     `An entrepreneur went bankrupt after spending on a massive campaign. The Master reveals the secret: what wins isn't the expensive, but what touches the heart.`],
+    [`Presentasi dan pitch berkali-kali tetap gagal meyakinkan klien. Sang Suhu justru menutup deal sambil makan bareng, karena orang percaya setelah merasa nyaman.`,
+     `Presentation after presentation, pitch after pitch, still failed to convince the client. The Master instead closed the deal over a shared meal, because people trust after they feel at ease.`],
+    [`Muridnya dikeroyok banyak deadline sekaligus tanpa jeda. Sang Suhu turun tangan dengan satu prinsip: jangan biarkan mereka menyerang bersamaan, taklukkan satu demi satu.`,
+     `The student is swarmed by many deadlines at once with no break. The Master steps in with one principle: don't let them attack all together, conquer them one by one.`],
+    // Born To Lead
+    [`Berbekal 20 tahun jatuh-bangun memimpin, Yohanes Auri membongkar seni kepemimpinan lewat analogi tubuh manusia, dari mata sampai jejak kaki. Kelas ini bukan teori yang bikin ngantuk, tapi skill nyata yang langsung bisa dipraktikkan untuk naik level jadi leader sesungguhnya.`,
+     `Armed with 20 years of ups and downs in leadership, Yohanes Auri unpacks the art of leading through the analogy of the human body, from the eyes to the footprints. This class isn't sleep-inducing theory, but real skills you can practice right away to level up into a true leader.`],
+    [`Paket Lengkap`, `Full Package`], [`Paket Hemat`, `Lite Package`],
+    [`Ujung Kepala Sampai Kaki`, `Head to Toe`], [`Ujung Kepala Sampai Setengah Badan`, `Head to Half-Body`],
+    [`18 video materi tuntas dari mata sampai jejak. Plus filosofi Leadership 5 Jari, teknik delegasi, storytelling, dan bonus gaya memimpin paling cocok di Indonesia.`,
+     `18 complete video lessons from the eyes to the footprints. Plus the 5-Finger Leadership philosophy, delegation techniques, storytelling, and a bonus on the leadership style best suited for Indonesia.`],
+    [`13 video materi dari mata sampai hati. Fokus ke fondasi memimpin diri, cara berpikir tenang, komunikasi, dan mengelola beban. Materinya berhenti di hati.`,
+     `13 video lessons from the eyes to the heart. Focused on the foundation of leading yourself, thinking calmly, communication, and managing the load. The material stops at the heart.`],
+    // Course chapters
+    [`1. Selamat Datang, Calon Leader Seutuhnya!`, `1. Welcome, Future Complete Leader!`],
+    [`2. Buka Mata! Leadership Nggak Semanis Kata Motivasi`, `2. Open Your Eyes! Leadership Isn't as Sweet as Motivational Quotes`],
+    [`3. Pasang Telinga! Jangan Cuma Denger Kata-Kata`, `3. Listen Up! Don't Just Hear the Words`],
+    [`4. Makanya, Pakai Otak! Cara Berpikir Tenang Saat Semua Ribut`, `4. So Use Your Head! How to Think Calmly When Everything's Chaos`],
+    [`5. Mulutmu Harimaumu: Ketika Nasib Tim Ada di Ujung Lidah`, `5. Your Mouth, Your Tiger: When the Team's Fate Rests on Your Tongue`],
+    [`6. Beban di Pundak: Mana yang Ditanggung, Mana yang Dibagi?`, `6. The Weight on Your Shoulders: What to Carry, What to Share?`],
+    [`7. Cara Pakai Hati Tanpa Ambil Hati`, `7. How to Use Your Heart Without Taking It Personally`],
+    [`8. Seni Turun Tangan: Cara Delegasi Tanpa Kehilangan Kontrol`, `8. The Art of Stepping In: Delegating Without Losing Control`],
+    [`9. Filosofi Leadership 5 Jari: Lima Peran, Lima Cara Kamu Bertindak`, `9. The 5-Finger Leadership Philosophy: Five Roles, Five Ways to Act`],
+    [`10. Jangan Asal Jalan! Cara Melangkah dengan Arah`, `10. Don't Just Walk! How to Step with Direction`],
+    [`11. Jejak Pemimpin: Apa yang Kamu Tinggalkan Saat Kamu Nggak Ada?`, `11. A Leader's Footprint: What You Leave When You're Gone`],
+    [`12. BONUS: 5 Gaya Leadership, Mana yang "Kamu" Banget?`, `12. BONUS: 5 Leadership Styles, Which One Is So "You"?`],
+    // Course items (Indonesian ones)
+    [`Melihat Masalah vs Melihat Potensi`, `Seeing Problems vs Seeing Potential`],
+    [`Data vs Intuisi`, `Data vs Intuition`], [`4 Gaya Bahasa Leader`, `4 Leader Speaking Styles`],
+    [`Pundak`, `Shoulders`], [`Tangan`, `Hands`], [`Leadership 5 Jari`, `5-Finger Leadership`],
+    [`Jejak`, `Footprints`], [`Gaya Leadership`, `Leadership Style`],
+    // Speaker (default) + events
+    [`Panggung Nasional`, `National Stage`],
+    [`Dari panggung Kalbe sampai forum korporat — Auri tidak datang untuk inspirasi, dia datang dengan framework yang bisa langsung dijalankan.`,
+     `From the Kalbe stage to corporate forums — Auri doesn't come to inspire, he comes with a framework you can run right away.`],
+    [`Owner, Marketing, Leader`, `Owners, Marketers, Leaders`], [`Nasional`, `National`],
+    [`Selama dua hari penuh, Auri ditantang mengubah cara berpikir 150 pemilik bisnis tentang marketing. Berbagi panggung dengan Ben Sumadiwiria dan bos Holywings, ia membongkar framework yang dipakai brand sekelas Unilever, XL Axiata, dan Kapal Api, hingga langkah demi langkah menembus 25 juta views. Hasilnya terasa berhari-hari kemudian, saat DM peserta dipenuhi kabar konten mereka akhirnya masuk FYP.`,
+     `For two full days, Auri was challenged to change how 150 business owners think about marketing. Sharing the stage with Ben Sumadiwiria and the Holywings boss, he unpacked the framework used by brands like Unilever, XL Axiata, and Kapal Api, step by step to breaking 25 million views. The result showed days later, when participants' DMs filled with news that their content finally hit the FYP.`],
+    [`Di hadapan lebih dari 100 Marketing Manager, Auri memilih untuk turun dari panggung. Alih-alih ceramah satu arah, ia menyamperin peserta satu per satu, mendengar tantangan nyata mereka, dan memberi masukan yang tepat sasaran. Sebuah bootcamp yang membuktikan bahwa ilmu marketing paling melekat bukan lewat teori, melainkan lewat praktik langsung yang menyentuh persoalan masing-masing bisnis.`,
+     `Before more than 100 Marketing Managers, Auri chose to step off the stage. Instead of a one-way lecture, he approached participants one by one, heard their real challenges, and gave on-target advice. A bootcamp that proved marketing knowledge sticks best not through theory, but through hands-on practice that touches each business's own problems.`],
+    [`Diminta membuat seminar yang benar-benar interaktif, Auri memangkas separuh materinya dan menggantinya dengan kuis, studi kasus, dan diskusi. Di hadapan brand team Kalbe Nutritionals, ia mengajak peserta menggali DNA tiap brand lewat permainan sederhana, dan hasilnya bikin merinding. Sepanjang sesi tak ada yang sibuk main HP, hanya "keributan" belajar yang menyenangkan, bahkan diikuti tiga petinggi Kalbe hingga akhir.`,
+     `Asked to make a truly interactive seminar, Auri cut half his material and replaced it with quizzes, case studies, and discussion. Before the Kalbe Nutritionals brand team, he invited participants to dig into each brand's DNA through a simple game, and the result gave chills. Throughout the session no one was busy on their phone, just the joyful "noise" of learning, even joined by three Kalbe executives to the end.`],
+    [`Setelah 20 tahun memimpin meeting penting dan pitching klien multinasional, Auri tetap merasakan jantungnya berdebar saat berdiri di depan 1.000 leader. Di panggung Prudential berskala nasional inilah ia menyadari satu hal: semakin berpengalaman seseorang, justru semakin rendah hati untuk terus belajar. Sesi Q&A bahkan harus dihentikan karena waktu habis, bukan karena kehabisan pertanyaan.`,
+     `After 20 years of leading important meetings and pitching multinational clients, Auri still felt his heart race standing before 1,000 leaders. On Prudential's national stage he realized one thing: the more experienced someone is, the humbler they become to keep learning. The Q&A even had to be stopped because time ran out, not because the questions did.`],
+    [`H-1 sebelum naik panggung, Auri nekat menghapus seluruh materi yang telah disiapkan sebulan penuh. Ia menggantinya dengan judul yang berani, "How to Be an Annoying Leader," di lingkungan akademis yang identik dengan hal formal. Dua puluh tahun setelah duduk di kampus itu sebagai mahasiswa DKV, ia kembali untuk membuktikan bahwa leader hebat berani sesekali jadi "nyebelin" demi kebaikan timnya.`,
+     `One day before going on stage, Auri boldly deleted all the material he'd prepared for a whole month. He replaced it with a daring title, "How to Be an Annoying Leader," in an academic setting known for its formality. Twenty years after sitting in that campus as a Visual Communication Design student, he returned to prove that a great leader dares to be "annoying" now and then for the good of the team.`],
+    [`Datang untuk mengajar, Auri justru pulang sebagai murid. Belum sepuluh menit, tim kreatif Holywings sudah menguliti setiap idenya sampai ke akar, bukan hanya bertanya "bagaimana caranya", tapi "kenapa pakai cara itu". Adrenalinnya terpacu, dan di tengah sesi ia memutuskan mengubah seluruh alur, memilih berbagi cerita di balik layar dan kegagalan. Energi kritis mereka mengingatkannya pada dirinya sendiri di usia 20-an.`,
+     `He came to teach, but went home a student. Within ten minutes, the Holywings creative team dissected every one of his ideas to the root, not just asking "how," but "why that way." His adrenaline surged, and mid-session he decided to change the entire flow, choosing to share behind-the-scenes stories and failures. Their critical energy reminded him of himself in his 20s.`],
+    // Speaker side values
+    [`Framework marketing & viral content`, `Marketing framework & viral content`],
+    [`Owner bisnis, UMKM & tim marketing`, `Business owners, SMEs & marketing teams`],
+    [`150 peserta`, `150 participants`], [`Workshop intensif 2 hari`, `2-day intensive workshop`],
+    [`100+ Marketing Manager`, `100+ Marketing Managers`], [`Bootcamp intensif + praktik`, `Intensive bootcamp + practice`],
+    [`Membangun momentum viral brand kesehatan`, `Building viral momentum for health brands`],
+    [`Brand team Kalbe (Morinaga, Prenagen, Fitbar, Milna, Zee, Entrasol, Diabetasol)`, `Kalbe brand team (Morinaga, Prenagen, Fitbar, Milna, Zee, Entrasol, Diabetasol)`],
+    [`Korporat multi-brand`, `Multi-brand corporate`], [`Seminar interaktif + kuis & studi kasus`, `Interactive seminar + quiz & case study`],
+    [`Seluruh Leader Prudential se-Indonesia`, `All Prudential Leaders across Indonesia`],
+    [`Nasional, ±1.000 orang`, `National, ±1,000 people`], [`Konferensi panggung besar`, `Big-stage conference`],
+    [`Binus (Bina Nusantara)`, `Binus (Bina Nusantara)`], [`Petinggi Binus & karyawan back office`, `Binus executives & back-office staff`],
+    [`Institusi akademis`, `Academic institution`], [`Seminar 90 menit interaktif`, `90-minute interactive seminar`],
+    [`Tim kreatif & seluruh karyawan Holywings`, `Creative team & all Holywings staff`],
+    [`Sharing session interaktif`, `Interactive sharing session`],
+  ];
+  const TR = new Map(TR_PAIRS);
+  const TR_HTML = {}; // row titles & footer title are English in both langs → no override needed
+  function tr(s) {
+    if (s == null) return s;
+    if (LANG !== 'en') return s;
+    return TR.get(s) ?? s;
+  }
+  function applyLang() {
+    document.querySelectorAll('[data-t]').forEach(el => {
+      if (el.getAttribute('data-t-src') === null) el.setAttribute('data-t-src', el.textContent.trim());
+      const src = el.getAttribute('data-t-src');
+      el.textContent = LANG === 'en' ? (TR.get(src) ?? src) : src;
+    });
+    document.querySelectorAll('[data-t-ph]').forEach(el => {
+      if (el.getAttribute('data-t-ph-src') === null) el.setAttribute('data-t-ph-src', el.getAttribute('placeholder'));
+      const src = el.getAttribute('data-t-ph-src');
+      el.setAttribute('placeholder', LANG === 'en' ? (TR.get(src) ?? src) : src);
+    });
+    document.documentElement.lang = LANG;
+    document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === LANG));
+  }
+  function setLang(lang) {
+    LANG = (lang === 'en') ? 'en' : 'id';
+    try { localStorage.setItem(LANG_KEY, LANG); } catch (e) {}
+    applyLang();
+    updateHeroContent();
+    if (document.getElementById('detail-modal').classList.contains('open') && lastDetail) {
+      openDetail(lastDetail.key, lastDetail.override);
+    }
+  }
+  function initLang() {
+    let stored = null;
+    try { stored = localStorage.getItem(LANG_KEY); } catch (e) {}
+    if (stored === 'en' || stored === 'id') LANG = stored;
+    else {
+      const nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+      LANG = /^id/i.test(nav) ? 'id' : 'en';
+    }
+    applyLang();
+    updateHeroContent();
+  }
 
   // Navbar scroll
   window.addEventListener('scroll', () => {
@@ -1931,13 +2234,13 @@
     const clone = content.cloneNode(true);
     content.parentNode.replaceChild(clone, content);
 
-    // Now update text in the clone
-    clone.querySelector('#hero-badge-text').textContent = s.badge;
+    // Now update text in the clone (dengan terjemahan)
+    clone.querySelector('#hero-badge-text').textContent = tr(s.badge);
     clone.querySelector('#hero-title').innerHTML = s.title;
-    clone.querySelector('#hero-role').textContent = s.role;
-    clone.querySelector('#hero-desc').textContent = s.desc;
+    clone.querySelector('#hero-role').textContent = tr(s.role);
+    clone.querySelector('#hero-desc').textContent = tr(s.desc);
     const tagsEl = clone.querySelector('#hero-tags');
-    tagsEl.innerHTML = s.tags.map(t => `<span class="tag">${t}</span>`).join('');
+    tagsEl.innerHTML = s.tags.map(tag => `<span class="tag">${tr(tag)}</span>`).join('');
 
     // Re-bind scroll button
     clone.querySelector('.btn-primary').onclick = scrollToSection;
@@ -1967,7 +2270,10 @@
   }
 
   function scrollToSection() {
-    document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
+    // Explore mengikuti slide aktif: 0→Story CEO, 1→Content Creator, 2→Speaker Moments
+    const rows = document.querySelectorAll('.row');
+    if (rows[show.current]) rows[show.current].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    else document.getElementById('main-content').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   // ── BURGER MENU ──
@@ -2031,6 +2337,7 @@
 
   // Start
   syncState(true);
+  initLang();
 
   // Klik di luar hero section → autoplay lanjut lagi meskipun sebelumnya di-pause
   document.addEventListener('click', e => {
@@ -2090,7 +2397,7 @@
 
   function scrollToRow(i) {
     const rows = document.querySelectorAll('.row');
-    if (rows[i]) rows[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (rows[i]) rows[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   // ══════════ DYNAMIC DETAIL MODAL ══════════
@@ -2240,7 +2547,7 @@
       type: 'story', hero: 'story-ceo-4-ls.webp',
       title: 'Di-invest Deddy Corbuzier',
       metaGreen: 'The Validation', year: '2022', badges: ['STAGE 4', 'Investor'],
-      desc: 'Validasi terbesar datang di 2025 — Deddy Corbuzier resmi berinvestasi di FCU. Satu keputusan yang membuka babak baru bagi holding kreatif ini.',
+      desc: 'Validasi terbesar datang di 2023 — Deddy Corbuzier resmi berinvestasi di FCU. Satu keputusan yang membuka babak baru bagi holding kreatif ini.',
       side: [['Tahun', '2022'], ['Fase', 'Investment'], ['Investor', 'Deddy Corbuzier']],
       cta: ceoCta, episodes: STORY4_EPISODES,
     },
@@ -2394,9 +2701,11 @@
   DETAILS.ceo = DETAILS.story1; // alias untuk nav FCU / hero More Info
 
   let currentEpisodes = [];
+  let lastDetail = null;
   function openDetail(key, override) {
     const d = Object.assign({}, DETAILS[key], override || {});
     if (!d.type) return;
+    lastDetail = { key, override };
     galleryIdx = 0;
     currentEpisodes = d.episodes || [];
     const card = document.getElementById('detail-card');
@@ -2417,62 +2726,64 @@
     // buttons: main Explore only if episodes/courses; secondary CTA; circle like + share
     const hasEps = (d.episodes && d.episodes.length) || (d.courses && d.courses.length);
     const btns = `
-      ${hasEps ? `<button class="detail-btn-primary" onclick="scrollToFirstEpisode()"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg> Explore</button>` : ''}
+      ${hasEps ? `<button class="detail-btn-primary" onclick="scrollToFirstEpisode()"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg> ${tr('Explore')}</button>` : ''}
       <button class="detail-btn-secondary" onclick="window.open('${d.cta.url || waLink(d.cta.msg)}','_blank')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-        ${d.cta.label}
+        ${tr(d.cta.label)}
       </button>
       <button class="detail-circle" id="dm-like" onclick="toggleLike(this)" aria-label="Suka">${ICON.like}</button>
       <button class="detail-circle" onclick="shareDetail('${(d.title||'').replace(/'/g,'')}')" aria-label="Bagikan">${ICON.share}</button>`;
 
     // side info
-    const side = (d.side||[]).map(([l,v])=>`<p><span class="lbl">${l}:</span> <span class="val">${v}</span></p>`).join('');
+    const side = (d.side||[]).map(([l,v])=>`<p><span class="lbl">${tr(l)}:</span> <span class="val">${tr(v)}</span></p>`).join('');
 
     // episodes / courses
     let epsHtml = '';
     if (d.type === 'course' && d.courses) {
-      epsHtml = `<div class="detail-eps-heading">Kelas</div>
+      epsHtml = `<div class="detail-eps-heading">${tr('Kelas')}</div>
       ${d.courses.map((c,ci)=>`
-        <div class="course-item episode-item" onclick="window.open('${c.link}','_blank')">
-          <div class="episode-num">${ci+1}</div>
-          <div class="episode-thumb landscape16" style="background-image:url('${c.poster}${TS}')"></div>
-          <div class="episode-info">
-            <div class="episode-header"><div class="episode-title"><span class="ep-label" style="background:${c.labelColor}">${c.label}</span>${c.title}</div></div>
-            <div class="episode-desc">${c.desc}</div>
-            <button class="course-acc-toggle" onclick="event.stopPropagation(); toggleAcc(this)">
-              <span>Materi Kelas · ${c.content.length} materi</span>
-              <span class="acc-chevron">${ICON.chevR}</span>
-            </button>
-            <div class="course-acc-body">
-              ${c.content.map(([ch, items])=>`
-                <div class="acc-chapter">
-                  <div class="acc-ch-title">${ch}</div>
-                  <ul>${items.map(it=>`<li>${it}</li>`).join('')}</ul>
-                </div>`).join('')}
+        <div class="course-item">
+          <div class="episode-item" onclick="window.open('${c.link}','_blank')">
+            <div class="episode-num">${ci+1}</div>
+            <div class="episode-thumb landscape16" style="background-image:url('${c.poster}${TS}')"></div>
+            <div class="episode-info">
+              <div class="episode-header"><div class="episode-title"><span class="ep-label" style="background:${c.labelColor}">${tr(c.label)}</span>${tr(c.title)}</div></div>
+              <div class="episode-desc">${tr(c.desc)}</div>
             </div>
+          </div>
+          <button class="course-acc-toggle" onclick="toggleAcc(this)">
+            <span>${tr('Materi Kelas')} · ${c.content.length} ${tr('materi')}</span>
+            <span class="acc-chevron">${ICON.chevR}</span>
+          </button>
+          <div class="course-acc-body">
+            ${c.content.map(([ch, items])=>`
+              <div class="acc-chapter">
+                <div class="acc-ch-title">${tr(ch)}</div>
+                <ul>${items.map(it=>`<li>${tr(it)}</li>`).join('')}</ul>
+              </div>`).join('')}
           </div>
         </div>`).join('')}`;
     } else if (hasEps && d.type === 'creator') {
       const thumbCls = d.epRatio === '16:9' ? 'landscape16' : 'portrait';
-      epsHtml = `<div class="detail-eps-heading">Konten</div>
+      epsHtml = `<div class="detail-eps-heading">${tr('Konten')}</div>
       ${d.episodes.map((e,i)=>`
         <div class="episode-item" onclick="window.open('${e.link}','_blank')">
           <div class="episode-num">${i+1}</div>
           <div class="episode-thumb ${thumbCls}" style="background-image:url('${e.poster}${TS}')"></div>
           <div class="episode-info">
-            <div class="episode-header"><div class="episode-title">${e.title}</div></div>
-            <div class="episode-desc">${e.desc}</div>
+            <div class="episode-header"><div class="episode-title">${tr(e.title)}</div></div>
+            <div class="episode-desc">${tr(e.desc)}</div>
           </div>
         </div>`).join('')}`;
     } else if (hasEps) {
-      epsHtml = `<div class="detail-eps-heading">Episodes</div>
+      epsHtml = `<div class="detail-eps-heading">${tr('Episodes')}</div>
       ${d.episodes.map((e,i)=>`
         <div class="episode-item" onclick="${e.link ? `window.open('${e.link}','_blank')` : `openEpisode(${i})`}">
           <div class="episode-num">${i+1}</div>
           <div class="episode-thumb" style="background-image:url('${e.thumb}${TS}')"></div>
           <div class="episode-info">
-            <div class="episode-header"><div class="episode-title">${e.title}</div><div class="episode-duration">${e.meta}</div></div>
-            <div class="episode-desc">${e.desc}</div>
+            <div class="episode-header"><div class="episode-title">${tr(e.title)}</div><div class="episode-duration">${tr(e.meta)}</div></div>
+            <div class="episode-desc">${tr(e.desc)}</div>
           </div>
         </div>`).join('')}`;
     }
@@ -2481,19 +2792,19 @@
       <div class="detail-hero">
         ${heroHtml}
         <div class="detail-hero-overlay"></div>
-        <h1 class="detail-hero-title">${d.title}</h1>
+        <h1 class="detail-hero-title">${tr(d.title)}</h1>
         <button class="detail-close" onclick="closeDetail()" aria-label="Tutup">✕</button>
       </div>
       <div class="detail-body">
-        <h1 class="detail-body-title">${d.title}</h1>
+        <h1 class="detail-body-title">${tr(d.title)}</h1>
         <div class="detail-meta">
-          <span class="meta-green">${d.metaGreen}</span>
-          <span>${d.year}</span>
-          ${(d.badges||[]).map(b=>`<span class="meta-badge">${b}</span>`).join('')}
+          <span class="meta-green">${tr(d.metaGreen)}</span>
+          <span>${tr(d.year)}</span>
+          ${(d.badges||[]).map(b=>`<span class="meta-badge">${tr(b)}</span>`).join('')}
         </div>
         <div class="detail-btn-row">${btns}</div>
         <div class="detail-layout">
-          <div><p class="detail-desc">${d.desc}</p></div>
+          <div><p class="detail-desc">${tr(d.desc)}</p></div>
           <div class="detail-side">${side}</div>
         </div>
         ${epsHtml}
@@ -2538,10 +2849,10 @@
       <img class="ep-lightbox-img" src="${img}${TS}" alt="">
       <div class="ep-lb-body">
         <div class="ep-lb-header">
-          <div class="ep-lb-title">${e.title}</div>
-          <div class="ep-lb-meta">${e.meta || e.views || ''}</div>
+          <div class="ep-lb-title">${tr(e.title)}</div>
+          <div class="ep-lb-meta">${tr(e.meta || e.views || '')}</div>
         </div>
-        <div class="ep-lb-desc">${e.desc || ''}</div>
+        <div class="ep-lb-desc">${tr(e.desc || '')}</div>
       </div>`;
     document.getElementById('ep-lightbox').classList.add('open');
   }
@@ -2573,8 +2884,9 @@
 
   // Hero "More Info" → buka modal sesuai slide aktif
   function openHeroInfo() {
-    const keys = ['ceo', 'born-to-lead', 'speaker'];
-    openDetail(keys[show.current] || 'ceo');
+    if (show.current === 1) return openDetail('born-to-lead');
+    if (show.current === 2) return openSpeaker(0); // card pertama Speaker Moments
+    return openDetail('ceo');
   }
 
   // ESC to close — tutup lightbox episode dulu kalau terbuka
