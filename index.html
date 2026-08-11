@@ -2107,6 +2107,18 @@
   ];
   const ceoCta = { label: 'Kerja Sama', msg: 'Halo Auri, saya tertarik kerja sama dengan Flux Creative Universe.' };
 
+  // Episode milestone 2 (Idenya Flux) — episode 4–8 redirect ke portfolio
+  const STORY2_EPISODES = [
+    { thumb: 'story-ceo-2-a.webp', title: 'Titik Balik', meta: '', desc: 'Awal 2018, lanskap kreatif bergeser cepat. Yohanes Auri menyadari rumah desainnya tak lagi cukup, lalu memilih melahirkan sesuatu yang lebih besar.' },
+    { thumb: 'story-ceo-2-b.webp', title: 'Satu Ide Besar', meta: '', desc: 'Kreativitas kini harus menggerakkan bisnis. Auri menarik para praktisi senior dari agensi multinasional, menyatukan mereka demi menyusun ide yang tajam.' },
+    { thumb: 'story-ceo-2-c.webp', title: 'Melawan Raksasa', meta: '', desc: 'Berhadapan langsung dengan agensi jaringan internasional, Idenya Flux merebut Citilink, XL, hingga Garuda, dan membuktikan agensi lokal sanggup menang.' },
+    { thumb: 'story-ceo-2-d.webp', title: 'Citilink: Manado Pe Gaya', meta: '', desc: 'Mongol dihadirkan menghibur penumpang rute Manado lewat komedinya. Hasilnya, pendapatan Citilink melonjak 32,5 persen, menembus lebih dari Rp8 miliar.', link: 'https://idenyaflux.co.id/portfolio/citilink.html' },
+    { thumb: 'story-ceo-2-e.webp', title: 'XL Prepaid: Satu Paket Untuk Sekeluarga', meta: '', desc: 'Lewat TVC, Idenya Flux mengangkat Paket Akrab dari XL Prepaid, satu paket data yang bisa dipakai bersama untuk seluruh anggota keluarga di rumah.', link: 'https://idenyaflux.co.id/portfolio/xl-prepaid-satu-paket-untuk-sekeluarga.html' },
+    { thumb: 'story-ceo-2-f.webp', title: 'Pizza Hut: Digital & Social Media', meta: '', desc: 'Menghadirkan beragam momen seru di Instagram dan YouTube untuk Pizza Hut Indonesia. Hasilnya, 3,1 juta impresi, 3,1 juta reach, dan 1,8 ribu engagement.', link: 'https://idenyaflux.co.id/portfolio/pizza-hut.html' },
+    { thumb: 'story-ceo-2-g.webp', title: 'Sriwijaya Air: #AdaAjaUnfortunately', meta: '', desc: 'Sebagai Agency Partner, Idenya Flux menggarap seluruh kampanye digital Sriwijaya Air lewat #AdaAjaUnfortunately demi memperkenalkan keunggulan maskapainya.', link: 'https://idenyaflux.co.id/portfolio/sriwijaya-air.html' },
+    { thumb: 'story-ceo-2-h.webp', title: 'Uniqlo: Digital & Social Media', meta: '', desc: 'Sejak 2021, Idenya Flux mengelola konten digital Uniqlo di semua platform, lengkap dengan konsep photoshoot untuk peluncuran koleksi dan pembukaan toko.', link: 'https://idenyaflux.co.id/portfolio/uniqlo.html' },
+  ];
+
   // Episode khusus stage 1 (The Origin) — perjalanan Flux Design
   const STORY1_EPISODES = [
     { thumb: 'story-ceo-1-a.webp', title: 'The Origin', meta: '', desc: 'Bermodal satu laptop dan sebersit keyakinan, Auri menyalakan Flux Design dari sudut kamar tidurnya. Tanpa tim, tanpa modal, hanya mimpi yang enggan padam.' },
@@ -2201,7 +2213,7 @@
       metaGreen: 'The Idea', year: '2020', badges: ['STAGE 2', 'Idea'],
       desc: 'Ide kecil yang tumbuh jadi identitas. Idenyaflux lahir sebagai cara berpikir kreatif yang bisa ditiru — bukan sekadar estetik, tapi sistem konten yang benar-benar menghasilkan.',
       side: [['Tahun', '2020'], ['Fase', 'The Idea'], ['Fokus', 'Content System']],
-      cta: ceoCta, episodes: CEO_EPISODES,
+      cta: ceoCta, episodes: STORY2_EPISODES,
     },
     story3: {
       type: 'story', hero: 'story-ceo-3-ls.webp',
@@ -2408,7 +2420,7 @@
     } else if (hasEps) {
       epsHtml = `<div class="detail-eps-heading">Episodes</div>
       ${d.episodes.map((e,i)=>`
-        <div class="episode-item" onclick="openEpisode(${i})">
+        <div class="episode-item" onclick="${e.link ? `window.open('${e.link}','_blank')` : `openEpisode(${i})`}">
           <div class="episode-num">${i+1}</div>
           <div class="episode-thumb" style="background-image:url('${e.thumb}${TS}')"></div>
           <div class="episode-info">
