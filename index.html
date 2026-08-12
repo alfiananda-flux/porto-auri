@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yohanes Auri</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?timestamp=1786100000000">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?timestamp=1786100000000">
+<link rel="shortcut icon" href="favicon.ico?timestamp=1786100000000">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?timestamp=1786100000000">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0a0a0a">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -2676,7 +2682,7 @@
     return {
       type: 'creator',
       hero: `${cfg.slug}-ls.webp`,
-      title: cfg.title, metaGreen: '230K+ Followers', year: cfg.platform,
+      title: cfg.title, metaGreen: '', year: cfg.platform,
       badges: ['CONTENT SERIES', `${eps.length} Konten`],
       desc: cfg.desc,
       side: [['Platform', cfg.platform], ['Kreator', 'Yohanes Auri'], ['Kategori', cfg.title]],
@@ -2852,7 +2858,7 @@
       <div class="detail-body">
         <h1 class="detail-body-title">${tr(d.title)}</h1>
         <div class="detail-meta">
-          <span class="meta-green">${tr(d.metaGreen)}</span>
+          ${d.metaGreen ? `<span class="meta-green">${tr(d.metaGreen)}</span>` : ''}
           <span>${tr(d.year)}</span>
           ${(d.badges||[]).map(b=>`<span class="meta-badge">${tr(b)}</span>`).join('')}
         </div>
