@@ -850,11 +850,8 @@
   .stats-bar {
     margin: 0 48px 48px;
     padding: 8px 0 32px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 8px 4px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
     position: relative;
   }
   .stat-item {
@@ -863,7 +860,11 @@
     justify-content: center;
   }
   /* Stat item versi image (badge lingkaran, wreath + angka + label sudah jadi 1 gambar) */
-  .stat-item-img { padding: 0 8px; flex: 0 1 auto; }
+  .stat-item-img { padding: 0 8px; }
+  /* Divider vertical antar award */
+  .stat-item-img:not(:first-child) {
+    border-left: 1px solid rgba(255,255,255,0.25);
+  }
   .stat-award-img {
     height: 150px;
     width: auto;
@@ -992,9 +993,11 @@
     .cards-scroll { padding: 24px 20px; margin: -24px -20px -12px; }
     .row-ctas { width: 100%; margin-left: 0; flex-wrap: wrap; }
     .see-all { padding: 6px 10px; font-size: 12px; }
-    .stats-bar { margin: 0 20px 24px; gap: 4px 2px; padding: 8px 0; }
+    .stats-bar { margin: 0 20px 24px; grid-template-columns: repeat(3, 1fr); row-gap: 16px; padding: 8px 0; }
     .stat-award-img { height: 82px; }
     .stat-item-img { padding: 0 4px; }
+    /* 3 kolom: divider cuma di dalam baris, bukan nempel di kolom pertama tiap baris */
+    .stat-item-img:nth-child(3n+1) { border-left: none; }
     .slide-ceo .hero-visual,
     .slide-cc .hero-visual,
     .slide-speaker .hero-visual { display: none; }
