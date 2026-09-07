@@ -863,13 +863,27 @@
   .stat-item + .stat-item {
     border-left: 1px solid rgba(255,255,255,0.25);
   }
+  .stat-num-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 8px;
+  }
+  .laurel {
+    width: 30px;
+    height: auto;
+    flex-shrink: 0;
+  }
+  .laurel path { fill: none; stroke: var(--gold); stroke-width: 2; stroke-linecap: round; }
+  .laurel ellipse { fill: var(--gold); }
+  .laurel-right { transform: scaleX(-1); }
   .stat-num {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 56px;
     font-weight: 700;
     letter-spacing: 2px;
     line-height: 1;
-    margin-bottom: 8px;
     /* subtle gradient: putih → menggelap di bawah */
     background: linear-gradient(to bottom, #fff 35%, rgba(255,255,255,0.45) 100%);
     -webkit-background-clip: text;
@@ -1009,6 +1023,8 @@
     .see-all { padding: 6px 10px; font-size: 12px; }
     .stats-bar { margin: 0 20px 32px; grid-template-columns: repeat(2,1fr); row-gap: 20px; padding: 8px 0; }
     .stat-num { font-size: 40px; }
+    .laurel { width: 18px; }
+    .stat-num-wrap { gap: 1px; }
     /* di 2 kolom: divider hanya untuk kolom kanan */
     .stat-item + .stat-item { border-left: none; }
     .stat-item:nth-child(even) { border-left: 1px solid rgba(255,255,255,0.12); }
@@ -1660,19 +1676,19 @@
 <!-- STATS BAR -->
 <div class="stats-bar">
   <div class="stat-item">
-    <div class="stat-num">2.3B</div>
+    <div class="stat-num-wrap"><svg class="laurel laurel-left" viewBox="0 0 40 100" aria-hidden="true"><path d="M18,96 C10,85 6,70 6,54 C6,38 9,24 18,12"/><ellipse cx="16" cy="92" rx="7" ry="3.2" transform="rotate(-70 16 92)"/><ellipse cx="10" cy="78" rx="6.5" ry="3" transform="rotate(-55 10 78)"/><ellipse cx="7" cy="62" rx="6" ry="2.8" transform="rotate(-35 7 62)"/><ellipse cx="7" cy="46" rx="5.5" ry="2.6" transform="rotate(-15 7 46)"/><ellipse cx="10" cy="32" rx="5" ry="2.4" transform="rotate(10 10 32)"/><ellipse cx="16" cy="20" rx="4.5" ry="2.2" transform="rotate(35 16 20)"/><ellipse cx="24" cy="10" rx="4" ry="2" transform="rotate(60 24 10)"/></svg><div class="stat-num">2.3B</div><svg class="laurel laurel-right" viewBox="0 0 40 100" aria-hidden="true"><path d="M18,96 C10,85 6,70 6,54 C6,38 9,24 18,12"/><ellipse cx="16" cy="92" rx="7" ry="3.2" transform="rotate(-70 16 92)"/><ellipse cx="10" cy="78" rx="6.5" ry="3" transform="rotate(-55 10 78)"/><ellipse cx="7" cy="62" rx="6" ry="2.8" transform="rotate(-35 7 62)"/><ellipse cx="7" cy="46" rx="5.5" ry="2.6" transform="rotate(-15 7 46)"/><ellipse cx="10" cy="32" rx="5" ry="2.4" transform="rotate(10 10 32)"/><ellipse cx="16" cy="20" rx="4.5" ry="2.2" transform="rotate(35 16 20)"/><ellipse cx="24" cy="10" rx="4" ry="2" transform="rotate(60 24 10)"/></svg></div>
     <div class="stat-label" data-t>Organic Views (MURI)</div>
   </div>
   <div class="stat-item">
-    <div class="stat-num">200+</div>
+    <div class="stat-num-wrap"><svg class="laurel laurel-left" viewBox="0 0 40 100" aria-hidden="true"><path d="M18,96 C10,85 6,70 6,54 C6,38 9,24 18,12"/><ellipse cx="16" cy="92" rx="7" ry="3.2" transform="rotate(-70 16 92)"/><ellipse cx="10" cy="78" rx="6.5" ry="3" transform="rotate(-55 10 78)"/><ellipse cx="7" cy="62" rx="6" ry="2.8" transform="rotate(-35 7 62)"/><ellipse cx="7" cy="46" rx="5.5" ry="2.6" transform="rotate(-15 7 46)"/><ellipse cx="10" cy="32" rx="5" ry="2.4" transform="rotate(10 10 32)"/><ellipse cx="16" cy="20" rx="4.5" ry="2.2" transform="rotate(35 16 20)"/><ellipse cx="24" cy="10" rx="4" ry="2" transform="rotate(60 24 10)"/></svg><div class="stat-num">200+</div><svg class="laurel laurel-right" viewBox="0 0 40 100" aria-hidden="true"><path d="M18,96 C10,85 6,70 6,54 C6,38 9,24 18,12"/><ellipse cx="16" cy="92" rx="7" ry="3.2" transform="rotate(-70 16 92)"/><ellipse cx="10" cy="78" rx="6.5" ry="3" transform="rotate(-55 10 78)"/><ellipse cx="7" cy="62" rx="6" ry="2.8" transform="rotate(-35 7 62)"/><ellipse cx="7" cy="46" rx="5.5" ry="2.6" transform="rotate(-15 7 46)"/><ellipse cx="10" cy="32" rx="5" ry="2.4" transform="rotate(10 10 32)"/><ellipse cx="16" cy="20" rx="4.5" ry="2.2" transform="rotate(35 16 20)"/><ellipse cx="24" cy="10" rx="4" ry="2" transform="rotate(60 24 10)"/></svg></div>
     <div class="stat-label" data-t>Tim di FCU</div>
   </div>
   <div class="stat-item">
-    <div class="stat-num">230K+</div>
+    <div class="stat-num-wrap"><svg class="laurel laurel-left" viewBox="0 0 40 100" aria-hidden="true"><path d="M18,96 C10,85 6,70 6,54 C6,38 9,24 18,12"/><ellipse cx="16" cy="92" rx="7" ry="3.2" transform="rotate(-70 16 92)"/><ellipse cx="10" cy="78" rx="6.5" ry="3" transform="rotate(-55 10 78)"/><ellipse cx="7" cy="62" rx="6" ry="2.8" transform="rotate(-35 7 62)"/><ellipse cx="7" cy="46" rx="5.5" ry="2.6" transform="rotate(-15 7 46)"/><ellipse cx="10" cy="32" rx="5" ry="2.4" transform="rotate(10 10 32)"/><ellipse cx="16" cy="20" rx="4.5" ry="2.2" transform="rotate(35 16 20)"/><ellipse cx="24" cy="10" rx="4" ry="2" transform="rotate(60 24 10)"/></svg><div class="stat-num">230K+</div><svg class="laurel laurel-right" viewBox="0 0 40 100" aria-hidden="true"><path d="M18,96 C10,85 6,70 6,54 C6,38 9,24 18,12"/><ellipse cx="16" cy="92" rx="7" ry="3.2" transform="rotate(-70 16 92)"/><ellipse cx="10" cy="78" rx="6.5" ry="3" transform="rotate(-55 10 78)"/><ellipse cx="7" cy="62" rx="6" ry="2.8" transform="rotate(-35 7 62)"/><ellipse cx="7" cy="46" rx="5.5" ry="2.6" transform="rotate(-15 7 46)"/><ellipse cx="10" cy="32" rx="5" ry="2.4" transform="rotate(10 10 32)"/><ellipse cx="16" cy="20" rx="4.5" ry="2.2" transform="rotate(35 16 20)"/><ellipse cx="24" cy="10" rx="4" ry="2" transform="rotate(60 24 10)"/></svg></div>
     <div class="stat-label" data-t>Followers Personal</div>
   </div>
   <div class="stat-item">
-    <div class="stat-num">30+</div>
+    <div class="stat-num-wrap"><svg class="laurel laurel-left" viewBox="0 0 40 100" aria-hidden="true"><path d="M18,96 C10,85 6,70 6,54 C6,38 9,24 18,12"/><ellipse cx="16" cy="92" rx="7" ry="3.2" transform="rotate(-70 16 92)"/><ellipse cx="10" cy="78" rx="6.5" ry="3" transform="rotate(-55 10 78)"/><ellipse cx="7" cy="62" rx="6" ry="2.8" transform="rotate(-35 7 62)"/><ellipse cx="7" cy="46" rx="5.5" ry="2.6" transform="rotate(-15 7 46)"/><ellipse cx="10" cy="32" rx="5" ry="2.4" transform="rotate(10 10 32)"/><ellipse cx="16" cy="20" rx="4.5" ry="2.2" transform="rotate(35 16 20)"/><ellipse cx="24" cy="10" rx="4" ry="2" transform="rotate(60 24 10)"/></svg><div class="stat-num">30+</div><svg class="laurel laurel-right" viewBox="0 0 40 100" aria-hidden="true"><path d="M18,96 C10,85 6,70 6,54 C6,38 9,24 18,12"/><ellipse cx="16" cy="92" rx="7" ry="3.2" transform="rotate(-70 16 92)"/><ellipse cx="10" cy="78" rx="6.5" ry="3" transform="rotate(-55 10 78)"/><ellipse cx="7" cy="62" rx="6" ry="2.8" transform="rotate(-35 7 62)"/><ellipse cx="7" cy="46" rx="5.5" ry="2.6" transform="rotate(-15 7 46)"/><ellipse cx="10" cy="32" rx="5" ry="2.4" transform="rotate(10 10 32)"/><ellipse cx="16" cy="20" rx="4.5" ry="2.2" transform="rotate(35 16 20)"/><ellipse cx="24" cy="10" rx="4" ry="2" transform="rotate(60 24 10)"/></svg></div>
     <div class="stat-label" data-t>Partners / Founders</div>
   </div>
 </div>
