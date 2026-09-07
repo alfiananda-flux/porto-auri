@@ -328,14 +328,14 @@
     position: relative;
     z-index: 3;
     padding: 0 48px;
-    max-width: 600px;
+    max-width: clamp(600px, 40vw, 820px);
   }
   .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 16px;
-    font-size: 12px;
+    font-size: clamp(12px, 0.9vw, 16px);
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -365,7 +365,7 @@
     max-width: min(760px, 60vw);
   }
   .hero-subtitle-role {
-    font-size: 13px;
+    font-size: clamp(13px, 1vw, 17px);
     font-weight: 600;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -373,11 +373,11 @@
     margin-bottom: 16px;
   }
   .hero-desc {
-    font-size: 15px;
+    font-size: clamp(15px, 1.1vw, 19px);
     line-height: 1.6;
     color: #ccc;
     margin-bottom: 28px;
-    max-width: 480px;
+    max-width: clamp(480px, 33vw, 640px);
   }
   .hero-tags {
     display: flex;
@@ -386,7 +386,7 @@
     margin-bottom: 28px;
   }
   .tag {
-    font-size: 11px;
+    font-size: clamp(11px, 0.8vw, 14px);
     font-weight: 500;
     color: #aaa;
     letter-spacing: 0.5px;
