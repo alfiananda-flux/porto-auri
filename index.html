@@ -404,10 +404,10 @@
     gap: 10px;
     background: #fff;
     color: #000;
-    padding: 12px 28px;
+    padding: clamp(12px, 0.85vw, 16px) clamp(28px, 2vw, 38px);
     border-radius: 4px;
     font-weight: 700;
-    font-size: 15px;
+    font-size: clamp(15px, 1.05vw, 19px);
     cursor: pointer;
     border: none;
     transition: background 0.2s, transform 0.15s;
@@ -419,15 +419,20 @@
     gap: 10px;
     background: rgba(109,109,110,0.7);
     color: #fff;
-    padding: 12px 28px;
+    padding: clamp(12px, 0.85vw, 16px) clamp(28px, 2vw, 38px);
     border-radius: 4px;
     font-weight: 600;
-    font-size: 15px;
+    font-size: clamp(15px, 1.05vw, 19px);
     cursor: pointer;
     border: none;
     transition: background 0.2s;
   }
   .btn-secondary:hover { background: rgba(109,109,110,0.5); }
+  .btn-primary svg, .btn-secondary svg {
+    width: clamp(16px, 1.15vw, 20px);
+    height: clamp(16px, 1.15vw, 20px);
+    flex-shrink: 0;
+  }
 
   /* Hero dots */
   .hero-indicators {
