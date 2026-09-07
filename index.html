@@ -538,6 +538,9 @@
     scrollbar-width: none;
   }
   .cards-scroll::-webkit-scrollbar { display: none; }
+  /* Saat card sudah mentok max-width (lihat .cards-fill di atas), sisa ruang kosong
+     dipakai sebagai jarak ekstra antar card, bukan space kosong di kanan */
+  .cards-scroll.cards-fill { justify-content: space-between; }
 
   /* ── OVERLAY ARROW ala Netflix ── */
   .cards-wrap { position: relative; }
