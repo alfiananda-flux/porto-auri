@@ -850,13 +850,20 @@
   .grad-spk3 { background: linear-gradient(135deg, #1a0a2a, #0a1a0a); }
   .grad-spk4 { background: linear-gradient(135deg, #2a0a1a, #0a2a1a); }
 
-  /* ── STATS BAR ── */
+  /* ── STATS BAR (piramida: 1 - 2 - 3, urut dari yang pertama di atas) ── */
   .stats-bar {
     margin: 0 48px 48px;
     padding: 8px 0 32px;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
     position: relative;
+  }
+  .stats-pyramid-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .stat-item {
     display: flex;
@@ -997,11 +1004,9 @@
     .cards-scroll { padding: 24px 20px; margin: -24px -20px -12px; }
     .row-ctas { width: 100%; margin-left: 0; flex-wrap: wrap; }
     .see-all { padding: 6px 10px; font-size: 12px; }
-    .stats-bar { margin: 0 20px 24px; grid-template-columns: repeat(3, 1fr); row-gap: 16px; padding: 8px 0; }
+    .stats-bar { margin: 0 20px 24px; gap: 12px; padding: 8px 0; }
     .stat-award-img { height: 82px; }
     .stat-item-img { padding: 0 4px; }
-    /* 3 kolom: divider cuma di dalam baris, bukan nempel di kolom pertama tiap baris */
-    .stat-item-img:nth-child(3n+1) { border-left: none; }
     .slide-ceo .hero-visual,
     .slide-cc .hero-visual,
     .slide-speaker .hero-visual { display: none; }
@@ -1649,23 +1654,29 @@
 
 <!-- STATS BAR -->
 <div class="stats-bar">
-  <div class="stat-item stat-item-img">
-    <img class="stat-award-img" src="2.3b.svg" alt="2.3B+ Organic Views">
+  <div class="stats-pyramid-row">
+    <div class="stat-item stat-item-img">
+      <img class="stat-award-img" src="2.3b.svg" alt="2.3B+ Organic Views">
+    </div>
   </div>
-  <div class="stat-item stat-item-img">
-    <img class="stat-award-img" src="250k.svg" alt="250K+ Followers Across Social Media">
+  <div class="stats-pyramid-row">
+    <div class="stat-item stat-item-img">
+      <img class="stat-award-img" src="250k.svg" alt="250K+ Followers Across Social Media">
+    </div>
+    <div class="stat-item stat-item-img">
+      <img class="stat-award-img" src="1500.svg" alt="1500+ Audience Reached Across Stages">
+    </div>
   </div>
-  <div class="stat-item stat-item-img">
-    <img class="stat-award-img" src="1500.svg" alt="1500+ Audience Reached Across Stages">
-  </div>
-  <div class="stat-item stat-item-img">
-    <img class="stat-award-img" src="200plus.svg" alt="200+ People Led Across Flux Creative Universe">
-  </div>
-  <div class="stat-item stat-item-img">
-    <img class="stat-award-img" src="30plus.svg" alt="30+ Creative Businesses Built in 20 Years">
-  </div>
-  <div class="stat-item stat-item-img">
-    <img class="stat-award-img" src="20year.svg" alt="20 Years in Business & Creative Industry">
+  <div class="stats-pyramid-row">
+    <div class="stat-item stat-item-img">
+      <img class="stat-award-img" src="200plus.svg" alt="200+ People Led Across Flux Creative Universe">
+    </div>
+    <div class="stat-item stat-item-img">
+      <img class="stat-award-img" src="30plus.svg" alt="30+ Creative Businesses Built in 20 Years">
+    </div>
+    <div class="stat-item stat-item-img">
+      <img class="stat-award-img" src="20year.svg" alt="20 Years in Business & Creative Industry">
+    </div>
   </div>
 </div>
 
