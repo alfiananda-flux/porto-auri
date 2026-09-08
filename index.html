@@ -850,20 +850,17 @@
   .grad-spk3 { background: linear-gradient(135deg, #1a0a2a, #0a1a0a); }
   .grad-spk4 { background: linear-gradient(135deg, #2a0a1a, #0a2a1a); }
 
-  /* ── STATS BAR (piramida: 1 - 2 - 3, urut dari yang pertama di atas) ── */
+  /* ── STATS BAR (desktop: baris rata, mobile: piramida 1-2-3 lihat @media 768px) ── */
   .stats-bar {
     margin: 0 48px 48px;
     padding: 8px 0 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
     position: relative;
   }
+  /* Desktop: wrapper baris piramida "dibongkar" biar 6 item jadi 1 baris grid rata */
   .stats-pyramid-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: contents;
   }
   .stat-item {
     display: flex;
@@ -872,9 +869,12 @@
   }
   /* Stat item versi image (badge lingkaran, wreath + angka + label sudah jadi 1 gambar) */
   .stat-item-img { padding: 0 8px; }
-  /* Divider vertical antar award */
-  .stat-item-img:not(:first-child) {
+  /* Divider vertical antar award (desktop: semua kecuali item paling pertama) */
+  .stat-item-img {
     border-left: 1px solid rgba(255,255,255,0.25);
+  }
+  .stat-item-img.stat-first {
+    border-left: none;
   }
   .stat-award-img {
     height: 150px;
@@ -1004,9 +1004,12 @@
     .cards-scroll { padding: 24px 20px; margin: -24px -20px -12px; }
     .row-ctas { width: 100%; margin-left: 0; flex-wrap: wrap; }
     .see-all { padding: 6px 10px; font-size: 12px; }
-    .stats-bar { margin: 0 20px 24px; gap: 12px; padding: 8px 0; }
+    /* Mobile: piramida 1-2-3, urut dari yang pertama di atas */
+    .stats-bar { margin: 0 20px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 8px 0; }
+    .stats-pyramid-row { display: flex; align-items: center; justify-content: center; }
     .stat-award-img { height: 82px; }
-    .stat-item-img { padding: 0 4px; }
+    .stat-item-img { padding: 0 4px; border-left: none; }
+    .stat-item-img:not(:first-child) { border-left: 1px solid rgba(255,255,255,0.25); }
     .slide-ceo .hero-visual,
     .slide-cc .hero-visual,
     .slide-speaker .hero-visual { display: none; }
@@ -1655,7 +1658,7 @@
 <!-- STATS BAR -->
 <div class="stats-bar">
   <div class="stats-pyramid-row">
-    <div class="stat-item stat-item-img">
+    <div class="stat-item stat-item-img stat-first">
       <img class="stat-award-img" src="2.3b.svg" alt="2.3B+ Organic Views">
     </div>
   </div>
