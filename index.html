@@ -673,7 +673,8 @@
     gap: 28px 40px;
     margin-top: 40px;
   }
-  .story-picker-grid .card-story { margin-bottom: 8px; opacity: 1 !important; transform: none !important; }
+  .story-picker-grid .card-story,
+  .story-picker-grid .card-content { margin-bottom: 8px; opacity: 1 !important; transform: none !important; }
 
   /* ── CONTENT CREATOR CARDS (Netflix poster style) ── */
   .card-content {
@@ -2006,6 +2007,7 @@
     [`Kirim via WhatsApp`, `Send via WhatsApp`],
     // Story picker popup (Explore di hero slide 1)
     [`Pilih babak perjalanan yang ingin kamu lihat.`, `Choose the chapter of the journey you want to see.`],
+    [`Pilih konten yang ingin kamu lihat.`, `Choose the content you want to see.`],
     // Modal headings & labels
     [`Kelas`, `Class`], [`Konten`, `Content`], [`Materi Kelas`, `Class Material`], [`materi`, `materials`],
     [`Kerja Sama`, `Collaborate`], [`Ajak Collab`, `Collab`], [`Ambil Kelas`, `Get the Class`],
@@ -2232,6 +2234,7 @@
     if (document.getElementById('detail-modal').classList.contains('open') && lastDetail) {
       if (lastDetail.key === '__contact__') openContactModal();
       else if (lastDetail.key === '__story_picker__') openStoryPickerModal();
+      else if (lastDetail.key === '__content_picker__') openContentPickerModal();
       else openDetail(lastDetail.key, lastDetail.override);
     }
   }
@@ -2391,8 +2394,10 @@
 
   function handleExploreClick() {
     // Slide 1 (Captain Auri / CEO Story, index 0) → buka popup pilihan 5 story.
-    // Slide lain tetap scroll ke row seperti biasa.
+    // Slide 2 (Content Creator, index 1) → buka popup pilihan 5 content.
+    // Slide lain (Speaker Moments) tetap scroll ke row seperti biasa.
     if (show.current === 0) openStoryPickerModal();
+    else if (show.current === 1) openContentPickerModal();
     else scrollToSection();
   }
 
@@ -3097,6 +3102,32 @@
     const storyRow = document.querySelectorAll('.row')[0];
     const storyCards = storyRow ? storyRow.querySelectorAll('.card-story') : [];
     storyCards.forEach(c => grid.appendChild(c.cloneNode(true)));
+
+    document.getElementById('detail-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('detail-modal').scrollTop = 0;
+    clearInterval(galleryTimer);
+  }
+
+  // Content picker modal: reuse #detail-modal shell, isi dengan clone 5 card dari row "Content Creator"
+  function openContentPickerModal() {
+    lastDetail = { key: '__content_picker__' };
+    galleryIdx = 0;
+    currentEpisodes = [];
+    const card = document.getElementById('detail-card');
+    card.innerHTML = `
+      <button class="detail-close" onclick="closeDetail()" aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+      <div class="story-picker">
+        <h2 class="footer-cta-title">Content <span>Creator</span></h2>
+        <p class="footer-cta-sub">${tr('Pilih konten yang ingin kamu lihat.')}</p>
+        <div class="story-picker-grid" id="content-picker-grid"></div>
+      </div>`;
+    const grid = document.getElementById('content-picker-grid');
+    const contentRow = document.querySelectorAll('.row')[1];
+    const contentCards = contentRow ? contentRow.querySelectorAll('.card-content') : [];
+    contentCards.forEach(c => grid.appendChild(c.cloneNode(true)));
 
     document.getElementById('detail-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
