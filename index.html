@@ -674,7 +674,8 @@
     margin-top: 40px;
   }
   .story-picker-grid .card-story,
-  .story-picker-grid .card-content { margin-bottom: 8px; opacity: 1 !important; transform: none !important; }
+  .story-picker-grid .card-content,
+  .story-picker-grid .card-speaker { margin-bottom: 8px; opacity: 1 !important; transform: none !important; }
 
   /* ── CONTENT CREATOR CARDS (Netflix poster style) ── */
   .card-content {
@@ -2008,6 +2009,7 @@
     // Story picker popup (Explore di hero slide 1)
     [`Pilih babak perjalanan yang ingin kamu lihat.`, `Choose the chapter of the journey you want to see.`],
     [`Pilih konten yang ingin kamu lihat.`, `Choose the content you want to see.`],
+    [`Pilih momen yang ingin kamu lihat.`, `Choose the moment you want to see.`],
     // Modal headings & labels
     [`Kelas`, `Class`], [`Konten`, `Content`], [`Materi Kelas`, `Class Material`], [`materi`, `materials`],
     [`Kerja Sama`, `Collaborate`], [`Ajak Collab`, `Collab`], [`Ambil Kelas`, `Get the Class`],
@@ -2235,6 +2237,7 @@
       if (lastDetail.key === '__contact__') openContactModal();
       else if (lastDetail.key === '__story_picker__') openStoryPickerModal();
       else if (lastDetail.key === '__content_picker__') openContentPickerModal();
+      else if (lastDetail.key === '__speaker_picker__') openSpeakerPickerModal();
       else openDetail(lastDetail.key, lastDetail.override);
     }
   }
@@ -2395,9 +2398,10 @@
   function handleExploreClick() {
     // Slide 1 (Captain Auri / CEO Story, index 0) → buka popup pilihan 5 story.
     // Slide 2 (Content Creator, index 1) → buka popup pilihan 5 content.
-    // Slide lain (Speaker Moments) tetap scroll ke row seperti biasa.
+    // Slide 3 (Speaker Moments, index 2) → buka popup pilihan 6 speaker moment.
     if (show.current === 0) openStoryPickerModal();
     else if (show.current === 1) openContentPickerModal();
+    else if (show.current === 2) openSpeakerPickerModal();
     else scrollToSection();
   }
 
@@ -3128,6 +3132,32 @@
     const contentRow = document.querySelectorAll('.row')[1];
     const contentCards = contentRow ? contentRow.querySelectorAll('.card-content') : [];
     contentCards.forEach(c => grid.appendChild(c.cloneNode(true)));
+
+    document.getElementById('detail-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('detail-modal').scrollTop = 0;
+    clearInterval(galleryTimer);
+  }
+
+  // Speaker picker modal: reuse #detail-modal shell, isi dengan clone 6 card dari row "Top 10 Speaker Moments"
+  function openSpeakerPickerModal() {
+    lastDetail = { key: '__speaker_picker__' };
+    galleryIdx = 0;
+    currentEpisodes = [];
+    const card = document.getElementById('detail-card');
+    card.innerHTML = `
+      <button class="detail-close" onclick="closeDetail()" aria-label="Tutup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+      <div class="story-picker">
+        <h2 class="footer-cta-title">Top 10 <span>Speaker Moments</span></h2>
+        <p class="footer-cta-sub">${tr('Pilih momen yang ingin kamu lihat.')}</p>
+        <div class="story-picker-grid" id="speaker-picker-grid"></div>
+      </div>`;
+    const grid = document.getElementById('speaker-picker-grid');
+    const speakerRow = document.querySelectorAll('.row')[2];
+    const speakerCards = speakerRow ? speakerRow.querySelectorAll('.card-speaker') : [];
+    speakerCards.forEach(c => grid.appendChild(c.cloneNode(true)));
 
     document.getElementById('detail-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
