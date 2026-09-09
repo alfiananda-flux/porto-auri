@@ -2819,9 +2819,12 @@
       year: 'YouTube', badges: ['Podcast', 'Ongoing'],
       side: [['Host', 'Yohanes Auri'], ['Platform', 'YouTube'], ['Format', 'Podcast'], ['Topics', 'Creative · Business · Leadership']],
     }),
-    'suhu-kreatif': creatorSeries({ title: 'Suhu Kreatif', titleImg: 'suhu-kreatif-ttl.webp', slug: 'suhu-kreatif', platform: 'Instagram · Reels',
+    'suhu-kreatif': Object.assign(creatorSeries({ title: 'Suhu Kreatif', titleImg: 'suhu-kreatif-ttl.webp', slug: 'suhu-kreatif', platform: 'Instagram · Reels',
       desc: 'Di sebuah perguruan bela diri kreatif, seorang Suhu menempa murid-muridnya bukan lewat jurus biasa, melainkan pelajaran keras soal atensi, plagiat, burnout, dan kepercayaan yang hancur. Satu per satu mereka datang mencari jawaban, dan menemukan bahwa ide terbaik lahir dari keberanian.',
-      episodes: SUHU_EPS }),
+      episodes: SUHU_EPS }), {
+      badges: ['Content Series', 'Ongoing'],
+      side: [['Creator', 'Yohanes Auri'], ['Platform', 'Instagram'], ['Format', 'Short Video'], ['Duration', '30-60 sec']],
+    }),
     'dummy-content': {
       type: 'creator', hero: 'the-wolf-ls.webp',
       title: `<img src='The-wolf-ttl.webp' alt='The Wolf'>`, metaGreen: '', year: 'Instagram · Carousel',
