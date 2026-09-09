@@ -2942,7 +2942,7 @@
         ${tr(d.cta.label)}
       </button>
       <button class="detail-circle" id="dm-like" onclick="toggleLike(this)" aria-label="Suka">${ICON.like}</button>
-      <button class="detail-circle" onclick="shareDetail('${(d.title||'').replace(/'/g,'')}')" aria-label="Bagikan">${ICON.share}</button>`;
+      <button class="detail-circle" onclick="shareDetail('${shareTitle(d.title)}')" aria-label="Bagikan">${ICON.share}</button>`;
 
     // side info
     const side = (d.side||[]).map(([l,v])=>`<p><span class="lbl">${tr(l)}:</span> <span class="val">${tr(v)}</span></p>`).join('');
@@ -3074,6 +3074,15 @@
   }
 
   function toggleLike(btn) { btn.classList.toggle('liked'); }
+
+  // Ambil teks judul yang aman utk dipakai di dalam atribut onclick (hindari HTML/quote break).
+  // Prioritas: teks alt dari tag <img>, kalau tidak ada baru strip semua tag HTML.
+  function shareTitle(html) {
+    if (!html) return '';
+    const m = /alt=["']([^"']*)["']/.exec(html);
+    const raw = m ? m[1] : html.replace(/<[^>]*>/g, '');
+    return raw.replace(/["'\\]/g, '');
+  }
 
   function shareDetail(title) {
     const url = location.href;
