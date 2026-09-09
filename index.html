@@ -3041,15 +3041,19 @@
         </div>`).join('')}`;
     } else if (hasEps) {
       epsHtml = `<div class="detail-eps-heading">${tr('Collection')}</div>
-      ${d.episodes.map((e,i)=>`
+      ${d.episodes.map((e,i)=>{
+        const useMobThumb = e.thumbMobile && window.innerWidth <= 768;
+        const thumbSrc = useMobThumb ? e.thumbMobile : e.thumb;
+        return `
         <div class="episode-item" onclick="${e.speakerIdx !== undefined ? `openSpeaker(${e.speakerIdx})` : e.detailKey ? `openDetail('${e.detailKey}')` : e.link ? `window.open('${e.link}','_blank')` : `openEpisode(${i})`}">
           <div class="episode-num">${i+1}</div>
-          <div class="episode-thumb" style="background-image:url('${(e.thumbMobile && window.innerWidth <= 768) ? e.thumbMobile : e.thumb}${TS}')"></div>
+          <div class="episode-thumb${useMobThumb ? ' portrait' : ''}" style="background-image:url('${thumbSrc}${TS}')"></div>
           <div class="episode-info">
             <div class="episode-header"><div class="episode-title">${tr(e.title)}</div><div class="episode-duration">${tr(e.meta)}</div></div>
             <div class="episode-desc">${tr(e.desc)}</div>
           </div>
-        </div>`).join('')}`;
+        </div>`;
+      }).join('')}`;
     }
 
     card.innerHTML = `
