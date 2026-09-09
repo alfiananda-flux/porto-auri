@@ -2443,7 +2443,7 @@
     // Slide 1 (Captain Auri / CEO Story, index 0) → buka detail popup story1, hero image pakai banner hero slide 1.
     // Slide 2 (Content Creator, index 1) → buka detail popup 'creative-talk' (card 1 di section Content), hero image pakai banner hero slide 2.
     // Slide 3 (Speaker Moments, index 2) → buka detail popup 'speaker' (card 1 di section Top 10 Public Speaking Highlights), hero image pakai banner hero slide 3.
-    if (show.current === 0) openDetail('story1', { hero: 'hero-img-1.webp', title: slides[0].title, desc: slides[0].desc, episodes: HERO1_PICKER_EPS });
+    if (show.current === 0) openDetail('story1', { hero: 'hero-img-1.webp', title: slides[0].title, desc: slides[0].desc, episodes: HERO1_PICKER_EPS, metaGreen: 'CEO Origin Story', year: '2006 - 2026', badges: ['5 Chapters'] });
     else if (show.current === 1) openDetail('creative-talk', { type: 'story', hero: 'hero-img-2.webp', title: slides[1].title, desc: slides[1].desc, episodes: HERO2_PICKER_EPS });
     else if (show.current === 2) {
       const ev0 = SPEAKER_EVENTS[0];
