@@ -2422,10 +2422,10 @@
   }
 
   function handleExploreClick() {
-    // Slide 1 (Captain Auri / CEO Story, index 0) → buka popup pilihan 5 story.
+    // Slide 1 (Captain Auri / CEO Story, index 0) → buka detail popup story1, hero image pakai banner hero slide 1.
     // Slide 2 (Content Creator, index 1) → buka popup pilihan 5 content.
     // Slide 3 (Speaker Moments, index 2) → buka popup pilihan 6 speaker moment.
-    if (show.current === 0) openStoryPickerModal();
+    if (show.current === 0) openDetail('story1', { hero: 'hero-img-1.webp' });
     else if (show.current === 1) openContentPickerModal();
     else if (show.current === 2) openSpeakerPickerModal();
     else scrollToSection();
