@@ -3014,7 +3014,7 @@
           </div>
         </div>`).join('')}`;
     } else if (hasEps) {
-      epsHtml = `<div class="detail-eps-heading">${tr('Episodes')}</div>
+      epsHtml = `<div class="detail-eps-heading">${tr('Collection')}</div>
       ${d.episodes.map((e,i)=>`
         <div class="episode-item" onclick="${e.speakerIdx !== undefined ? `openSpeaker(${e.speakerIdx})` : e.detailKey ? `openDetail('${e.detailKey}')` : e.link ? `window.open('${e.link}','_blank')` : `openEpisode(${i})`}">
           <div class="episode-num">${i+1}</div>
