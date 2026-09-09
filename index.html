@@ -2807,9 +2807,12 @@
       cta: { label: 'Ambil Kelas', url: 'https://lynk.id/yohanesauriflux' },
       courses: BORN_COURSES,
     },
-    'leadership': creatorSeries({ title: 'Leadership', titleImg: 'the-leader-ttl.webp', titleImgClass: 'title-img-lg', slug: 'leadership', platform: 'Instagram · Reels',
+    'leadership': Object.assign(creatorSeries({ title: 'Leadership', titleImg: 'the-leader-ttl.webp', titleImgClass: 'title-img-lg', slug: 'leadership', platform: 'Instagram · Reels',
       desc: 'Selama hampir 20 tahun memimpin, seorang leader membongkar sisi yang jarang terlihat: kecewa yang dipendam, label "toxic" yang menghapus segalanya, dan beban yang tak pernah muncul di slip gaji. Sebuah pengingat jujur bahwa di balik jabatan, leader juga manusia.',
-      episodes: LEADERSHIP_EPS }),
+      episodes: LEADERSHIP_EPS }), {
+      badges: ['CONTENT SERIES', 'Ongoing'],
+      side: [['Creator', 'Yohanes Auri'], ['Platform', 'Instagram'], ['Format', 'Short Video'], ['Duration', '60-90 sec']],
+    }),
     'creative-talk': Object.assign(creatorSeries({ title: 'Creative Talk', titleImg: 'creative-talk-ttl.webp', slug: 'creative-talk', platform: 'YouTube',
       desc: 'Dalam seri obrolan Creative Talk, seorang founder agensi kreatif duduk bersama para tamu tak terduga, mulai dari coach bisnis, penjahit berusia 64 tahun, sahabat lama, hingga anak-anaknya sendiri. Dari ruang rapat sampai meja makan, terungkap kisah nyata soal bisnis, keluarga, dan arti sukses.',
       episodes: CREATIVE_TALK_EPS, ratio: '16:9' }), {
