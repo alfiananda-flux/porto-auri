@@ -2426,7 +2426,7 @@
     // Slide 2 (Content Creator, index 1) → buka detail popup 'creative-talk' (card 1 di section Content), hero image pakai banner hero slide 2.
     // Slide 3 (Speaker Moments, index 2) → buka popup pilihan 6 speaker moment.
     if (show.current === 0) openDetail('story1', { hero: 'hero-img-1.webp', title: slides[0].title, desc: slides[0].desc, episodes: HERO1_PICKER_EPS });
-    else if (show.current === 1) openDetail('creative-talk', { hero: 'hero-img-2.webp', title: slides[1].title });
+    else if (show.current === 1) openDetail('creative-talk', { type: 'story', hero: 'hero-img-2.webp', title: slides[1].title, desc: slides[1].desc, episodes: HERO2_PICKER_EPS });
     else if (show.current === 2) openSpeakerPickerModal();
     else scrollToSection();
   }
@@ -2707,6 +2707,15 @@
     { thumb: 'avengersfcu.webp', title: 'Avengers: Flux Creative Universe', meta: '2021', desc: 'Apa yang terjadi kalau sebuah agensi kreatif berhenti berpikir seperti agensi? Ia membangun seluruh semesta. Flux Creative Universe kini menaungi 200+ orang, 30 perusahaan, dan 8 pilar bisnis. Dibangun bersama sejumlah tokoh bisnis paling terkemuka di Indonesia, FCU kini memasuki babak endgame-nya.', detailKey: 'story3' },
     { thumb: 'breakbank.webp', title: 'Breaking Bank', meta: '2022', desc: 'Terkadang peluang terbesar dimulai dari telepon yang tak pernah kamu duga akan datang. Di tahun 2022, pertemuan dengan Deddy Corbuzier melahirkan joint venture pertama mereka. Yang awalnya cuma satu usaha bersama, perlahan membuka jalan menuju kemitraan yang lebih dalam. Dengan bisnis bernilai Rp1 triliun di belakangnya, Deddy pun berinvestasi di Flux Creative Universe. Apa yang terjadi setelahnya mengubah skala permainan sepenuhnya.', detailKey: 'story4' },
     { thumb: 'gametrop.webp', title: 'Game Of Thropies', meta: '2025\u20132026', desc: 'Kemenangan tidak pernah diberikan. Ia direbut lewat darah, keringat, dan inovasi tanpa henti. Melalui puluhan tahun pertarungan kreatif dan rintangan yang mustahil, Flux Creative Universe telah menobatkan juaranya. Ditempa dari 13 penghargaan bergengsi, 1 rekor MURI, dan terobosan industri yang tak terhitung jumlahnya, penaklukan sesungguhnya baru saja dimulai.', detailKey: 'story5' },
+  ];
+
+  // ── Hero Slide 2 (Explore) hub: daftar 5 card Content Creator, thumbnail versi landscape ──
+  const HERO2_PICKER_EPS = [
+    { thumb: 'creative-talk-ls.webp', title: 'Creative Talk', meta: 'YouTube', desc: 'Dalam seri obrolan Creative Talk, seorang founder agensi kreatif duduk bersama para tamu tak terduga, mulai dari coach bisnis, penjahit berusia 64 tahun, sahabat lama, hingga anak-anaknya sendiri. Dari ruang rapat sampai meja makan, terungkap kisah nyata soal bisnis, keluarga, dan arti sukses.', detailKey: 'creative-talk' },
+    { thumb: 'leadership-ls.webp', title: 'Leadership', meta: 'Instagram \u00b7 Reels', desc: 'Selama hampir 20 tahun memimpin, seorang leader membongkar sisi yang jarang terlihat: kecewa yang dipendam, label "toxic" yang menghapus segalanya, dan beban yang tak pernah muncul di slip gaji. Sebuah pengingat jujur bahwa di balik jabatan, leader juga manusia.', detailKey: 'leadership' },
+    { thumb: 'born-to-lead-ls.webp', title: 'Born To Lead', meta: 'Leadership Class', desc: 'Berbekal 20 tahun jatuh-bangun memimpin, Yohanes Auri membongkar seni kepemimpinan lewat analogi tubuh manusia, dari mata sampai jejak kaki. Kelas ini bukan teori yang bikin ngantuk, tapi skill nyata yang langsung bisa dipraktikkan untuk naik level jadi leader sesungguhnya.', detailKey: 'born-to-lead' },
+    { thumb: 'the-wolf-ls.webp', title: 'The Wolf', meta: 'Instagram \u00b7 Reels', desc: 'Ini deskripsi dummy untuk konten placeholder. Ganti dengan konten asli.', detailKey: 'dummy-content' },
+    { thumb: 'suhu-kreatif-ls.webp', title: 'Suhu Kreatif', meta: 'Instagram \u00b7 Reels', desc: 'Di sebuah perguruan bela diri kreatif, seorang Suhu menempa murid-muridnya bukan lewat jurus biasa, melainkan pelajaran keras soal atensi, plagiat, burnout, dan kepercayaan yang hancur. Satu per satu mereka datang mencari jawaban, dan menemukan bahwa ide terbaik lahir dari keberanian.', detailKey: 'suhu-kreatif' },
   ];
 
   const DETAILS = {
