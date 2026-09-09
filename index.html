@@ -2426,10 +2426,18 @@
   function handleExploreClick() {
     // Slide 1 (Captain Auri / CEO Story, index 0) → buka detail popup story1, hero image pakai banner hero slide 1.
     // Slide 2 (Content Creator, index 1) → buka detail popup 'creative-talk' (card 1 di section Content), hero image pakai banner hero slide 2.
-    // Slide 3 (Speaker Moments, index 2) → buka popup pilihan 6 speaker moment.
+    // Slide 3 (Speaker Moments, index 2) → buka detail popup 'speaker' (card 1 di section Top 10 Public Speaking Highlights), hero image pakai banner hero slide 3.
     if (show.current === 0) openDetail('story1', { hero: 'hero-img-1.webp', title: slides[0].title, desc: slides[0].desc, episodes: HERO1_PICKER_EPS });
     else if (show.current === 1) openDetail('creative-talk', { type: 'story', hero: 'hero-img-2.webp', title: slides[1].title, desc: slides[1].desc, episodes: HERO2_PICKER_EPS });
-    else if (show.current === 2) openSpeakerPickerModal();
+    else if (show.current === 2) {
+      const ev0 = SPEAKER_EVENTS[0];
+      openDetail('speaker', {
+        title: slides[2].title, metaGreen: ev0.metaGreen, year: ev0.year,
+        badges: ev0.badges, desc: slides[2].desc, side: ev0.side,
+        hero: 'hero-img-3.webp', gallery: null,
+        episodes: HERO3_PICKER_EPS,
+      });
+    }
     else scrollToSection();
   }
 
@@ -2720,6 +2728,16 @@
     { thumb: 'suhukre.webp', title: 'Suhu Kreatif', meta: 'Instagram \u00b7 Reels', desc: 'Di sebuah perguruan bela diri kreatif, seorang Suhu menempa murid-muridnya bukan lewat jurus biasa, melainkan pelajaran keras soal atensi, plagiat, burnout, dan kepercayaan yang hancur. Satu per satu mereka datang mencari jawaban, dan menemukan bahwa ide terbaik lahir dari keberanian.', detailKey: 'suhu-kreatif' },
   ];
 
+  // ── Hero Slide 3 (Explore) hub: daftar 6 event Top 10 Public Speaking Highlights, thumbnail landscape ──
+  const HERO3_PICKER_EPS = [
+    { thumb: 'speaker-moments-1.webp', title: 'Creative Hack Marketing Secret', meta: '2024', desc: 'Selama dua hari penuh, Auri ditantang mengubah cara berpikir 150 pemilik bisnis tentang marketing. Berbagi panggung dengan Ben Sumadiwiria dan bos Holywings, ia membongkar framework yang dipakai brand sekelas Unilever, XL Axiata, dan Kapal Api, hingga langkah demi langkah menembus 25 juta views. Hasilnya terasa berhari-hari kemudian, saat DM peserta dipenuhi kabar konten mereka akhirnya masuk FYP.', speakerIdx: 0 },
+    { thumb: 'speaker-moments-2.webp', title: 'Marketing Manager Bootcamp', meta: '2025', desc: 'Di hadapan lebih dari 100 Marketing Manager, Auri memilih untuk turun dari panggung. Alih-alih ceramah satu arah, ia menyamperin peserta satu per satu, mendengar tantangan nyata mereka, dan memberi masukan yang tepat sasaran. Sebuah bootcamp yang membuktikan bahwa ilmu marketing paling melekat bukan lewat teori, melainkan lewat praktik langsung yang menyentuh persoalan masing-masing bisnis.', speakerIdx: 1 },
+    { thumb: 'speaker-moments-3.webp', title: 'High Impact Campaign', meta: '2025', desc: 'Diminta membuat seminar yang benar-benar interaktif, Auri memangkas separuh materinya dan menggantinya dengan kuis, studi kasus, dan diskusi. Di hadapan brand team Kalbe Nutritionals, ia mengajak peserta menggali DNA tiap brand lewat permainan sederhana, dan hasilnya bikin merinding. Sepanjang sesi tak ada yang sibuk main HP, hanya "keributan" belajar yang menyenangkan, bahkan diikuti tiga petinggi Kalbe hingga akhir.', speakerIdx: 2 },
+    { thumb: 'speaker-moments-4.webp', title: 'PRUDENTIAL AGENCY LEADERS CONFERENCE', meta: '2025', desc: 'Setelah 20 tahun memimpin meeting penting dan pitching klien multinasional, Auri tetap merasakan jantungnya berdebar saat berdiri di depan 1.000 leader. Di panggung Prudential berskala nasional inilah ia menyadari satu hal: semakin berpengalaman seseorang, justru semakin rendah hati untuk terus belajar. Sesi Q&A bahkan harus dihentikan karena waktu habis, bukan karena kehabisan pertanyaan.', speakerIdx: 3 },
+    { thumb: 'speaker-moments-5.webp', title: 'How to Be an Annoying Leader', meta: '2025', desc: 'H-1 sebelum naik panggung, Auri nekat menghapus seluruh materi yang telah disiapkan sebulan penuh. Ia menggantinya dengan judul yang berani, "How to Be an Annoying Leader," di lingkungan akademis yang identik dengan hal formal. Dua puluh tahun setelah duduk di kampus itu sebagai mahasiswa DKV, ia kembali untuk membuktikan bahwa leader hebat berani sesekali jadi "nyebelin" demi kebaikan timnya.', speakerIdx: 4 },
+    { thumb: 'speaker-moments-6.webp', title: 'Creative Sharing Session', meta: '2025', desc: 'Datang untuk mengajar, Auri justru pulang sebagai murid. Belum sepuluh menit, tim kreatif Holywings sudah menguliti setiap idenya sampai ke akar, bukan hanya bertanya "bagaimana caranya", tapi "kenapa pakai cara itu". Adrenalinnya terpacu, dan di tengah sesi ia memutuskan mengubah seluruh alur, memilih berbagi cerita di balik layar dan kegagalan. Energi kritis mereka mengingatkannya pada dirinya sendiri di usia 20-an.', speakerIdx: 5 },
+  ];
+
   const DETAILS = {
     // ── STORY OF A CEO — konten per stage ──
     story1: {
@@ -2998,7 +3016,7 @@
     } else if (hasEps) {
       epsHtml = `<div class="detail-eps-heading">${tr('Episodes')}</div>
       ${d.episodes.map((e,i)=>`
-        <div class="episode-item" onclick="${e.detailKey ? `openDetail('${e.detailKey}')` : e.link ? `window.open('${e.link}','_blank')` : `openEpisode(${i})`}">
+        <div class="episode-item" onclick="${e.speakerIdx !== undefined ? `openSpeaker(${e.speakerIdx})` : e.detailKey ? `openDetail('${e.detailKey}')` : e.link ? `window.open('${e.link}','_blank')` : `openEpisode(${i})`}">
           <div class="episode-num">${i+1}</div>
           <div class="episode-thumb" style="background-image:url('${e.thumb}${TS}')"></div>
           <div class="episode-info">
