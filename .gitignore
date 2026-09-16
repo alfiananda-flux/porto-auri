@@ -1,0 +1,23 @@
+# Raw/original assets not used by the live site (the .webp versions are what's actually referenced)
+*.jpg
+*.JPG
+*.jpeg
+*.JPEG
+*.svg
+*.ai
+
+# All PNGs ignored by default, except the small icons actually referenced by index.html
+*.png
+!favicon-16x16.png
+!favicon-32x32.png
+!apple-touch-icon.png
+!android-chrome-192x192.png
+!android-chrome-512x512.png
+
+# Old backup copies of index.html
+index.backup*.html
+index - backup terbaru.html
+WEBSITE YOHANES AURI .html
+
+# Working notes folder, not part of the live site
+Claude outputs/
