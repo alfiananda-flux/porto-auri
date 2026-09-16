@@ -2664,11 +2664,11 @@
     { title: 'Gaji yang Tak Terlihat', desc: 'Bagaimana jika merasa dibayar terlalu rendah tak banyak berhubungan dengan angka di rekening bankmu, melainkan dengan semua beban yang ada di pundakmu? Itulah sisi kepemimpinan yang tak pernah disebutkan dalam deskripsi pekerjaan mana pun.', url: 'https://www.instagram.com/reel/DbDXDTUleoo/' },
   ];
   const CREATIVE_TALK_EPS = [
-    { title: 'Uang atau Makna?', desc: 'Coach Ferly membongkar masalah nomor satu pengusaha Indonesia. Dari kerinduan seorang anak akan ayahnya, hingga bendera yang besarnya cukup untuk memecahkan rekor dunia, bisnis bisa jadi jauh lebih dari sekadar mencari uang.', url: 'https://youtu.be/kkVj8maPV0Y' },
-    { title: 'Melampaui Gosip', desc: 'Dandi meninggalkan akun gosip dan mengalihkan perhatiannya ke media dengan tujuan yang lebih besar. Dua bulan setelah bekerja sama dengan Flux, followersnya bertambah 300 ribu. Namun pertumbuhan itu datang bersama pertanyaan yang berbeda.', url: 'https://youtu.be/rL04wrclV8I' },
-    { title: 'Ditanya Anak-Anak', desc: 'Untuk pertama kalinya, Auri duduk di kursi tamu menghadapi dua hakim paling jujur: anak-anaknya sendiri. Dari soal uang, bully masa kecil, sampai monster di rumah.', url: 'https://youtu.be/nKJt1fDPlQ8' },
-    { title: 'Uang Jajan Dua Puluh Lima Ribu', desc: 'Di balik senyum ceria Pak Yono tersimpan perjuangan seorang penjahit menguliahkan anaknya sampai jadi manajer. Pak Yono pernah dipekerjakan oleh Auri di usia 64 tahun, bekerja di antara para Gen Z berusia 20-an.', url: 'https://youtu.be/5LhLd2T-KQk' },
-    { title: 'Sahabat yang Pernah Diblok', desc: 'Sambil menyantap bakmi, sahabat lama membongkar rahasia Auri: dari party masa muda, blokir berkali-kali, sampai pertemanan yang pulih di hari pernikahan.', url: 'https://youtu.be/3N0Rfa3C2BI' },
+    { posterMobile: 'uang-mb.webp', title: 'Uang atau Makna?', desc: 'Coach Ferly membongkar masalah nomor satu pengusaha Indonesia. Dari kerinduan seorang anak akan ayahnya, hingga bendera yang besarnya cukup untuk memecahkan rekor dunia, bisnis bisa jadi jauh lebih dari sekadar mencari uang.', url: 'https://youtu.be/kkVj8maPV0Y' },
+    { posterMobile: 'gosip-mb.webp', title: 'Melampaui Gosip', desc: 'Dandi meninggalkan akun gosip dan mengalihkan perhatiannya ke media dengan tujuan yang lebih besar. Dua bulan setelah bekerja sama dengan Flux, followersnya bertambah 300 ribu. Namun pertumbuhan itu datang bersama pertanyaan yang berbeda.', url: 'https://youtu.be/rL04wrclV8I' },
+    { posterMobile: 'anakanak-mb.webp', title: 'Ditanya Anak-Anak', desc: 'Untuk pertama kalinya, Auri duduk di kursi tamu menghadapi dua hakim paling jujur: anak-anaknya sendiri. Dari soal uang, bully masa kecil, sampai monster di rumah.', url: 'https://youtu.be/nKJt1fDPlQ8' },
+    { posterMobile: 'uangjajan-mb.webp', title: 'Uang Jajan Dua Puluh Lima Ribu', desc: 'Di balik senyum ceria Pak Yono tersimpan perjuangan seorang penjahit menguliahkan anaknya sampai jadi manajer. Pak Yono pernah dipekerjakan oleh Auri di usia 64 tahun, bekerja di antara para Gen Z berusia 20-an.', url: 'https://youtu.be/5LhLd2T-KQk' },
+    { posterMobile: 'sahabat-mb.webp', title: 'Sahabat yang Pernah Diblok', desc: 'Sambil menyantap bakmi, sahabat lama membongkar rahasia Auri: dari party masa muda, blokir berkali-kali, sampai pertemanan yang pulih di hari pernikahan.', url: 'https://youtu.be/3N0Rfa3C2BI' },
   ];
   const SUHU_EPS = [
     { title: 'Teaser', desc: 'Seorang murid muda mencari sang Suhu, nekat ingin mempelajari teknik terlarang. Ia memohon. Namun beberapa rahasia harus diraih, bukan diberikan begitu saja.', url: 'https://www.instagram.com/reel/DW0_3csFDt4/' },
@@ -2824,6 +2824,7 @@
       cta: { label: 'Ajak Collab', msg: 'Halo Auri, saya tertarik collab untuk konten Dummy Content.' },
       episodes: DUMMY_EPS,
       epRatio: '9:16',
+      epRatioDesktop: '16:9',
     },
     // ── SPEAKER (hero = slideshow, no episodes) ──
     speaker: {
@@ -2871,6 +2872,7 @@
   function creatorSeries(cfg) {
     const eps = cfg.episodes.map((e, i) => ({
       poster: `${cfg.slug}-content-${i + 1}.webp`,
+      posterMobile: e.posterMobile,
       title: e.title,
       desc: e.desc,
       link: e.url,
@@ -3023,7 +3025,7 @@
       ${d.episodes.map((e,i)=>{
         const useMobPoster = e.posterMobile && window.innerWidth <= 768;
         const posterSrc = useMobPoster ? e.posterMobile : e.poster;
-        const itemCls = (e.posterMobile && window.innerWidth > 768) ? 'landscape16' : thumbCls;
+        const itemCls = (d.epRatioDesktop === '16:9' && window.innerWidth > 768) ? 'landscape16' : thumbCls;
         return `
         <div class="episode-item" onclick="window.open('${e.link}','_blank')">
           <div class="episode-num">${i+1}</div>
