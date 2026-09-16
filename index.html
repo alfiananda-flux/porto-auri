@@ -3023,10 +3023,11 @@
       ${d.episodes.map((e,i)=>{
         const useMobPoster = e.posterMobile && window.innerWidth <= 768;
         const posterSrc = useMobPoster ? e.posterMobile : e.poster;
+        const itemCls = (e.posterMobile && window.innerWidth > 768) ? 'landscape16' : thumbCls;
         return `
         <div class="episode-item" onclick="window.open('${e.link}','_blank')">
           <div class="episode-num">${i+1}</div>
-          <div class="episode-thumb ${thumbCls}" style="background-image:url('${posterSrc}${TS}')"></div>
+          <div class="episode-thumb ${itemCls}" style="background-image:url('${posterSrc}${TS}')"></div>
           <div class="episode-info">
             <div class="episode-header"><div class="episode-title">${tr(e.title)}</div></div>
             <div class="episode-desc">${tr(e.desc)}</div>
