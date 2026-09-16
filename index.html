@@ -2808,6 +2808,7 @@
       episodes: CREATIVE_TALK_EPS, ratio: '16:9' }), {
       year: 'YouTube', badges: ['Podcast', 'Ongoing'],
       side: [['Host', 'Yohanes Auri'], ['Platform', 'YouTube'], ['Format', 'Podcast'], ['Topics', 'Creative · Business · Leadership']],
+      epRatioMobile: '9:16',
     }),
     'suhu-kreatif': Object.assign(creatorSeries({ title: 'Suhu Kreatif', titleImg: 'suhu-kreatif-ttl.webp', slug: 'suhu-kreatif', platform: 'Instagram · Reels',
       desc: 'Di sebuah perguruan bela diri kreatif, seorang Suhu menempa murid-muridnya bukan lewat jurus biasa, melainkan pelajaran keras soal atensi, plagiat, burnout, dan kepercayaan yang hancur. Satu per satu mereka datang mencari jawaban, dan menemukan bahwa ide terbaik lahir dari keberanian.',
@@ -3025,7 +3026,10 @@
       ${d.episodes.map((e,i)=>{
         const useMobPoster = e.posterMobile && window.innerWidth <= 768;
         const posterSrc = useMobPoster ? e.posterMobile : e.poster;
-        const itemCls = (d.epRatioDesktop === '16:9' && window.innerWidth > 768) ? 'landscape16' : thumbCls;
+        const isDesktopView = window.innerWidth > 768;
+        let itemCls = thumbCls;
+        if (isDesktopView && d.epRatioDesktop === '16:9') itemCls = 'landscape16';
+        if (!isDesktopView && d.epRatioMobile === '9:16') itemCls = 'portrait';
         return `
         <div class="episode-item" onclick="window.open('${e.link}','_blank')">
           <div class="episode-num">${i+1}</div>
