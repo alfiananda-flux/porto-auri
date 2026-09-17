@@ -1546,6 +1546,8 @@
     /* Thumbnail diperbesar 1.5x biar tidak kalah sama deskripsi di bawahnya */
     .episode-thumb { grid-column: 1; grid-row: 1; width: 206px; height: 117px; }
     .episode-thumb.landscape16 { width: 206px; height: 116px; }
+    /* Untuk card yang tetap portrait di mobile (epMobileKeepRatio) */
+    .episode-thumb.portrait { width: 112px; height: 199px; }
     .episode-info { display: contents; }
     /* meta boleh turun ke baris berikutnya biar judul episode tetap 1 baris */
     .episode-header { grid-column: 2; grid-row: 1; flex-wrap: wrap; margin-bottom: 0; }
@@ -2815,6 +2817,7 @@
       episodes: LEADERSHIP_EPS }), {
       badges: ['CONTENT SERIES', 'Ongoing'],
       side: [['Creator', 'Yohanes Auri'], ['Platform', 'Instagram'], ['Format', 'Short Video'], ['Duration', '60-90 sec']],
+      epMobileKeepRatio: true,
     }),
     'creative-talk': Object.assign(creatorSeries({ title: 'Creative Talk', titleImg: 'creative-talk-ttl.webp', slug: 'creative-talk', platform: 'YouTube',
       desc: 'Dalam seri obrolan Creative Talk, seorang founder agensi kreatif duduk bersama para tamu tak terduga, mulai dari coach bisnis, penjahit berusia 64 tahun, sahabat lama, hingga anak-anaknya sendiri. Dari ruang rapat sampai meja makan, terungkap kisah nyata soal bisnis, keluarga, dan arti sukses.',
@@ -2828,6 +2831,7 @@
       episodes: SUHU_EPS }), {
       badges: ['Content Series', 'Ongoing'],
       side: [['Creator', 'Yohanes Auri'], ['Platform', 'Instagram'], ['Format', 'Short Video'], ['Duration', '30-60 sec']],
+      epMobileKeepRatio: true,
     }),
     'dummy-content': {
       type: 'creator', hero: 'the-wolf-ls.webp',
@@ -3037,11 +3041,12 @@
       const thumbCls = d.epRatio === '16:9' ? 'landscape16' : 'portrait';
       epsHtml = `<div class="detail-eps-heading">${tr('Konten')}</div>
       ${d.episodes.map((e,i)=>{
-        const posterSrc = e.poster;
         const isDesktopView = window.innerWidth > 768;
+        const keepMobileRatio = d.epMobileKeepRatio === true;
+        const posterSrc = (!isDesktopView && keepMobileRatio && e.posterMobile) ? e.posterMobile : e.poster;
         let itemCls = thumbCls;
         if (isDesktopView && d.epRatioDesktop === '16:9') itemCls = 'landscape16';
-        if (!isDesktopView) itemCls = 'landscape16';
+        if (!isDesktopView) itemCls = keepMobileRatio ? thumbCls : 'landscape16';
         const titleTxt = isDesktopView ? tr(e.title) : `${i+1}. ${tr(e.title)}`;
         return `
         <div class="episode-item" onclick="window.open('${e.link}','_blank')">
