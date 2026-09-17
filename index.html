@@ -1548,6 +1548,10 @@
     .episode-thumb.landscape16 { width: 206px; height: 116px; }
     /* Untuk card yang tetap portrait di mobile (epMobileKeepRatio) */
     .episode-thumb.portrait { width: 112px; height: 199px; }
+    /* Untuk card yang tetap pakai layout lama: deskripsi di samping kanan thumbnail, bukan di bawah */
+    .episode-item.ep-item-classic { display: flex; align-items: center; gap: 12px; }
+    .episode-item.ep-item-classic .episode-info { display: block; flex: 1; }
+    .episode-item.ep-item-classic .episode-header { margin-bottom: 4px; }
     .episode-info { display: contents; }
     /* meta boleh turun ke baris berikutnya biar judul episode tetap 1 baris */
     .episode-header { grid-column: 2; grid-row: 1; flex-wrap: wrap; margin-bottom: 0; }
@@ -3048,8 +3052,9 @@
         if (isDesktopView && d.epRatioDesktop === '16:9') itemCls = 'landscape16';
         if (!isDesktopView) itemCls = keepMobileRatio ? thumbCls : 'landscape16';
         const titleTxt = isDesktopView ? tr(e.title) : `${i+1}. ${tr(e.title)}`;
+        const classicCls = (!isDesktopView && keepMobileRatio) ? ' ep-item-classic' : '';
         return `
-        <div class="episode-item" onclick="window.open('${e.link}','_blank')">
+        <div class="episode-item${classicCls}" onclick="window.open('${e.link}','_blank')">
           <div class="episode-num">${i+1}</div>
           <div class="episode-thumb ${itemCls}" style="background-image:url('${posterSrc}${TS}')"></div>
           <div class="episode-info">
