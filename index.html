@@ -1535,18 +1535,20 @@
     /* Episode item mobile: thumbnail landscape (pakai image versi PC), judul di kanan thumbnail, deskripsi pindah ke bawah full-width */
     .episode-item {
       display: grid;
-      grid-template-columns: auto auto 1fr;
+      grid-template-columns: auto 1fr;
       grid-template-rows: auto auto;
       align-items: start;
       column-gap: 12px;
       row-gap: 6px;
     }
-    .episode-num { grid-column: 1; grid-row: 1; align-self: center; }
-    .episode-thumb { grid-column: 2; grid-row: 1; width: 137px; height: 78px; }
-    .episode-thumb.landscape16 { width: 137px; height: 77px; }
+    /* Nomor episode dipindah jadi prefix di judul (lihat JS), kolom nomor terpisah disembunyikan */
+    .episode-num { display: none; }
+    /* Thumbnail diperbesar 1.5x biar tidak kalah sama deskripsi di bawahnya */
+    .episode-thumb { grid-column: 1; grid-row: 1; width: 206px; height: 117px; }
+    .episode-thumb.landscape16 { width: 206px; height: 116px; }
     .episode-info { display: contents; }
     /* meta boleh turun ke baris berikutnya biar judul episode tetap 1 baris */
-    .episode-header { grid-column: 3; grid-row: 1; flex-wrap: wrap; margin-bottom: 0; }
+    .episode-header { grid-column: 2; grid-row: 1; flex-wrap: wrap; margin-bottom: 0; }
     .episode-desc { grid-column: 1 / -1; grid-row: 2; }
     /* Judul & deskripsi episode diperkecil di mobile biar proporsional sama thumbnail */
     .episode-title { font-size: 13px; }
@@ -3040,12 +3042,13 @@
         let itemCls = thumbCls;
         if (isDesktopView && d.epRatioDesktop === '16:9') itemCls = 'landscape16';
         if (!isDesktopView) itemCls = 'landscape16';
+        const titleTxt = isDesktopView ? tr(e.title) : `${i+1}. ${tr(e.title)}`;
         return `
         <div class="episode-item" onclick="window.open('${e.link}','_blank')">
           <div class="episode-num">${i+1}</div>
           <div class="episode-thumb ${itemCls}" style="background-image:url('${posterSrc}${TS}')"></div>
           <div class="episode-info">
-            <div class="episode-header"><div class="episode-title">${tr(e.title)}</div></div>
+            <div class="episode-header"><div class="episode-title">${titleTxt}</div></div>
             <div class="episode-desc">${tr(e.desc)}</div>
           </div>
         </div>`;
@@ -3054,12 +3057,14 @@
       epsHtml = `<div class="detail-eps-heading">${tr('Collection')}</div>
       ${d.episodes.map((e,i)=>{
         const thumbSrc = e.thumb;
+        const isDesktopView = window.innerWidth > 768;
+        const titleTxt = isDesktopView ? tr(e.title) : `${i+1}. ${tr(e.title)}`;
         return `
         <div class="episode-item" onclick="${e.speakerIdx !== undefined ? `openSpeaker(${e.speakerIdx})` : e.detailKey ? `openDetail('${e.detailKey}')` : e.link ? `window.open('${e.link}','_blank')` : `openEpisode(${i})`}">
           <div class="episode-num">${i+1}</div>
           <div class="episode-thumb" style="background-image:url('${thumbSrc}${TS}')"></div>
           <div class="episode-info">
-            <div class="episode-header"><div class="episode-title">${tr(e.title)}</div><div class="episode-duration">${tr(e.meta)}</div></div>
+            <div class="episode-header"><div class="episode-title">${titleTxt}</div><div class="episode-duration">${tr(e.meta)}</div></div>
             <div class="episode-desc">${tr(e.desc)}</div>
           </div>
         </div>`;
